@@ -20,23 +20,6 @@ EIP API
         xhr.send(JSON.stringify(content)); 
     }
 
-    energieip.SensorNotification = function () {
-        var ws = new WebSocket("ws://"+energieip.address+"/sensors/events");
-
-        ws.onmessage = function (evt) {
-            console.log("=== Received " + evt.data);
-        };
-
-        ws.onclose = function() {
-            console.log("connection close ");
-        };
-
-        ws.onerror = function() {
-            console.log("connection on erreur ");
-        };
-
-    }
-
     energieip.Sensors = function () {
         var Http = new XMLHttpRequest();
         var url = energieip.weblink + 'sensors';

@@ -19,6 +19,23 @@
 const address = '10.0.0.209:8888';
 const weblink = 'http://'+address+'/';
 
+energieip.Notifications = function () {
+	var ws = new WebSocket("ws://" + address + "/events");
+
+	ws.onmessage = function (evt) {
+		console.log("=== Received " + evt.data);
+	};
+
+	ws.onclose = function() {
+		console.log("connection close ");
+	};
+
+	ws.onerror = function() {
+		console.log("connection on erreur ");
+	};
+
+}
+
 exports.address = address;
 exports.weblink = weblink;
 
