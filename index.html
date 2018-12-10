@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>xeogl Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+    <link href="css/styles.css" rel="stylesheet"/>  
+    <link href="css/annotation-style.css" rel="stylesheet"/>
+
+    <style>
+        body {
+            background-color: black;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+
+<body>
+
+<div id="info">
+    <pre id="log">Map: Building</a></pre>
+</div>
+
+<div id="dat-gui-container">
+</div>
+
+    <script src="js/xeogl.js"></script>
+    <script src="js/models/glTFModel.js"></script>
+
+    <script src="js/skyboxes/skybox.js"></script>
+    <script src="js/libs/dat.gui.min.js"></script>
+
+    <script src="js/annotations/pin.js"></script>
+    <script src="js/annotations/annotation.js"></script>
+    <script src="js/eip/sensor.js"></script>
+
+<script>
+
+    var scene = xeogl.getDefaultScene();
+    var camera = scene.camera;
+    var input = scene.input;
+
+    var buf = [];
+
+    // Logs text to the page
+    function log(event, params) {
+
+        var txt = event;
+        if (params) {
+            txt += ": " + JSON.stringify(params)
+        }
+
+        buf.push(txt);
+
+        if (buf.length > 30) {
+            buf.shift();
+        }
+        document.getElementById("log").innerText = buf.join("\n");
+    }
+
+    //---------------------------------------------------
+    // Load the model
+    //---------------------------------------------------
+    var model = new xeogl.GLTFModel({
+        id: "map",
+        src: "models/N8B-3MK-V4.gltf",
+        handleNode: (function() {
+            var objectCount = 0;
+            return function (nodeInfo, actions) {
+                console.log("=== " , nodeInfo);
+                if (nodeInfo.name && nodeInfo.mesh !== undefined) {
+                    var name = nodeInfo.name.split("_");
+                    name.splice(0, 1);
+                    var id =  "map." + name.join("_");
+                    actions.createObject = {
+                        id: id
+                    };
+                }
+                return true;
+            };
+        })()
+    });
+    model.ghosted = false;
+
+    //-------------------------------------------------
+    // Annotation
+    //-------------------------------------------------
+
+    function onConfigChanged(sensor){
+        xeogl.UpdateSensorCfg(sensor)
+    }
+
+    var Menu = function () {
+        this.message = "xeogl.Annotation";
+        for (var k = 0; k < annotations.length; k++) {
+            var annotation = annotations[k];
+            this[annotation.mac+".mac"] = annotation.mac;
+            this[annotation.mac+".group"] = annotation.group;
+            this[annotation.mac+".friendlyName"] = annotation.friendlyName;
+            this[annotation.mac+".pinShown"] = annotation.pinShown;
+            this[annotation.mac+".labelShown"] = annotation.labelShown;
+            this[annotation.mac+".occludable"] = annotation.occludable;
+        }
+        var self = this;
+        var update = function () {
+            for (var i = 0; i < annotations.length; i++) {
+                var annotation = annotations[i];
+                annotation.mac = self[annotation.mac+".mac"];
+                annotation.group = self[annotation.mac+".group"];
+                annotation.friendlyName = self[annotation.mac+".friendlyName"];
+                annotation.pinShown = self[annotation.mac+".pinShown"];
+                annotation.labelShown = self[annotation.mac+".labelShown"];
+                annotation.occludable = self[annotation.mac+".occludable"];
+            }
+            requestAnimationFrame(update);
+        };
+        update();
+    };
+
+    var annotations = xeogl.Sensors();
+
+    //-----------------------------------------------------------------------------------------------------
+    // Camera
+    //-----------------------------------------------------------------------------------------------------
+
+    camera.eye = [-20.21798706054688, 50.6997528076172, -40.179931640625];
+    camera.up = [0,1,0];
+
+    model.on("loaded", function () {
+        scene.on("tick", function () { // Slowly orbit the camera
+
+        });
+
+        var gui = new dat.GUI({autoPlace: false, top: 0, width: 400});
+        document.getElementById('dat-gui-container').appendChild(gui.domElement); 
+        
+        var menu = new Menu();
+        xeogl.SensorNotification();
+        
+        model.objects["map.Amandine"].highlighted = true;
+
+        for (var i = 0; i < annotations.length; i++) {
+            var annotation = annotations[i];
+            var folder = gui.addFolder('Driver ' + i);
+            folder.add(menu, annotation.mac+".mac", annotation.mac);
+            folder.add(menu, annotation.mac+".group", annotation.group);
+            folder.add(menu, annotation.mac+".friendlyName", annotation.friendlyName);
+            folder.add(menu, annotation.mac+".pinShown", annotation.pinShown);
+            folder.add(menu, annotation.mac+".labelShown", annotation.labelShown);
+            folder.add(menu, annotation.mac+".occludable", annotation.occludable);
+            folder.add({
+                "Look At": (function () {
+                    return flyTo();
+                })
+            }, 'Look At');
+            if (i === 0) {
+                folder.open();
+            }
+        }
+       
+    function flyTo() {
+        var annotation;
+        var selected;
+        for (var i = 0; i < annotations.length; i++) {
+            annotation = annotations[i];
+            selected = annotation.id === this.id;
+            if (selected) {
+                cameraFlight.flyTo(annotation);
+            }
+            annotation.labelShown = selected;
+            menu[annotation.mac + ".labelShown"] = selected;
+        }
+    }
+
+    for (var i = 0, len = annotations.length; i < len; i++) {
+        annotations[i].on("pinClicked", flyTo);
+        annotations[i].on("group", onConfigChanged);
+        annotations[i].on("friendlyName", onConfigChanged);
+    }
+
+    });
+
+
+    //----------------------------
+    // Controls
+    //----------------------------
+  var cameraControl = new xeogl.CameraControl({
+//        panToPointer: true,
+//        pivoting: true
+    });
+
+    var cameraFlight = new xeogl.CameraFlightAnimation();
+
+    cameraControl.on("hoverEnter", function (hit) {
+        hit.mesh.highlighted = true;
+    });
+
+    cameraControl.on("hoverOut", function (hit) {
+        hit.mesh.highlighted = false;
+    });
+
+    cameraControl.on("picked", function (hit) {
+        var mesh = hit.mesh;
+        if (input.keyDown[input.KEY_SHIFT]) {
+            mesh.selected = !mesh.selected;
+            mesh.highlighted = !mesh.selected;
+        } else {
+            cameraFlight.flyTo(mesh);
+        }
+    });
+
+    cameraControl.on("pickedNothing", function (hit) {
+        cameraFlight.flyTo(model);
+    });
+
+</script>
+</body>
+</html>
