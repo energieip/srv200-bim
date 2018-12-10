@@ -25,16 +25,17 @@
 <div id="dat-gui-container">
 </div>
 
-    <script src="js/xeogl.js"></script>
-    <script src="js/energieip.js"></script>
-    <script src="js/models/glTFModel.js"></script>
+    <script src="js/xeogl/xeogl.js"></script>
+    <script src="js/xeogl/models/glTFModel.js"></script>
 
-    <script src="js/skyboxes/skybox.js"></script>
-    <script src="js/libs/dat.gui.min.js"></script>
+    <script src="js/xeogl/skyboxes/skybox.js"></script>
+    <script src="js/xeogl/libs/dat.gui.min.js"></script>
 
-    <script src="js/annotations/pin.js"></script>
-    <script src="js/annotations/annotation.js"></script>
-    <script src="js/energieip/sensor.js"></script>
+    <script src="js/xeogl/annotations/pin.js"></script>
+    <script src="js/xeogl/annotations/annotation.js"></script>
+
+    <script src="js/energieip/energieip.js"></script>
+    <script src="js/energieip/drivers/sensor.js"></script>
 
 <script>
 
@@ -93,7 +94,7 @@
     }
 
     var Menu = function () {
-        this.message = "xeogl.Annotation";
+        this.message = "energieip.Sensor";
         for (var k = 0; k < annotations.length; k++) {
             var annotation = annotations[k];
             this[annotation.mac+".mac"] = annotation.mac;
@@ -138,8 +139,6 @@
         
         var menu = new Menu();
         energieip.SensorNotification();
-        
-        model.objects["map.Amandine"].highlighted = true;
 
         for (var i = 0; i < annotations.length; i++) {
             var annotation = annotations[i];
