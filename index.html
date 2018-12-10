@@ -26,6 +26,7 @@
 </div>
 
     <script src="js/xeogl.js"></script>
+    <script src="js/energieip.js"></script>
     <script src="js/models/glTFModel.js"></script>
 
     <script src="js/skyboxes/skybox.js"></script>
@@ -33,7 +34,7 @@
 
     <script src="js/annotations/pin.js"></script>
     <script src="js/annotations/annotation.js"></script>
-    <script src="js/eip/sensor.js"></script>
+    <script src="js/energieip/sensor.js"></script>
 
 <script>
 
@@ -88,7 +89,7 @@
     //-------------------------------------------------
 
     function onConfigChanged(sensor){
-        xeogl.UpdateSensorCfg(sensor)
+        energieip.UpdateSensorCfg(sensor)
     }
 
     var Menu = function () {
@@ -118,7 +119,7 @@
         update();
     };
 
-    var annotations = xeogl.Sensors();
+    var annotations = energieip.Sensors();
 
     //-----------------------------------------------------------------------------------------------------
     // Camera
@@ -136,7 +137,7 @@
         document.getElementById('dat-gui-container').appendChild(gui.domElement); 
         
         var menu = new Menu();
-        xeogl.SensorNotification();
+        energieip.SensorNotification();
         
         model.objects["map.Amandine"].highlighted = true;
 

@@ -3,11 +3,8 @@ EIP API
 */
 
 {
-    const address = '10.0.0.209:8888';
-    const weblink = 'http://'+address+'/';
-
-    xeogl.UpdateSensorCfg = function (dsensor) {
-        var url = weblink + 'sensor/' + dsensor.mac;
+    energieip.UpdateSensorCfg = function (dsensor) {
+        var url = energieip.weblink + 'sensor/' + dsensor.mac;
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -23,8 +20,8 @@ EIP API
         xhr.send(JSON.stringify(content)); 
     }
 
-    xeogl.SensorNotification = function () {
-        var ws = new WebSocket("ws://"+address+"/sensors/events");
+    energieip.SensorNotification = function () {
+        var ws = new WebSocket("ws://"+energieip.address+"/sensors/events");
 
         ws.onmessage = function (evt) {
             console.log("=== Received " + evt.data);
@@ -40,9 +37,9 @@ EIP API
 
     }
 
-    xeogl.Sensors = function () {
+    energieip.Sensors = function () {
         var Http = new XMLHttpRequest();
-        var url = weblink + 'sensors';
+        var url = energieip.weblink + 'sensors';
         Http.open("GET", url);
         Http.send();
         var sensors = [];
@@ -66,7 +63,7 @@ EIP API
                             }
                         }
 
-                        sensors.push(new xeogl.Sensor({
+                        sensors.push(new energieip.Sensor({
                             primIndex: i,
                             bary: [0.05, 0.16, 0.79],
                             occludable: true,
@@ -89,7 +86,7 @@ EIP API
         return sensors;
     }
 
-    xeogl.Sensor = class sensor extends xeogl.Annotation {
+    energieip.Sensor = class sensor extends xeogl.Annotation {
         init(sensorObj) {
             super.init(sensorObj);
             
