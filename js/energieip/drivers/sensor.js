@@ -17,59 +17,57 @@ EIP API
             "group": parseInt(dsensor.group),
             "friendlyName": dsensor.friendlyName,
         };
-        xhr.send(JSON.stringify(content)); 
+        xhr.send(JSON.stringify(content));
     }
 
-    energieip.Sensors = function () {
+    energieip.SensorDevice = function (mesh, label, flyTo, onConfigChanged) {
         var Http = new XMLHttpRequest();
-        var url = energieip.weblink + 'sensors';
-        Http.open("GET", url);
+        var url = energieip.weblink + 'modelInfo/' + label;
+        console.log("=== send " + url);
+        Http.open("GET", url, false); //synchrone request
         Http.send();
-        var sensors = [];
-    
-        Http.onreadystatechange = function() {
-            if(this.readyState==4 && this.status == 200){
-                obj = JSON.parse(Http.responseText);
-                var i = 0;
-                for(var key in obj){
-                    if (obj.hasOwnProperty(key)){
-                        var value = obj[key];
-                        var group = "0";
-                        var friendlyName = "";
-                        i ++;
-                        for(var k in value){
-                            if (value.hasOwnProperty("group")){
-                                group = value[k].toString();
-                            }
-                            if (value.hasOwnProperty("friendlyName")){
-                                friendlyName = value[k].toString();
-                            }
-                        }
 
-                        sensors.push(new energieip.Sensor({
-                            primIndex: i,
-                            bary: [0.05, 0.16, 0.79],
-                            occludable: true,
-                            glyph: key,
-                            title: "",
-                            desc: "",
-                            mac: key,
-                            friendlyName: friendlyName,
-                            group: group,
-                            eye: [-0.66, 20.84, -21.59],
-                            look: [-0.39, 6.84, -9.18],
-                            up: [0.01, 0.97, 0.24],
-                            pinShown: true,
-                            labelShown: true
-                        }));
-                    }
-                }
+        if (Http.status === 200){
+            console.log("get response", Http.responseText);
+            obj = JSON.parse(Http.responseText);
+            var i = 0;
+            var group = "0";
+            var friendlyName = "";
+            var mac = "";
+         
+            if (obj.hasOwnProperty("group")){
+                group = obj["group"].toString();
             }
+            if (obj.hasOwnProperty("friendlyName")){
+                friendlyName = obj["friendlyName"].toString();
+            }
+            if (obj.hasOwnProperty("mac")){
+                mac = obj["mac"].toString();
+            }
+            sensor = new energieip.Sensor({
+                mesh: mesh,
+                occludable: true,
+                glyph: mac,
+                title: "",
+                desc: "",
+                mac: mac,
+                friendlyName: friendlyName,
+                group: group,
+                pinShown: true,
+                labelShown: true
+            });
+            sensor.on("pinClicked", flyTo);
+            sensor.on("group", onConfigChanged);
+            sensor.on("friendlyName", onConfigChanged);
+            return sensor;
         }
-        return sensors;
     }
 
     energieip.Sensor = class sensor extends xeogl.Annotation {
+        get type() {
+            return "energieip.Sensor";
+        }
+ 
         init(sensorObj) {
             super.init(sensorObj);
             
