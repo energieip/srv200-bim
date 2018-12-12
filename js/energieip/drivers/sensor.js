@@ -4,7 +4,7 @@ EIP API
 
 {
     energieip.UpdateSensorCfg = function (dsensor) {
-        var url = energieip.weblink + '/setup/sensor';
+        var url = energieip.weblink + 'setup/sensor';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
