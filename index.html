@@ -109,7 +109,9 @@
                 folder.add(menu, "Occludable", driver.occludable);
                 folder.add({
                     "Look At": (function () {
-                        return flyTo();
+                        var label = driver.label;
+                        var mesh = model.meshes[label];
+                        return cameraFlight.flyTo(mesh);
                     })
                 }, 'Look At');
                 folder.open();
