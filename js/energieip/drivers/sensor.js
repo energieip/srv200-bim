@@ -45,6 +45,7 @@ EIP API
                 mac = obj["mac"].toString();
             }
             sensor = new energieip.Sensor({
+                label: label,
                 mesh: mesh,
                 occludable: true,
                 glyph: mac,
@@ -89,6 +90,7 @@ EIP API
             this.group = sensorObj.group;
             this.mac = sensorObj.mac;
             this.friendlyName = sensorObj.friendlyName;
+            this.label = sensorObj.label;
         }
 
         set group(gr) {
