@@ -22,7 +22,7 @@ EIP API
 
     energieip.SensorDevice = function (mesh, label, flyTo, onConfigChanged) {
         var Http = new XMLHttpRequest();
-        var url = energieip.weblink + 'modelInfo/' + label;
+        var url = energieip.weblink + 'project/ifcInfo/' + label;
         console.log("=== send " + url);
         Http.open("GET", url, false); //synchrone request
         Http.send();
