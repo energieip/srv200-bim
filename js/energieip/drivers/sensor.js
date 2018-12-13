@@ -20,50 +20,6 @@ EIP API
         xhr.send(JSON.stringify(content));
     }
 
-    energieip.SensorDevice = function (mesh, label, flyTo, onConfigChanged) {
-        var Http = new XMLHttpRequest();
-        var url = energieip.weblink + 'project/ifcInfo/' + label;
-        console.log("=== send " + url);
-        Http.open("GET", url, false); //synchrone request
-        Http.send();
-
-        if (Http.status === 200){
-            console.log("get response", Http.responseText);
-            obj = JSON.parse(Http.responseText);
-            var i = 0;
-            var group = "0";
-            var friendlyName = "";
-            var mac = "";
-         
-            if (obj.hasOwnProperty("group")){
-                group = obj["group"].toString();
-            }
-            if (obj.hasOwnProperty("friendlyName")){
-                friendlyName = obj["friendlyName"].toString();
-            }
-            if (obj.hasOwnProperty("mac")){
-                mac = obj["mac"].toString();
-            }
-            sensor = new energieip.Sensor({
-                label: label,
-                mesh: mesh,
-                occludable: true,
-                glyph: mac,
-                title: "",
-                desc: "",
-                mac: mac,
-                friendlyName: friendlyName,
-                group: group,
-                pinShown: true,
-                labelShown: true
-            });
-            sensor.on("pinClicked", flyTo);
-            sensor.on("group", onConfigChanged);
-            sensor.on("friendlyName", onConfigChanged);
-            return sensor;
-        }
-    }
-
     energieip.Sensor = class sensor extends xeogl.Annotation {
         get type() {
             return "energieip.Sensor";

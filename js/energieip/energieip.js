@@ -36,6 +36,23 @@ energieip.Notifications = function () {
 
 }
 
+energieip.GetIfcDump = function () {
+	var Http = new XMLHttpRequest();
+	var url = energieip.weblink + 'project';
+	Http.open("GET", url, false); //synchrone request
+	Http.send();
+	var drivers = {};
+
+	if (Http.status === 200){
+		var obj = JSON.parse(Http.responseText);
+		for (var i  in obj) {
+			var driver = obj[i];
+			drivers[driver.label] = driver;
+		}
+		return drivers;
+	}
+}
+
 exports.address = address;
 exports.weblink = weblink;
 
