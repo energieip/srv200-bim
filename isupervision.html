@@ -48,7 +48,7 @@
     var gui = new dat.GUI({autoPlace: false, top: 0, width: 400});
     document.getElementById('dat-gui-container').appendChild(gui.domElement);
 
-    var drivers = [];
+    var drivers = {};
 
     var buf = [];
 
@@ -72,8 +72,8 @@
         var driver;
         var selected;
 
-        for (var i = 0; i < drivers.length; i++) {
-            driver = drivers[i];
+        for (var label in drivers) {
+            driver = drivers[label];
             selected = driver.id === this.id;
             if (selected) {
                 var label = driver.label;
@@ -176,12 +176,12 @@
                             friendlyName: "",
                             group: "0",
                             pinShown: true,
-                            labelShown: true
+                            labelShown: false
                         });
                         driver.on("pinClicked", flyTo);
                         driver.on("group", energieip.UpdateSensorCfg);
                         driver.on("friendlyName", energieip.UpdateSensorCfg);
-                        drivers.push(driver);
+                        drivers[label] = driver;
                         break;
                     case "led":
                         var driver = new energieip.Led({
@@ -195,12 +195,12 @@
                             friendlyName: "",
                             group: "0",
                             pinShown: true,
-                            labelShown: true
+                            labelShown: false
                         });
                         driver.on("pinClicked", flyTo);
                         driver.on("group", energieip.UpdateLedCfg);
                         driver.on("friendlyName", energieip.UpdateLedCfg);
-                        drivers.push(driver);
+                        drivers[label] = driver;
                         break;
                     default:
                         console.log("Received type", ifcModel.deviceType);
@@ -222,10 +222,16 @@
     var cameraFlight = new xeogl.CameraFlightAnimation();
 
     cameraControl.on("hoverEnter", function (hit) {
+        if (drivers.hasOwnProperty(hit.mesh.id)){
+            drivers[hit.mesh.id].labelShown = true;
+        }
         hit.mesh.highlighted = true;
     });
 
     cameraControl.on("hoverOut", function (hit) {
+        if (drivers.hasOwnProperty(hit.mesh.id)){
+            drivers[hit.mesh.id].labelShown = false;
+        }
         hit.mesh.highlighted = false;
     });
 
