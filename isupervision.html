@@ -10,7 +10,7 @@
 
     <style>
         body {
-            background-color: black;
+            background-color: white;
             padding: 0;
             margin: 0;
         }
@@ -41,7 +41,10 @@
 
 <script>
 
-    var scene = xeogl.getDefaultScene();
+    var scene = new xeogl.Scene({
+        transparent: true
+    });
+    xeogl.setDefaultScene(scene);
     var camera = scene.camera;
     var input = scene.input;
 
