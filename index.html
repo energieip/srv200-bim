@@ -35,6 +35,7 @@
     <script src="js/xeogl/annotations/annotation.js"></script>
 
     <script src="js/energieip/energieip.js"></script>
+    <script src="js/energieip/drivers/driver.js"></script>
     <script src="js/energieip/drivers/sensor.js"></script>
     <script src="js/energieip/drivers/led.js"></script>
 
@@ -129,7 +130,7 @@
     //---------------------------------------------------
     var model = new xeogl.GLTFModel({
         id: "map",
-        src: "maps/N8B-3MK-V4.gltf",
+        src: "maps/N8B-3MK-V4.optimized.gltf",
         objectTree: true,
         handleNode: (function() {
             return function (nodeInfo, actions) {
@@ -146,7 +147,7 @@
             };
         })()
     });
-    model.ghosted = true;
+    model.ghosted = false;
 
 
     //-----------------------------------------------------------------------------------------------------
@@ -168,7 +169,7 @@
                 var ifcModel = ifcDrivers[label];
                 switch (ifcModel.deviceType) {
                     case "sensor":
-                        driver = new energieip.Sensor({
+                        var driver = new energieip.Sensor({
                             label: label,
                             mesh: mesh,
                             occludable: true,
@@ -187,7 +188,7 @@
                         drivers.push(driver);
                         break;
                     case "led":
-                        driver = new energieip.Led({
+                        var driver = new energieip.Led({
                             label: label,
                             mesh: mesh,
                             occludable: true,
