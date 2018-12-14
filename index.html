@@ -78,7 +78,6 @@
             if (selected) {
                 var label = driver.label;
                 var Menu = function () {
-                    this.message = "energieip.Sensor";
                     this["Mac"] = driver.mac;
                     this["Group"] = driver.group;
                     this["FriendlyName"] = driver.friendlyName;
@@ -102,7 +101,8 @@
                 var menu = new Menu();
                 var mesh = model.meshes[label];
                 cameraFlight.flyTo(mesh);
-                var folder = gui.addFolder('Driver ' + driver.mac);
+                var title = driver.deviceType + " " + driver.mac;
+                var folder = gui.addFolder(title);
                 folder.add(menu, "Mac", driver.mac);
                 folder.add(menu, "Group", driver.group);
                 folder.add(menu, "FriendlyName", driver.friendlyName);

@@ -7,6 +7,12 @@
         init(sensorObj) {
             super.init(sensorObj);
             
+            this._deviceType = "Driver";
+            this._typeElement = document.createElement('div');
+            this._typeElement.innerHTML = this._deviceType;
+            this._typeElement.className = "xeogl-annotation-group";
+            this._label.appendChild(this._typeElement);
+
             this._groupElement = document.createElement('div');
             this._groupElement.className = "xeogl-annotation-group";
             this._groupElement.innerHTML = sensorObj.group || "0";
@@ -26,6 +32,10 @@
             this.mac = sensorObj.mac;
             this.friendlyName = sensorObj.friendlyName;
             this.label = sensorObj.label;
+        }
+
+        get deviceType() {
+            return this._deviceType;
         }
 
         set group(gr) {

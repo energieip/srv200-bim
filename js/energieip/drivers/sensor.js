@@ -24,10 +24,8 @@
         init(sensorObj) {
             super.init(sensorObj);
             
-            this._typeElement = document.createElement('div');
-            this._typeElement.className = "xeogl-annotation-group";
-            this._typeElement.innerHTML = "Sensor";
-            this._label.appendChild(this._typeElement);
+            this._deviceType = "Sensor";
+            this._typeElement.innerHTML = this._deviceType;
         }
     };
 }
