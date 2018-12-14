@@ -83,7 +83,6 @@
                     this["FriendlyName"] = driver.friendlyName;
                     this["PinShown"] = driver.pinShown;
                     this["LabelShown"] = driver.labelShown;
-                    this["Occludable"] = driver.occludable;
                 
                     var self = this;
                     var update = function () {
@@ -92,7 +91,6 @@
                         driver.friendlyName = self["FriendlyName"];
                         driver.pinShown = self["PinShown"];
                         driver.labelShown = self["LabelShown"];
-                        driver.occludable = self["Occludable"];
                         requestAnimationFrame(update);
                     };
                     update();
@@ -108,7 +106,6 @@
                 folder.add(menu, "FriendlyName", driver.friendlyName);
                 folder.add(menu, "PinShown", driver.pinShown);
                 folder.add(menu, "LabelShown", driver.labelShown);
-                folder.add(menu, "Occludable", driver.occludable);
                 folder.add({
                     "Look At": (function () {
                         var label = driver.label;
@@ -162,7 +159,6 @@
 
         });
         var ifcDrivers = energieip.GetIfcDump();
-        console.log(typeof  model.meshes);
         for (var label in model.meshes){
             if (ifcDrivers.hasOwnProperty(label)){
                 var mesh = model.meshes[label];
@@ -172,8 +168,8 @@
                         var driver = new energieip.Sensor({
                             label: label,
                             mesh: mesh,
-                            occludable: true,
-                            glyph: ifcModel.mac,
+                            occludable: false,
+                            glyph: "Sr",
                             title: "",
                             desc: "",
                             mac: ifcModel.mac,
@@ -191,8 +187,8 @@
                         var driver = new energieip.Led({
                             label: label,
                             mesh: mesh,
-                            occludable: true,
-                            glyph: ifcModel.mac,
+                            occludable: false,
+                            glyph: "Ld",
                             title: "",
                             desc: "",
                             mac: ifcModel.mac,
