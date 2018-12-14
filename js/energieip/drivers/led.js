@@ -1,6 +1,6 @@
 {
-    energieip.UpdateSensorCfg = function (dsensor) {
-        var url = energieip.weblink + 'setup/sensor';
+    energieip.UpdateLedCfg = function (dled) {
+        var url = energieip.weblink + 'setup/led';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -9,40 +9,40 @@
             }
         }
         var content = {
-            "mac": dsensor.mac,
-            "group": parseInt(dsensor.group),
-            "friendlyName": dsensor.friendlyName,
+            "mac": dled.mac,
+            "group": parseInt(dled.group),
+            "friendlyName": dled.friendlyName,
         };
         xhr.send(JSON.stringify(content));
     }
 
-    energieip.Sensor = class sensor extends xeogl.Annotation {
+    energieip.Led = class led extends xeogl.Annotation {
         get type() {
-            return "energieip.Sensor";
+            return "energieip.Led";
         }
  
-        init(sensorObj) {
-            super.init(sensorObj);
+        init(ledObj) {
+            super.init(ledObj);
             
             this._groupElement = document.createElement('div');
             this._groupElement.className = "xeogl-annotation-group";
-            this._groupElement.innerHTML = sensorObj.group || "0";
+            this._groupElement.innerHTML = ledObj.group || "0";
             this._label.appendChild(this._groupElement);
 
             this._macElement = document.createElement('div');
             this._macElement.className = "xeogl-annotation-mac";
-            this._macElement.innerHTML = sensorObj.mac || "";
+            this._macElement.innerHTML = ledObj.mac || "";
             this._label.appendChild(this._macElement);
 
             this._friendlyNameElement = document.createElement('div');
             this._friendlyNameElement.className = "xeogl-annotation-alias";
-            this._friendlyNameElement.innerHTML = sensorObj.friendlyName || "";
+            this._friendlyNameElement.innerHTML = ledObj.friendlyName || "";
             this._label.appendChild(this._friendlyNameElement);
 
-            this.group = sensorObj.group;
-            this.mac = sensorObj.mac;
-            this.friendlyName = sensorObj.friendlyName;
-            this.label = sensorObj.label;
+            this.group = ledObj.group;
+            this.mac = ledObj.mac;
+            this.friendlyName = ledObj.friendlyName;
+            this.label = ledObj.label;
         }
 
         set group(gr) {

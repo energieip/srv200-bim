@@ -9,10 +9,10 @@
 }(this, (function (exports) { 'use strict';
 
 /**
- The eip namespace.
+ The energieip namespace.
 
- @class eip
- @main eip
+ @class energieip
+ @main energieip
  @static
  @author EnergieIP / https://www.energie-ip.com/
  */
