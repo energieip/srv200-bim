@@ -88,8 +88,6 @@
                         this["Auto"] = driver.auto;
                         this["Setpoint"] = driver.setpoint;
                     }
-                    this["PinShown"] = driver.pinShown;
-                    this["LabelShown"] = driver.labelShown;
                 
                     var self = this;
                     var update = function () {
@@ -100,8 +98,6 @@
                             driver.auto = self["Auto"];
                             driver.setpoint = self["Setpoint"];
                         }
-                        driver.pinShown = self["PinShown"];
-                        driver.labelShown = self["LabelShown"];
                         requestAnimationFrame(update);
                     };
                     update();
@@ -117,8 +113,6 @@
                     folder.add(menu, "Auto", driver.auto);
                     folder.add(menu, "Setpoint", driver.setpoint);
                 }
-                folder.add(menu, "PinShown", driver.pinShown);
-                folder.add(menu, "LabelShown", driver.labelShown);
                 folder.add({
                     "Look At": (function () {
                         var label = driver.label;
