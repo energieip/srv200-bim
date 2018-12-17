@@ -163,7 +163,7 @@
         scene.on("tick", function () { // Slowly orbit the camera
 
         });
-        var ifcDrivers = energieip.GetIfcDump();
+        var ifcDrivers = energieip.GetIfcDump(true, true, false);
         for (var label in model.meshes){
             if (ifcDrivers.hasOwnProperty(label)){
                 var mesh = model.meshes[label];

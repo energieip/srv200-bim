@@ -84,6 +84,10 @@
                     this["Mac"] = driver.mac;
                     this["Group"] = driver.group;
                     this["FriendlyName"] = driver.friendlyName;
+                    if (driver.deviceType == "Led") {
+                        this["Auto"] = driver.auto;
+                        this["Setpoint"] = driver.setpoint;
+                    }
                     this["PinShown"] = driver.pinShown;
                     this["LabelShown"] = driver.labelShown;
                 
@@ -92,6 +96,10 @@
                         driver.mac = self["Mac"];
                         driver.group = self["Group"];
                         driver.friendlyName = self["FriendlyName"];
+                        if (driver.deviceType == "Led") {
+                            driver.auto = self["Auto"];
+                            driver.setpoint = self["Setpoint"];
+                        }
                         driver.pinShown = self["PinShown"];
                         driver.labelShown = self["LabelShown"];
                         requestAnimationFrame(update);
@@ -100,13 +108,15 @@
                 };
 
                 var menu = new Menu();
-                var mesh = model.meshes[label];
-                cameraFlight.flyTo(mesh);
                 var title = driver.deviceType + " " + driver.mac;
                 var folder = gui.addFolder(title);
                 folder.add(menu, "Mac", driver.mac);
                 folder.add(menu, "Group", driver.group);
                 folder.add(menu, "FriendlyName", driver.friendlyName);
+                if (driver.deviceType == "Led") {
+                    folder.add(menu, "Auto", driver.auto);
+                    folder.add(menu, "Setpoint", driver.setpoint);
+                }
                 folder.add(menu, "PinShown", driver.pinShown);
                 folder.add(menu, "LabelShown", driver.labelShown);
                 folder.add({
@@ -140,9 +150,11 @@
                     var parse = nodeInfo.name.split("_");
                     parse.splice(0, 1);
                     var label = parse.join("_");
-                    actions.createObject = {
-                        id: label,
-                    };
+                    if (label.indexOf('_') > -1){
+                        actions.createObject = {
+                            id: label,
+                        };
+                    }
                 }
                 return true;
             };
@@ -162,12 +174,13 @@
         scene.on("tick", function () { // Slowly orbit the camera
 
         });
-        var ifcDrivers = energieip.GetIfcDump();
+        var ifcDrivers = energieip.GetIfcDump(true, true, true);
         for (var label in model.meshes){
             if (ifcDrivers.hasOwnProperty(label)){
                 var mesh = model.meshes[label];
                 var ifcModel = ifcDrivers[label];
-                switch (ifcModel.deviceType) {
+                console.log("get ifcModel", ifcModel);
+                switch (ifcModel["ifc"].deviceType) {
                     case "sensor":
                         var driver = new energieip.Sensor({
                             label: label,
@@ -176,15 +189,13 @@
                             glyph: "Sr",
                             title: "",
                             desc: "",
-                            mac: ifcModel.mac,
+                            mac: ifcModel["ifc"].mac,
                             friendlyName: "",
-                            group: "0",
+                            group: ifcModel["config"].group,
                             pinShown: true,
                             labelShown: false
                         });
                         driver.on("pinClicked", flyTo);
-                        driver.on("group", energieip.UpdateSensorCfg);
-                        driver.on("friendlyName", energieip.UpdateSensorCfg);
                         drivers[label] = driver;
                         break;
                     case "led":
@@ -195,15 +206,17 @@
                             glyph: "Ld",
                             title: "",
                             desc: "",
-                            mac: ifcModel.mac,
+                            auto: ifcModel["status"].auto,
+                            setpoint: ifcModel["status"].setpoint,
+                            mac:  ifcModel["ifc"].mac,
                             friendlyName: "",
-                            group: "0",
+                            group: ifcModel["config"].group,
                             pinShown: true,
                             labelShown: false
                         });
                         driver.on("pinClicked", flyTo);
-                        driver.on("group", energieip.UpdateLedCfg);
-                        driver.on("friendlyName", energieip.UpdateLedCfg);
+                        driver.on("auto", energieip.SendLedCmd);
+                        driver.on("setpoint", energieip.SendLedCmd);
                         drivers[label] = driver;
                         break;
                     default:

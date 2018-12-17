@@ -36,18 +36,27 @@ energieip.Notifications = function () {
 
 }
 
-energieip.GetIfcDump = function () {
+energieip.GetIfcDump = function (ifc, status, config) {
 	var Http = new XMLHttpRequest();
-	var url = energieip.weblink + 'project';
+	var url = energieip.weblink + 'dump?withIfc=' + ifc+ '&withStatus=' + status + '&withConfig=' + config;
+	console.log("== url", url);
 	Http.open("GET", url, false); //synchrone request
 	Http.send();
 	var drivers = {};
 
 	if (Http.status === 200){
 		var obj = JSON.parse(Http.responseText);
+
 		for (var i  in obj) {
-			var driver = obj[i];
-			drivers[driver.label] = driver;
+			for (var elt  in obj[i]){
+				var driver = obj[i][elt];
+				if (driver["ifc"] == null){
+					continue
+				}
+				var label = driver["ifc"].label;
+				drivers[label] = driver;
+			}
+			
 		}
 		return drivers;
 	}
