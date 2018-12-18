@@ -172,7 +172,8 @@
                 }
                 switch (ifcModel["ifc"].deviceType) {
                     case "sensor":
-                        var driver = new energieip.Sensor(content);
+                        content["temperature"] = ifcModel["status"].temperature.toString();
+                        var driver = new energieip.SensorSupervision(content);
                         break;
                     case "led":
                         content["auto"] = ifcModel["status"].auto;

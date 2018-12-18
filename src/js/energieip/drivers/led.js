@@ -108,8 +108,6 @@
 
         init(driverObj) {
             super.init(driverObj);
-
-            this._deviceType = "Led";
         }
     };
 
@@ -120,8 +118,6 @@
 
         init(driverObj) {
             super.init(driverObj);
-
-            this._deviceType = "Led";
             this._label.appendChild(this._macElement);
             this._label.appendChild(this._ipElement);
         }

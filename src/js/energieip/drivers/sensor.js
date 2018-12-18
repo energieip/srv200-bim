@@ -21,13 +21,54 @@
             return "energieip.Sensor";
         }
  
-        init(sensorObj) {
-            super.init(sensorObj);
+        init(driverObj) {
+            super.init(driverObj);
 
             this._spot.className = "xeogl-annotation-pin-sensor";
             
             this._deviceType = "Sensor";
             this._typeElement.innerHTML = this._deviceType;
+
+            this._temperatureElement = document.createElement('div');
+            this._temperatureElement.className = "xeogl-annotation-group";
+            this._label.appendChild(this._temperatureElement);
+
+            this.temperature = driverObj.temperature
+        }
+
+        set temperature(val) {
+            if (this._temperature === val) {
+                return;
+            }
+            this._temperature = val;
+            this._temperatureElement.innerHTML = "Temperature: " + this._temperature + " °C";
+            this.fire("temperature", this);
+        }
+
+        get temperature() {
+            return this._temperature;
+        }
+    };
+
+    energieip.SensorSupervision = class sensorSupervision extends energieip.Sensor {
+        get type() {
+            return "energieip.Sensor";
+        }
+
+        init(driverObj) {
+            super.init(driverObj);
+        }
+    };
+
+    energieip.SensorMaintenance = class sensorMaintenance extends energieip.Sensor {
+        get type() {
+            return "energieip.Sensor";
+        }
+
+        init(driverObj) {
+            super.init(driverObj);
+            this._label.appendChild(this._macElement);
+            this._label.appendChild(this._ipElement);
         }
     };
 }

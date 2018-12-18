@@ -168,7 +168,8 @@
                 }
                 switch (ifcModel["ifc"].deviceType) {
                     case "sensor":
-                        var driver = new energieip.Sensor(content);
+                        content["temperature"] = ifcModel["status"].temperature.toString();
+                        var driver = new energieip.SensorMaintenance(content);
                         driver.on("group", energieip.UpdateSensorCfg);
                         driver.on("friendlyName", energieip.UpdateSensorCfg);
                         drivers.push(driver);
