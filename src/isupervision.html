@@ -168,54 +168,44 @@
         scene.on("tick", function () { // Slowly orbit the camera
 
         });
-        var ifcDrivers = energieip.GetIfcDump(true, true, true);
+        var ifcDrivers = energieip.GetIfcDump(true, true, false);
         for (var label in model.meshes){
             if (ifcDrivers.hasOwnProperty(label)){
                 var mesh = model.meshes[label];
                 var ifcModel = ifcDrivers[label];
                 console.log("get ifcModel", ifcModel);
+                var driver = null;
+                var content = {
+                    label: label,
+                    mesh: mesh,
+                    occludable: false,
+                    glyph: ifcModel["status"].group.toString(),
+                    title: "",
+                    desc: "",
+                    mac: ifcModel["ifc"].mac,
+                    friendlyName: "",
+                    group: ifcModel["status"].group.toString(),
+                    pinShown: true,
+                    labelShown: false
+                }
                 switch (ifcModel["ifc"].deviceType) {
                     case "sensor":
-                        var driver = new energieip.Sensor({
-                            label: label,
-                            mesh: mesh,
-                            occludable: false,
-                            glyph: "Sr",
-                            title: "",
-                            desc: "",
-                            mac: ifcModel["ifc"].mac,
-                            friendlyName: "",
-                            group: ifcModel["config"].group,
-                            pinShown: true,
-                            labelShown: false
-                        });
-                        driver.on("pinClicked", flyTo);
-                        drivers[label] = driver;
+                        var driver = new energieip.Sensor(content);
                         break;
                     case "led":
-                        var driver = new energieip.Led({
-                            label: label,
-                            mesh: mesh,
-                            occludable: false,
-                            glyph: "Ld",
-                            title: "",
-                            desc: "",
-                            auto: ifcModel["status"].auto,
-                            setpoint: ifcModel["status"].setpoint,
-                            mac:  ifcModel["ifc"].mac,
-                            friendlyName: "",
-                            group: ifcModel["config"].group,
-                            pinShown: true,
-                            labelShown: false
-                        });
-                        driver.on("pinClicked", flyTo);
+                        content["auto"] = ifcModel["status"].auto;
+                        content["setpoint"] = ifcModel["status"].setpoint;
+                        var driver = new energieip.Led(content);
                         driver.on("auto", energieip.SendLedCmd);
                         driver.on("setpoint", energieip.SendLedCmd);
-                        drivers[label] = driver;
                         break;
                     default:
                         console.log("Received type", ifcModel.deviceType);
                         break;
+                }
+                if (driver != null){
+                    driver.on("pinClicked", flyTo);
+                    drivers[label] = driver;
                 }
             }
         }
