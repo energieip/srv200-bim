@@ -44,6 +44,8 @@
             this._deviceType = "Led";
             this._typeElement.innerHTML = this._deviceType;
 
+            this._spot.className = "xeogl-annotation-pin-led";
+
             this._setpointElement = document.createElement('div');
             this._setpointElement.className = "xeogl-annotation-group";
             this._setpointElement.innerHTML = driverObj.setpoint || "0";

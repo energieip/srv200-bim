@@ -23,6 +23,8 @@
  
         init(sensorObj) {
             super.init(sensorObj);
+
+            this._spot.className = "xeogl-annotation-pin-sensor";
             
             this._deviceType = "Sensor";
             this._typeElement.innerHTML = this._deviceType;
