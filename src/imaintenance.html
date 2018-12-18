@@ -173,7 +173,9 @@
                         drivers.push(driver);
                         break;
                     case "led":
-                        var driver = new energieip.Led(content);
+                        content["auto"] = ifcModel["status"].auto;
+                        content["setpoint"] = ifcModel["status"].setpoint;
+                        var driver = new energieip.LedMaintenance(content);
                         driver.on("group", energieip.UpdateLedCfg);
                         driver.on("friendlyName", energieip.UpdateLedCfg);
                         drivers.push(driver);

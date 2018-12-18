@@ -49,8 +49,8 @@
 
             this._setpointElement = document.createElement('div');
             this._setpointElement.className = "xeogl-annotation-group";
-            this._setpointElement.innerHTML = driverObj.setpoint || "0";
-           // this._label.appendChild(this._setpointElement);
+
+            this._label.appendChild(this._setpointElement);
 
             this.auto = driverObj.auto
             this.setpoint = driverObj.setpoint
@@ -74,37 +74,12 @@
             }
 
             this._setpoint = val || "0";
-            this._setpointElement.innerHTML = this._setpoint;
+            this._setpointElement.innerHTML = "Percentage: " + this._setpoint + " %";
             this.fire("setpoint", this);
         }
 
         get setpoint() {
             return this._setpoint;
-        }
-
-    };
-
-    energieip.LedSupervision = class ledSupervision extends energieip.Led {
-        get type() {
-            return "energieip.Led";
-        }
-
-        init(driverObj) {
-            super.init(driverObj);
-
-            this._deviceType = "Led";
-            this._typeElement.innerHTML = this._deviceType;
-
-            this._spot.className =  this.default_color;
-
-            // this._setpointElement = document.createElement('div');
-            // this._setpointElement.className = "xeogl-annotation-group";
-            // this._setpointElement.innerHTML = driverObj.setpoint || "0";
-            // this._label.appendChild(this._setpointElement);
-
-            this.auto = driverObj.auto
-            this.setpoint = driverObj.setpoint
-            this.error = driverObj.error
         }
 
         set error(val) {
@@ -124,5 +99,30 @@
             return this._error;
         }
 
+    };
+
+    energieip.LedSupervision = class ledSupervision extends energieip.Led {
+        get type() {
+            return "energieip.Led";
+        }
+
+        init(driverObj) {
+            super.init(driverObj);
+
+            this._deviceType = "Led";
+        }
+    };
+
+    energieip.LedMaintenance = class ledMaintenance extends energieip.Led {
+        get type() {
+            return "energieip.Led";
+        }
+
+        init(driverObj) {
+            super.init(driverObj);
+
+            this._deviceType = "Led";
+            this._label.appendChild(this._macElement);
+        }
     };
 }

@@ -22,8 +22,6 @@
 
             this._macElement = document.createElement('div');
             this._macElement.className = "xeogl-annotation-mac";
-            this._macElement.innerHTML = sensorObj.mac || "";
-           // this._label.appendChild(this._macElement);
 
             this._friendlyNameElement = document.createElement('div');
             this._friendlyNameElement.className = "xeogl-annotation-alias";
@@ -58,7 +56,7 @@
                 return;
             }
             this._mac = mc || "";
-            this._macElement.innerHTML = this._mac;
+            this._macElement.innerHTML = "Mac: " + this._mac;
             this.fire("mac", this);
         }
 
