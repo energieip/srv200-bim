@@ -17,21 +17,23 @@
 
             this._groupElement = document.createElement('div');
             this._groupElement.className = "xeogl-annotation-group";
-            this._groupElement.innerHTML = sensorObj.group || "0";
             this._label.appendChild(this._groupElement);
+
+            this._ipElement = document.createElement('div');
+            this._ipElement.className = "xeogl-annotation-group";
 
             this._macElement = document.createElement('div');
             this._macElement.className = "xeogl-annotation-mac";
 
             this._friendlyNameElement = document.createElement('div');
             this._friendlyNameElement.className = "xeogl-annotation-alias";
-            this._friendlyNameElement.innerHTML = sensorObj.friendlyName || "";
             this._label.appendChild(this._friendlyNameElement);
 
             this.group = sensorObj.group;
             this.mac = sensorObj.mac;
             this.friendlyName = sensorObj.friendlyName;
             this.label = sensorObj.label;
+            this.ip = sensorObj.ip;
         }
 
         get deviceType() {
@@ -43,12 +45,25 @@
                 return;
             }
             this._group = gr || "0";
-            this._groupElement.innerHTML = this._group;
+            this._groupElement.innerHTML = "Group: " +  this._group;
             this.fire("group", this);
         }
 
         get group() {
             return this._group;
+        }
+
+        set ip(val) {
+            if (this._ip === val) {
+                return;
+            }
+            this._ip = val || "0";
+            this._ipElement.innerHTML = "IP: " +  this._ip;
+            this.fire("ip", this);
+        }
+
+        get ip() {
+            return this._ip;
         }
 
         set mac(mc) {
@@ -69,7 +84,7 @@
                 return;
             }
             this._friendlyName = fr || "";
-            this._friendlyNameElement.innerHTML = this._friendlyName;
+            this._friendlyNameElement.innerHTML = "Name: " + this._friendlyName;
             this.fire("friendlyName", this);
         }
 

@@ -123,6 +123,7 @@
 
             this._deviceType = "Led";
             this._label.appendChild(this._macElement);
+            this._label.appendChild(this._ipElement);
         }
     };
 }
