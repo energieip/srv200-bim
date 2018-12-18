@@ -100,6 +100,23 @@
     z-index: 0;
 }
 
+.xeogl-annotation-pin-error {
+    color: #ffffff;
+    line-height: 1.8;
+    text-align: center;
+    font-family: "monospace";
+    font-weight: bold;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 15px;
+    border: 2px solid #ffffff;
+    background: red;
+    visibility: hidden;
+    box-shadow: 5px 5px 15px 1px #000000;
+    z-index: 0;
+}
+
 .xeogl-annotation-pin-baes {
     color: #ffffff;
     line-height: 1.8;

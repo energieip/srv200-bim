@@ -19,7 +19,6 @@
 <body>
 
 <div id="info">
-    <pre id="log">Map: Building</a></pre>
 </div>
 
 <div id="dat-gui-container">
@@ -40,7 +39,6 @@
     <script src="js/energieip/drivers/led.js"></script>
 
 <script>
-
     var scene = new xeogl.Scene({
         transparent: true
     });
@@ -55,21 +53,29 @@
 
     var buf = [];
 
-    // Logs text to the page
-    function log(event, params) {
-
-        var txt = event;
-        if (params) {
-            txt += ": " + JSON.stringify(params)
+    //Right Menu
+    var Menu = function (driver) {
+        this["Group"] = driver.group;
+        this["FriendlyName"] = driver.friendlyName;
+        if (driver.deviceType == "Led") {
+            this["Auto"] = driver.auto;
+            this["Setpoint"] = driver.setpoint;
         }
 
-        buf.push(txt);
+        var self = this;
+        var update = function () {
+            driver.group = self["Group"];
+            driver.friendlyName = self["FriendlyName"];
+            if (driver.deviceType == "Led") {
+                driver.auto = self["Auto"];
+                driver.setpoint = self["Setpoint"];
+            }
+            requestAnimationFrame(update);
+        };
+        update();
+    };
 
-        if (buf.length > 30) {
-            buf.shift();
-        }
-        document.getElementById("log").innerText = buf.join("\n");
-    }
+    var menu = null;
 
     function flyTo() {
         var driver;
@@ -80,33 +86,9 @@
             selected = driver.id === this.id;
             if (selected) {
                 var label = driver.label;
-                var Menu = function () {
-                    this["Mac"] = driver.mac;
-                    this["Group"] = driver.group;
-                    this["FriendlyName"] = driver.friendlyName;
-                    if (driver.deviceType == "Led") {
-                        this["Auto"] = driver.auto;
-                        this["Setpoint"] = driver.setpoint;
-                    }
-                
-                    var self = this;
-                    var update = function () {
-                        driver.mac = self["Mac"];
-                        driver.group = self["Group"];
-                        driver.friendlyName = self["FriendlyName"];
-                        if (driver.deviceType == "Led") {
-                            driver.auto = self["Auto"];
-                            driver.setpoint = self["Setpoint"];
-                        }
-                        requestAnimationFrame(update);
-                    };
-                    update();
-                };
-
-                var menu = new Menu();
+                menu = new Menu(driver);
                 var title = driver.deviceType + " " + driver.mac;
                 var folder = gui.addFolder(title);
-                folder.add(menu, "Mac", driver.mac);
                 folder.add(menu, "Group", driver.group);
                 folder.add(menu, "FriendlyName", driver.friendlyName);
                 if (driver.deviceType == "Led") {
@@ -195,7 +177,7 @@
                     case "led":
                         content["auto"] = ifcModel["status"].auto;
                         content["setpoint"] = ifcModel["status"].setpoint;
-                        var driver = new energieip.Led(content);
+                        var driver = new energieip.LedSupervision(content);
                         driver.on("auto", energieip.SendLedCmd);
                         driver.on("setpoint", energieip.SendLedCmd);
                         break;

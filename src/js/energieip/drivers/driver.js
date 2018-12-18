@@ -6,6 +6,8 @@
  
         init(sensorObj) {
             super.init(sensorObj);
+
+            this.error_color = "xeogl-annotation-pin-error";
             
             this._deviceType = "Driver";
             this._typeElement = document.createElement('div');
@@ -21,7 +23,7 @@
             this._macElement = document.createElement('div');
             this._macElement.className = "xeogl-annotation-mac";
             this._macElement.innerHTML = sensorObj.mac || "";
-            this._label.appendChild(this._macElement);
+           // this._label.appendChild(this._macElement);
 
             this._friendlyNameElement = document.createElement('div');
             this._friendlyNameElement.className = "xeogl-annotation-alias";

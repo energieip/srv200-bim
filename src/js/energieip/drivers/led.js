@@ -40,16 +40,17 @@
  
         init(driverObj) {
             super.init(driverObj);
+            this.default_color = "xeogl-annotation-pin-led";
             
             this._deviceType = "Led";
             this._typeElement.innerHTML = this._deviceType;
 
-            this._spot.className = "xeogl-annotation-pin-led";
+            this._spot.className = this.default_color;
 
             this._setpointElement = document.createElement('div');
             this._setpointElement.className = "xeogl-annotation-group";
             this._setpointElement.innerHTML = driverObj.setpoint || "0";
-            this._label.appendChild(this._setpointElement);
+           // this._label.appendChild(this._setpointElement);
 
             this.auto = driverObj.auto
             this.setpoint = driverObj.setpoint
@@ -79,6 +80,48 @@
 
         get setpoint() {
             return this._setpoint;
+        }
+
+    };
+
+    energieip.LedSupervision = class ledSupervision extends energieip.Led {
+        get type() {
+            return "energieip.Led";
+        }
+
+        init(driverObj) {
+            super.init(driverObj);
+
+            this._deviceType = "Led";
+            this._typeElement.innerHTML = this._deviceType;
+
+            this._spot.className =  this.default_color;
+
+            // this._setpointElement = document.createElement('div');
+            // this._setpointElement.className = "xeogl-annotation-group";
+            // this._setpointElement.innerHTML = driverObj.setpoint || "0";
+            // this._label.appendChild(this._setpointElement);
+
+            this.auto = driverObj.auto
+            this.setpoint = driverObj.setpoint
+            this.error = driverObj.error
+        }
+
+        set error(val) {
+            if (this._error === val) {
+                return;
+            }
+            this._error = val;
+            if (this._error != 0) {
+                this._spot.className = this.error_color;
+            } else {
+                this._spot.className = this.default_color;
+            }
+            this.fire("error", this);
+        }
+
+        get error() {
+            return this._error;
         }
 
     };

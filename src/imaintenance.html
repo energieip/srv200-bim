@@ -19,7 +19,6 @@
 <body>
 
 <div id="info">
-    <pre id="log">Map: Building</a></pre>
 </div>
 
 <div id="dat-gui-container">
@@ -53,24 +52,7 @@
     document.getElementById('dat-gui-container').appendChild(gui.domElement);
 
     var drivers = [];
-
     var buf = [];
-
-    // Logs text to the page
-    function log(event, params) {
-
-        var txt = event;
-        if (params) {
-            txt += ": " + JSON.stringify(params)
-        }
-
-        buf.push(txt);
-
-        if (buf.length > 30) {
-            buf.shift();
-        }
-        document.getElementById("log").innerText = buf.join("\n");
-    }
 
     function flyTo() {
         var driver;
