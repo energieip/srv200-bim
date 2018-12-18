@@ -163,12 +163,13 @@
         scene.on("tick", function () { // Slowly orbit the camera
 
         });
-        var ifcDrivers = energieip.GetIfcDump(true, true, false);
+         var ifcDrivers = energieip.GetIfcDump(true, true, false);
         for (var label in model.meshes){
             if (ifcDrivers.hasOwnProperty(label)){
                 var mesh = model.meshes[label];
                 var ifcModel = ifcDrivers[label];
-                switch (ifcModel.deviceType) {
+                console.log("get ifcModel", ifcModel);
+                switch (ifcModel["ifc"].deviceType) {
                     case "sensor":
                         var driver = new energieip.Sensor({
                             label: label,
@@ -177,7 +178,7 @@
                             glyph: "Sr",
                             title: "",
                             desc: "",
-                            mac: ifcModel.mac,
+                            mac: ifcModel["ifc"].mac,
                             friendlyName: "",
                             group: "0",
                             pinShown: true,
@@ -196,7 +197,7 @@
                             glyph: "Ld",
                             title: "",
                             desc: "",
-                            mac: ifcModel.mac,
+                            mac: ifcModel["ifc"].mac,
                             friendlyName: "",
                             group: "0",
                             pinShown: true,
