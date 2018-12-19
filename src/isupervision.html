@@ -46,9 +46,8 @@
     var camera = scene.camera;
     var input = scene.input;
 
-    var gui = new dat.GUI({autoPlace: false, top: 0, width: 400});
-    document.getElementById('dat-gui-container').appendChild(gui.domElement);
-
+    var gui = null;
+    
     var drivers = {};
 
     var buf = [];
@@ -85,6 +84,12 @@
             driver = drivers[label];
             selected = driver.id === this.id;
             if (selected) {
+                if (gui != null){
+                    document.getElementById('dat-gui-container').removeChild(gui.domElement);
+                    gui.destroy();  
+                }
+                gui = new dat.GUI({autoPlace: false, top: 0, width: 400});
+                document.getElementById('dat-gui-container').appendChild(gui.domElement);
                 var label = driver.label;
                 menu = new Menu(driver);
                 var title = driver.deviceType + " " + driver.mac;
