@@ -25,9 +25,9 @@
             super.init(driverObj);
 
             this._spot.className = "xeogl-annotation-pin-sensor";
-            
-            this._deviceType = "Sensor";
-            this._typeElement.innerHTML = this._deviceType;
+
+            this.deviceType = energieip.sensorDriver;
+            this._typeElement.innerHTML = this.deviceType;
 
             this._temperatureElement = document.createElement('div');
             this._temperatureElement.className = "xeogl-annotation-group";

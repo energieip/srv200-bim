@@ -42,8 +42,8 @@
             super.init(driverObj);
             this.default_color = "xeogl-annotation-pin-led";
             
-            this._deviceType = "Led";
-            this._typeElement.innerHTML = this._deviceType;
+            this.deviceType = energieip.ledDriver;
+            this._typeElement.innerHTML = this.deviceType;
 
             this._spot.className = this.default_color;
 

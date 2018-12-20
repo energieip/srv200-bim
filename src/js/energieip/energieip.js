@@ -19,6 +19,10 @@
 const address = '10.0.0.209:8888';
 const weblink = 'http://'+address+'/';
 
+const driver = "driver";
+const ledDriver = "led";
+const sensorDriver = "sensor";
+
 energieip.Notifications = function () {
 	var ws = new WebSocket("ws://" + address + "/events");
 
@@ -64,6 +68,9 @@ energieip.GetIfcDump = function (ifc, status, config) {
 
 exports.address = address;
 exports.weblink = weblink;
+exports.driver = driver;
+exports.ledDriver = ledDriver;
+exports.sensorDriver = sensorDriver;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

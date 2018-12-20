@@ -67,16 +67,12 @@
                     this["Mac"] = driver.mac;
                     this["Group"] = driver.group;
                     this["FriendlyName"] = driver.friendlyName;
-                    this["PinShown"] = driver.pinShown;
-                    this["LabelShown"] = driver.labelShown;
                 
                     var self = this;
                     var update = function () {
                         driver.mac = self["Mac"];
                         driver.group = self["Group"];
                         driver.friendlyName = self["FriendlyName"];
-                        driver.pinShown = self["PinShown"];
-                        driver.labelShown = self["LabelShown"];
                         requestAnimationFrame(update);
                     };
                     update();
@@ -90,18 +86,7 @@
                 folder.add(menu, "Mac", driver.mac);
                 folder.add(menu, "Group", driver.group);
                 folder.add(menu, "FriendlyName", driver.friendlyName);
-                folder.add(menu, "PinShown", driver.pinShown);
-                folder.add(menu, "LabelShown", driver.labelShown);
-                folder.add({
-                    "Look At": (function () {
-                        var label = driver.label;
-                        var mesh = model.meshes[label];
-                        return cameraFlight.flyTo(mesh);
-                    })
-                }, 'Look At');
                 folder.open();
-
-                menu["LabelShown"] = selected;
             }
             driver.labelShown = selected;
         }
@@ -113,7 +98,7 @@
     //---------------------------------------------------
     var model = new xeogl.GLTFModel({
         id: "map",
-        src: "maps/N8B-3MK-V4.optimized.gltf",
+        src: "maps/N8B-R3-IFC4.optimized.gltf",
         objectTree: true,
         scale: [.6, .6, .6],
         handleNode: (function() {
@@ -167,14 +152,14 @@
                     labelShown: false
                 }
                 switch (ifcModel["ifc"].deviceType) {
-                    case "sensor":
+                    case energieip.sensorDriver:
                         content["temperature"] = ifcModel["status"].temperature.toString();
                         var driver = new energieip.SensorMaintenance(content);
                         driver.on("group", energieip.UpdateSensorCfg);
                         driver.on("friendlyName", energieip.UpdateSensorCfg);
                         drivers.push(driver);
                         break;
-                    case "led":
+                    case energieip.ledDriver:
                         content["auto"] = ifcModel["status"].auto;
                         content["setpoint"] = ifcModel["status"].setpoint;
                         var driver = new energieip.LedMaintenance(content);
@@ -183,7 +168,7 @@
                         drivers.push(driver);
                         break;
                     default:
-                        console.log("Received type", ifcModel.deviceType);
+                        console.log("Received type", ifcModel["ifc"].deviceType);
                         break;
                 }
                  if (driver != null){

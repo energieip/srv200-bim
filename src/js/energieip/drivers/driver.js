@@ -1,17 +1,17 @@
 {
-    energieip.Driver = class sensor extends xeogl.Annotation {
+    energieip.Driver = class driver extends xeogl.Annotation {
         get type() {
             return "energieip.Driver";
         }
  
-        init(sensorObj) {
-            super.init(sensorObj);
+        init(driverObj) {
+            super.init(driverObj);
 
             this.error_color = "xeogl-annotation-pin-error";
-            
-            this._deviceType = "Driver";
+            this.deviceType = energieip.driver;
+
             this._typeElement = document.createElement('div');
-            this._typeElement.innerHTML = this._deviceType;
+            this._typeElement.innerHTML = this.deviceType;
             this._typeElement.className = "xeogl-annotation-group";
             this._label.appendChild(this._typeElement);
 
@@ -29,15 +29,19 @@
             this._friendlyNameElement.className = "xeogl-annotation-alias";
             this._label.appendChild(this._friendlyNameElement);
 
-            this.group = sensorObj.group;
-            this.mac = sensorObj.mac;
-            this.friendlyName = sensorObj.friendlyName;
-            this.label = sensorObj.label;
-            this.ip = sensorObj.ip;
+            this.group = driverObj.group;
+            this.mac = driverObj.mac;
+            this.friendlyName = driverObj.friendlyName;
+            this.label = driverObj.label;
+            this.ip = driverObj.ip;
         }
 
         get deviceType() {
             return this._deviceType;
+        }
+
+        set deviceType(val) {
+            this._deviceType = val;
         }
 
         set group(gr) {
