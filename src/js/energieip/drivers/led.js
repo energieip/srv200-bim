@@ -138,6 +138,9 @@
             super.init(driverObj);
             this._label.appendChild(this._macElement);
             this._label.appendChild(this._ipElement);
+            this.ifcModelName = driverObj.driverProperties.ifc.modelName;
+            this.ifcUrl = driverObj.driverProperties.ifc.url;
+            this.ifcVendor = driverObj.driverProperties.ifc.vendor;
         }
     };
 }

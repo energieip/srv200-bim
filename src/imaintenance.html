@@ -105,7 +105,10 @@
                         configuration.add({"OK":function(){ energieip.UpdateSensorNameCfg(driver); }}, "OK").name("Apply");
                         break;
                 }
-
+                var ifc = gui.addFolder("Driver Information");
+                ifc.add(driver, "ifcModelName", driver.ifcModelName).name("Model Name");
+                ifc.add(driver, "ifcUrl", driver.ifcUrl).name("URL");
+                ifc.add(driver, "ifcVendor", driver.ifcVendor).name("Vendor Name");
             }
             driver.labelShown = selected;
         }
