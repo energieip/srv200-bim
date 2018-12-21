@@ -202,11 +202,17 @@
     var cameraFlight = new xeogl.CameraFlightAnimation();
 
     cameraControl.on("hoverEnter", function (hit) {
-        hit.mesh.highlighted = true;
+        if (drivers.hasOwnProperty(hit.mesh.id)){
+            drivers[hit.mesh.id].labelShown = true;
+            hit.mesh.highlighted = true;
+        }
     });
 
     cameraControl.on("hoverOut", function (hit) {
-        hit.mesh.highlighted = false;
+        if (drivers.hasOwnProperty(hit.mesh.id)){
+            drivers[hit.mesh.id].labelShown = false;
+            hit.mesh.highlighted = false;
+        }
     });
 
     cameraControl.on("picked", function (hit) {
