@@ -29,11 +29,15 @@
             this._friendlyNameElement.className = "xeogl-annotation-alias";
             this._label.appendChild(this._friendlyNameElement);
 
-            this.group = driverObj.group;
-            this.mac = driverObj.mac;
-            this.friendlyName = driverObj.friendlyName;
+            this.statusGroup = driverObj.driverProperties.status.group;
+            this.statusMac = driverObj.driverProperties.status.mac;
+            this.statusName = driverObj.driverProperties.status.friendlyName;
             this.label = driverObj.label;
-            this.ip = driverObj.ip;
+            this.statusIp = driverObj.driverProperties.status.ip;
+
+            this.configName = "";
+
+            this.GroupControlLight = 0;
         }
 
         get deviceType() {
@@ -44,56 +48,56 @@
             this._deviceType = val;
         }
 
-        set group(gr) {
-            if (this._group === gr) {
+        set statusGroup(gr) {
+            if (this._status_group === gr) {
                 return;
             }
-            this._group = gr || "0";
-            this._groupElement.innerHTML = "Group: " +  this._group;
+            this._status_group = gr || "0";
+            this._groupElement.innerHTML = "Group: " +  this._status_group;
             this.fire("group", this);
         }
 
-        get group() {
-            return this._group;
+        get statusGroup() {
+            return this._status_group;
         }
 
-        set ip(val) {
-            if (this._ip === val) {
+        set statusIp(val) {
+            if (this._status_ip === val) {
                 return;
             }
-            this._ip = val || "0";
-            this._ipElement.innerHTML = "IP: " +  this._ip;
+            this._status_ip = val || "0";
+            this._ipElement.innerHTML = "IP: " +  this._status_ip;
             this.fire("ip", this);
         }
 
-        get ip() {
-            return this._ip;
+        get statusIp() {
+            return this._status_ip;
         }
 
-        set mac(mc) {
-            if (this._mac === mc) {
+        set statusMac(mc) {
+            if (this._status_mac === mc) {
                 return;
             }
-            this._mac = mc || "";
-            this._macElement.innerHTML = "Mac: " + this._mac;
+            this._status_mac = mc || "";
+            this._macElement.innerHTML = "Mac: " + this._status_mac;
             this.fire("mac", this);
         }
 
-        get mac() {
-            return this._mac;
+        get statusMac() {
+            return this._status_mac;
         }
 
-        set friendlyName(fr) {
-            if (this._friendlyName === fr) {
+        set statusName(fr) {
+            if (this._statusName === fr) {
                 return;
             }
-            this._friendlyName = fr || "";
-            this._friendlyNameElement.innerHTML = "Name: " + this._friendlyName;
+            this._statusName = fr || "";
+            this._friendlyNameElement.innerHTML = "Name: " + this._statusName;
             this.fire("friendlyName", this);
         }
 
-        get friendlyName() {
-            return this._friendlyName;
+        get statusName() {
+            return this._statusName;
         }
     
         getJSON() {

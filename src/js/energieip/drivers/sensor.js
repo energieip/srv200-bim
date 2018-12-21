@@ -1,17 +1,21 @@
 {
-    energieip.UpdateSensorCfg = function (dsensor) {
+    energieip.UpdateSensorNameCfg = function (dsensor) {
         var url = energieip.weblink + 'setup/sensor';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            if (this.readyState === XMLHttpRequest.DONE){
+                if (this.status === 200) {
+                    alert("Command successfull");
+                } else{
+                    alert("Command Error");
+                }
             }
         }
         var content = {
-            "mac": dsensor.mac,
-            "group": parseInt(dsensor.group),
-            "friendlyName": dsensor.friendlyName,
+            "mac": dled.statusMac,
+            "friendlyName": dled.configName,
         };
         xhr.send(JSON.stringify(content));
     }
@@ -33,20 +37,24 @@
             this._temperatureElement.className = "xeogl-annotation-group";
             this._label.appendChild(this._temperatureElement);
 
-            this.temperature = driverObj.temperature
+            this.statusTemperature = driverObj.driverProperties.status.temperature;
+            var update = function () {
+                requestAnimationFrame(update);
+            };
+            update();
         }
 
-        set temperature(val) {
-            if (this._temperature === val) {
+        set statusTemperature(val) {
+            if (this._status_temperature === val) {
                 return;
             }
-            this._temperature = val;
-            this._temperatureElement.innerHTML = "Temperature: " + this._temperature + " °C";
+            this._status_temperature = val;
+            this._temperatureElement.innerHTML = "Temperature: " + this._status_temperature + " °C";
             this.fire("temperature", this);
         }
 
-        get temperature() {
-            return this._temperature;
+        get statusTemperature() {
+            return this._status_temperature;
         }
     };
 

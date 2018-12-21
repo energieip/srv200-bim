@@ -1,17 +1,21 @@
 {
-    energieip.UpdateLedCfg = function (dled) {
+    energieip.UpdateLedNameCfg = function (dled) {
         var url = energieip.weblink + 'setup/led';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            if (this.readyState === XMLHttpRequest.DONE){
+                if (this.status === 200) {
+                    alert("Command successfull");
+                } else{
+                    alert("Command Error");
+                }
             }
         }
         var content = {
-            "mac": dled.mac,
-            "group": parseInt(dled.group),
-            "friendlyName": dled.friendlyName,
+            "mac": dled.statusMac,
+            "friendlyName": dled.configName,
         };
         xhr.send(JSON.stringify(content));
     }
@@ -22,13 +26,18 @@
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            if (this.readyState === XMLHttpRequest.DONE){
+                if (this.status === 200) {
+                    alert("Command successfull");
+                } else{
+                    alert("Command Error");
+                }
             }
         }
         var content = {
-            "mac": dled.mac,
-            "auto": dled.auto,
-            "setpoint": parseInt(dled.setpoint),
+            "mac": dled.statusMac,
+            "auto": dled.controlAuto,
+            "setpoint": parseInt(dled.controlLight),
         };
         xhr.send(JSON.stringify(content));
     }
@@ -52,42 +61,51 @@
 
             this._label.appendChild(this._setpointElement);
 
-            this.auto = driverObj.auto
-            this.setpoint = driverObj.setpoint
+            this.statusAuto = driverObj.driverProperties.status.auto;
+            this.statusLight = driverObj.driverProperties.status.setpoint;
+            this.statusError = driverObj.driverProperties.status.error;
+
+            this.controlLight = 0;
+            this.controlAuto = false;
+
+            var update = function () {
+                requestAnimationFrame(update);
+            };
+            update();
         }
 
-        set auto(val) {
-            if (this._auto === val) {
+        set statusAuto(val) {
+            if (this._status_auto === val) {
                 return;
             }
-            this._auto = val;
+            this._status_auto = val;
             this.fire("auto", this);
         }
 
-        get auto() {
-            return this._auto;
+        get statusAuto() {
+            return this._status_auto;
         }
 
-        set setpoint(val) {
-            if (this._setpoint === val) {
+        set statusLight(val) {
+            if (this._status_light === val) {
                 return;
             }
 
-            this._setpoint = val || "0";
-            this._setpointElement.innerHTML = "Percentage: " + this._setpoint + " %";
+            this._status_light = val || "0";
+            this._setpointElement.innerHTML = "Percentage: " + this._status_light + " %";
             this.fire("setpoint", this);
         }
 
-        get setpoint() {
-            return this._setpoint;
+        get statusLight() {
+            return this._status_light;
         }
 
-        set error(val) {
-            if (this._error === val) {
+        set statusError(val) {
+            if (this._status_error === val) {
                 return;
             }
-            this._error = val;
-            if (this._error != 0) {
+            this._status_error = val;
+            if (this._status_error != 0) {
                 this._spot.className = this.error_color;
             } else {
                 this._spot.className = this.default_color;
@@ -95,8 +113,8 @@
             this.fire("error", this);
         }
 
-        get error() {
-            return this._error;
+        get statusError() {
+            return this._status_error;
         }
 
     };

@@ -39,7 +39,6 @@
     <script src="js/energieip/drivers/led.js"></script>
 
 <script>
-
     var scene = new xeogl.Scene({
         transparent: true
     });
@@ -48,45 +47,65 @@
     var camera = scene.camera;
     var input = scene.input;
 
-    var gui = new dat.GUI({autoPlace: false, top: 0, width: 400});
-    document.getElementById('dat-gui-container').appendChild(gui.domElement);
-
-    var drivers = [];
+    var gui = null;
+    var drivers = {};
     var buf = [];
 
     function flyTo() {
         var driver;
         var selected;
 
-        for (var i = 0; i < drivers.length; i++) {
-            driver = drivers[i];
+        for (var label in drivers) {
+            driver = drivers[label];
             selected = driver.id === this.id;
             if (selected) {
-                var label = driver.label;
-                var Menu = function () {
-                    this["Mac"] = driver.mac;
-                    this["Group"] = driver.group;
-                    this["FriendlyName"] = driver.friendlyName;
-                
-                    var self = this;
-                    var update = function () {
-                        driver.mac = self["Mac"];
-                        driver.group = self["Group"];
-                        driver.friendlyName = self["FriendlyName"];
-                        requestAnimationFrame(update);
-                    };
-                    update();
-                };
+                if (gui != null){
+                    document.getElementById('dat-gui-container').removeChild(gui.domElement);
+                    gui.destroy();  
+                }
+                gui = new dat.GUI({autoPlace: false, top: 0, width: 400});
+                document.getElementById('dat-gui-container').appendChild(gui.domElement);
 
-                var menu = new Menu();
-                var mesh = model.meshes[label];
-                cameraFlight.flyTo(mesh);
-                var title = driver.deviceType + " " + driver.mac;
-                var folder = gui.addFolder(title);
-                folder.add(menu, "Mac", driver.mac);
-                folder.add(menu, "Group", driver.group);
-                folder.add(menu, "FriendlyName", driver.friendlyName);
-                folder.open();
+                var status = gui.addFolder("Driver Status");
+                status.add(driver, "deviceType", driver.deviceType).name("Driver").listen();
+                status.add(driver, "statusGroup", driver.statusGroup).name("Group").listen();
+                status.add(driver, "statusName", driver.statusName).name("Name").listen();
+
+                switch (driver.deviceType){
+                    case energieip.ledDriver:
+                        status.add(driver, "statusAuto", driver.statusAuto).name("Auto").listen();
+                        status.add(driver, "statusLight", driver.statusLight).name("Light").listen();
+                        break;
+                    case energieip.sensorDriver:
+                        status.add(driver, "statusTemperature", driver.statusTemperature).name("Temperature").listen();
+                        break;
+                }
+                status.open();
+
+                switch (driver.deviceType){
+                    case energieip.ledDriver:
+                        var controlDr = gui.addFolder("Driver Control");
+                        controlDr.add(driver, "controlLight", driver.controlLight).name("Light");
+                        controlDr.add(driver, "controlAuto", driver.controlAuto).name("Auto");
+                        controlDr.add({"OK":function(){ energieip.SendLedCmd(driver); }}, "OK").name("Apply");
+                        break;
+                }
+
+                var controlGr = gui.addFolder("Group Control");
+                controlGr.add(driver, "GroupControlLight", driver.GroupControlLight).name("Light");
+                controlGr.add({"OK":function(){ console.log("clicked", driver ) }}, "OK").name("Apply");
+
+                var configuration = gui.addFolder("Driver Configuration");
+                configuration.add(driver, "configName", driver.configName).name("Name");
+                switch (driver.deviceType){
+                    case energieip.ledDriver:
+                        configuration.add({"OK":function(){ energieip.UpdateLedNameCfg(driver); }}, "OK").name("Apply");
+                        break;
+                    case energieip.sensorDriver:
+                        configuration.add({"OK":function(){ energieip.UpdateSensorNameCfg(driver); }}, "OK").name("Apply");
+                        break;
+                }
+
             }
             driver.labelShown = selected;
         }
@@ -98,7 +117,7 @@
     //---------------------------------------------------
     var model = new xeogl.GLTFModel({
         id: "map",
-        src: "maps/N8B-R3-IFC4.optimized.gltf",
+        src: "maps/N8B-3MK-V4.optimized.gltf",
         objectTree: true,
         scale: [.6, .6, .6],
         handleNode: (function() {
@@ -130,7 +149,8 @@
         scene.on("tick", function () { // Slowly orbit the camera
 
         });
-        var ifcDrivers = energieip.GetIfcDump(true, true, true);
+        var labels = '';
+        var ifcDrivers = energieip.GetIfcDump(labels);
         for (var label in model.meshes){
             if (ifcDrivers.hasOwnProperty(label)){
                 var mesh = model.meshes[label];
@@ -144,28 +164,16 @@
                     glyph: ifcModel["status"].group.toString(),
                     title: "",
                     desc: "",
-                    mac: ifcModel["ifc"].mac,
-                    ip: ifcModel["status"].ip.toString(),
-                    friendlyName: "",
-                    group: ifcModel["config"].group.toString(),
+                    driverProperties: ifcModel,
                     pinShown: true,
                     labelShown: false
-                }
+                };
                 switch (ifcModel["ifc"].deviceType) {
                     case energieip.sensorDriver:
-                        content["temperature"] = ifcModel["status"].temperature.toString();
                         var driver = new energieip.SensorMaintenance(content);
-                        driver.on("group", energieip.UpdateSensorCfg);
-                        driver.on("friendlyName", energieip.UpdateSensorCfg);
-                        drivers.push(driver);
                         break;
                     case energieip.ledDriver:
-                        content["auto"] = ifcModel["status"].auto;
-                        content["setpoint"] = ifcModel["status"].setpoint;
                         var driver = new energieip.LedMaintenance(content);
-                        driver.on("group", energieip.UpdateLedCfg);
-                        driver.on("friendlyName", energieip.UpdateLedCfg);
-                        drivers.push(driver);
                         break;
                     default:
                         console.log("Received type", ifcModel["ifc"].deviceType);

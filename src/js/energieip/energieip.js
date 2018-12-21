@@ -40,9 +40,12 @@ energieip.Notifications = function () {
 
 }
 
-energieip.GetIfcDump = function (ifc, status, config) {
+energieip.GetIfcDump = function (labels) {
 	var Http = new XMLHttpRequest();
-	var url = energieip.weblink + 'dump?withIfc=' + ifc+ '&withStatus=' + status + '&withConfig=' + config;
+	var url = energieip.weblink + 'dump'
+	if (labels!= ""){ 
+		url += '?labels=' + labels;
+	}
 	console.log("== url", url);
 	Http.open("GET", url, false); //synchrone request
 	Http.send();
