@@ -188,7 +188,9 @@
                 }
             }
         }
-        energieip.Notifications();
+        energieip.Notifications(function(evt) {
+           console.log("=== Received ", evt);
+        });
     });
 
     //----------------------------

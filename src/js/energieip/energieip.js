@@ -23,11 +23,11 @@ const driver = "driver";
 const ledDriver = "led";
 const sensorDriver = "sensor";
 
-energieip.Notifications = function () {
+energieip.Notifications = function (cbkOnMessage) {
 	var ws = new WebSocket("ws://" + address + "/events");
 
 	ws.onmessage = function (evt) {
-		console.log("=== Received " + evt.data);
+		cbkOnMessage(evt.data);
 	};
 
 	ws.onclose = function() {
