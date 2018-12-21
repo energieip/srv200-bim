@@ -63,7 +63,6 @@
 
             this.statusAuto = driverObj.driverProperties.status.auto;
             this.statusLight = driverObj.driverProperties.status.setpoint;
-            this.statusError = driverObj.driverProperties.status.error;
 
             this.controlLight = 0;
             this.controlAuto = false;
@@ -90,7 +89,6 @@
             if (this._status_light === val) {
                 return;
             }
-
             this._status_light = val || "0";
             this._setpointElement.innerHTML = "Percentage: " + this._status_light + " %";
             this.fire("setpoint", this);
@@ -100,23 +98,11 @@
             return this._status_light;
         }
 
-        set statusError(val) {
-            if (this._status_error === val) {
-                return;
-            }
-            this._status_error = val;
-            if (this._status_error != 0) {
-                this._spot.className = this.error_color;
-            } else {
-                this._spot.className = this.default_color;
-            }
-            this.fire("error", this);
+        updateEvent(driverObj) {
+            super.updateEvent(driverObj);
+            this.statusAuto = driverObj.auto;
+            this.statusLight = driverObj.setpoint;
         }
-
-        get statusError() {
-            return this._status_error;
-        }
-
     };
 
     energieip.LedSupervision = class ledSupervision extends energieip.Led {

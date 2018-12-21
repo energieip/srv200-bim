@@ -92,6 +92,13 @@
         get statusPresence() {
             return this._status_presence;
         }
+
+        updateEvent(driverObj) {
+            super.updateEvent(driverObj);
+            this.statusTemperature = driverObj.temperature;
+            this.statusBrightness = driverObj.brightness;
+            this.statusPresence = driverObj.presence;
+        }
     };
 
     energieip.SensorSupervision = class sensorSupervision extends energieip.Sensor {

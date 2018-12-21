@@ -27,11 +27,13 @@ energieip.Notifications = function (cbkOnMessage) {
 	var ws = new WebSocket("ws://" + address + "/events");
 
 	ws.onmessage = function (evt) {
-		cbkOnMessage(evt.data);
+		var event = JSON.parse(evt.data);
+		cbkOnMessage(event);
 	};
 
 	ws.onclose = function() {
-		console.log("connection close ");
+		console.log("connection close; reconnect");
+		energieip.Notifications(cbkOnMessage);
 	};
 
 	ws.onerror = function() {

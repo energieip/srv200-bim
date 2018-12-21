@@ -189,7 +189,21 @@
             }
         }
         energieip.Notifications(function(evt) {
-           console.log("=== Received ", evt);
+            for (var i  in evt) {
+                for (var led in evt[i].leds){
+                    var elt = evt[i].leds[led];
+                    if (drivers.hasOwnProperty(elt.label)){
+                        drivers[elt.label].updateEvent(elt.led);
+                    }
+                }
+
+                for (var sensor in evt[i].sensors){
+                    var elt = evt[i].sensors[sensor];
+                    if (drivers.hasOwnProperty(elt.label)){
+                        drivers[elt.label].updateEvent(elt.sensor);
+                    }
+                }
+            }
         });
     });
 

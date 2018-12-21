@@ -32,6 +32,7 @@
             this.statusGroup = driverObj.driverProperties.status.group;
             this.statusMac = driverObj.driverProperties.status.mac;
             this.statusName = driverObj.driverProperties.status.friendlyName;
+            this.statusError = driverObj.driverProperties.status.error;
             this.label = driverObj.label;
             this.statusIp = driverObj.driverProperties.status.ip;
 
@@ -46,6 +47,23 @@
 
         set deviceType(val) {
             this._deviceType = val;
+        }
+
+        set statusError(val) {
+            if (this._status_error === val) {
+                return;
+            }
+            this._status_error = val;
+            if (this._status_error != 0) {
+                this._spot.className = this.error_color;
+            } else {
+                this._spot.className = this.default_color;
+            }
+            this.fire("error", this);
+        }
+
+        get statusError() {
+            return this._status_error;
         }
 
         set statusGroup(gr) {
@@ -110,6 +128,14 @@
 
         destroy() {
             super.destroy();
+        }
+
+        updateEvent(driverObj) {
+            console.log("update", driverObj);
+            this.statusGroup = driverObj.group;
+            this.statusName = driverObj.friendlyName;
+            this.statusIp = driverObj.ip;
+            this.statusError = driverObj.error;
         }
     };
 }
