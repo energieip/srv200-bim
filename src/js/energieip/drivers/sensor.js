@@ -37,7 +37,17 @@
             this._temperatureElement.className = "xeogl-annotation-group";
             this._label.appendChild(this._temperatureElement);
 
+            this._presenceElement = document.createElement('div');
+            this._presenceElement.className = "xeogl-annotation-group";
+            this._label.appendChild(this._presenceElement);
+
+            this._brightnessElement = document.createElement('div');
+            this._brightnessElement.className = "xeogl-annotation-group";
+            this._label.appendChild(this._brightnessElement);
+
             this.statusTemperature = driverObj.driverProperties.status.temperature;
+            this.statusBrightness = driverObj.driverProperties.status.brightness;
+            this.statusPresence = driverObj.driverProperties.status.presence;
             var update = function () {
                 requestAnimationFrame(update);
             };
@@ -55,6 +65,32 @@
 
         get statusTemperature() {
             return this._status_temperature;
+        }
+
+        set statusBrightness(val) {
+            if (this._status_brigthness === val) {
+                return;
+            }
+            this._status_brigthness = val;
+            this._brightnessElement.innerHTML = "Brightness: " + this._status_brigthness + " Lux";
+            this.fire("brigthness", this);
+        }
+
+        get statusBrightness() {
+            return this._status_brigthness;
+        }
+
+        set statusPresence(val) {
+            if (this._status_presence === val) {
+                return;
+            }
+            this._status_presence = val;
+            this._presenceElement.innerHTML = "Presence: " + this._status_presence;
+            this.fire("presence", this);
+        }
+
+        get statusPresence() {
+            return this._status_presence;
         }
     };
 
