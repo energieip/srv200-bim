@@ -39,6 +39,7 @@
     <script src="js/energieip/drivers/led.js"></script>
 
 <script>
+    var labels = '';
     var scene = new xeogl.Scene({
         transparent: true
     });
@@ -132,6 +133,9 @@
                     var parse = nodeInfo.name.split("_");
                     parse.splice(0, 1);
                     var label = parse.join("_");
+                    if (label.indexOf('_') > -1){
+                        labels += label + ","
+                    }
                     actions.createObject = {
                         id: label,
                     };
@@ -154,7 +158,9 @@
         scene.on("tick", function () { // Slowly orbit the camera
 
         });
-        var labels = '';
+        if (labels != "") {
+            labels = labels.substring(0, labels.length - 1);
+        }
         var ifcDrivers = energieip.GetIfcDump(labels);
         for (var label in model.meshes){
             if (ifcDrivers.hasOwnProperty(label)){
