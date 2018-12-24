@@ -62,6 +62,10 @@
             this._presenceElement.className = "xeogl-annotation-group";
             this._label.appendChild(this._presenceElement);
 
+            this._humidityElement = document.createElement('div');
+            this._humidityElement.className = "xeogl-annotation-group";
+            this._label.appendChild(this._humidityElement);
+
             this._brightnessElement = document.createElement('div');
             this._brightnessElement.className = "xeogl-annotation-group";
             this._label.appendChild(this._brightnessElement);
@@ -69,6 +73,7 @@
             this.statusTemperature = driverObj.driverProperties.status.temperature;
             this.statusBrightness = driverObj.driverProperties.status.brightness;
             this.statusPresence = driverObj.driverProperties.status.presence;
+            this.statusHumidity = driverObj.driverProperties.status.humidity;
             var update = function () {
                 requestAnimationFrame(update);
             };
@@ -80,7 +85,7 @@
                 return;
             }
             this._status_temperature = val;
-            this._temperatureElement.innerHTML = "Temperature: " + this._status_temperature + " °C";
+            this._temperatureElement.innerHTML = "Temperature: " + this._status_temperature + "°C";
             this.fire("temperature", this);
         }
 
@@ -114,11 +119,28 @@
             return this._status_presence;
         }
 
+        /**
+         * @param {any} val
+         */
+        set statusHumidity(val) {
+            if (this._status_humidity === val) {
+                return;
+            }
+            this._status_humidity = val;
+            this._humidityElement.innerHTML = "Humidity: " + this._status_humidity + "%";
+            this.fire("humidity", this);
+        }
+
+        get statusHumidity() {
+            return this._status_humidity;
+        }
+
         updateEvent(driverObj) {
             super.updateEvent(driverObj);
             this.statusTemperature = driverObj.temperature;
             this.statusBrightness = driverObj.brightness;
             this.statusPresence = driverObj.presence;
+            this.statusHumidity = driverObj.humidity;
         }
     };
 
