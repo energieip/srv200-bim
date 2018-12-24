@@ -101,7 +101,7 @@
                         var controlDr = gui.addFolder("Driver Control");
                         controlDr.add({"reset":function(){ 
                             if (confirm("Do you want to reset the driver configuration ?")) {
-                                energieip.RestLedCfg(driver);
+                                energieip.RestSensorCfg(driver);
                             }
                         }}, "reset").name("Reset");
                         break;
