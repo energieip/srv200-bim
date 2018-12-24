@@ -1,5 +1,5 @@
 {
-    energieip.UpdateSensorNameCfg = function (dsensor) {
+    energieip.UpdateSensorNameCfg = function (driver) {
         var url = energieip.weblink + 'setup/sensor';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
@@ -14,8 +14,29 @@
             }
         }
         var content = {
-            "mac": dled.statusMac,
-            "friendlyName": dled.configName,
+            "mac": driver.statusMac,
+            "friendlyName": driver.configName,
+        };
+        xhr.send(JSON.stringify(content));
+    }
+
+    energieip.RestSensorCfg = function (driver) {
+        var url = energieip.weblink + 'setup/sensor';
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE){
+                if (this.status === 200) {
+                    alert("Command successfull");
+                } else{
+                    alert("Command Error");
+                }
+            }
+        }
+        var content = {
+            "mac": driver.statusMac,
+            "isConfigured": true,
         };
         xhr.send(JSON.stringify(content));
     }

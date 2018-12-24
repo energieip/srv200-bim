@@ -1,5 +1,5 @@
 {
-    energieip.UpdateLedNameCfg = function (dled) {
+    energieip.UpdateLedNameCfg = function (driver) {
         var url = energieip.weblink + 'setup/led';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
@@ -14,13 +14,34 @@
             }
         }
         var content = {
-            "mac": dled.statusMac,
-            "friendlyName": dled.configName,
+            "mac": driver.statusMac,
+            "friendlyName": driver.configName,
         };
         xhr.send(JSON.stringify(content));
     }
 
-    energieip.SendLedCmd = function (dled) {
+    energieip.RestLedCfg = function (driver) {
+        var url = energieip.weblink + 'setup/led';
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE){
+                if (this.status === 200) {
+                    alert("Command successfull");
+                } else{
+                    alert("Command Error");
+                }
+            }
+        }
+        var content = {
+            "mac": driver.statusMac,
+            "isConfigured": true,
+        };
+        xhr.send(JSON.stringify(content));
+    }
+
+    energieip.SendLedCmd = function (driver) {
         var url = energieip.weblink + 'command/led';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
@@ -35,9 +56,9 @@
             }
         }
         var content = {
-            "mac": dled.statusMac,
-            "auto": dled.controlAuto,
-            "setpoint": parseInt(dled.controlLight),
+            "mac": driver.statusMac,
+            "auto": driver.controlAuto,
+            "setpoint": parseInt(driver.controlLight),
         };
         xhr.send(JSON.stringify(content));
     }

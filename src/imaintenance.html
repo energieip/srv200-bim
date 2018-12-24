@@ -90,7 +90,20 @@
                         var controlDr = gui.addFolder("Driver Control");
                         controlDr.add(driver, "controlLight", driver.controlLight).name("Light");
                         controlDr.add(driver, "controlAuto", driver.controlAuto).name("Auto");
+                        controlDr.add({"reset":function(){ 
+                            if (confirm("Do you want to reset the driver configuration ?")) {
+                                energieip.RestLedCfg(driver);
+                            }
+                        }}, "reset").name("Reset");
                         controlDr.add({"OK":function(){ energieip.SendLedCmd(driver); }}, "OK").name("Apply");
+                        break;
+                    case energieip.sensorDriver:
+                        var controlDr = gui.addFolder("Driver Control");
+                        controlDr.add({"reset":function(){ 
+                            if (confirm("Do you want to reset the driver configuration ?")) {
+                                energieip.RestLedCfg(driver);
+                            }
+                        }}, "reset").name("Reset");
                         break;
                 }
 
