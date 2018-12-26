@@ -53,13 +53,11 @@
     var buf = [];
 
     function flyTo() {
-        var driver;
-        var selected;
-
         for (var label in drivers) {
-            driver = drivers[label];
-            selected = driver.id === this.id;
+            var d = drivers[label];
+            var selected = d.id === this.id;
             if (selected) {
+                var driver = drivers[label];
                 if (gui != null){
                     document.getElementById('dat-gui-container').removeChild(gui.domElement);
                     gui.destroy();  
@@ -127,7 +125,7 @@
                 ifc.add(driver, "ifcUrl", driver.ifcUrl).name("URL");
                 ifc.add(driver, "ifcVendor", driver.ifcVendor).name("Vendor Name");
             }
-            driver.labelShown = selected;
+            d.labelShown = selected;
         }
     }
 

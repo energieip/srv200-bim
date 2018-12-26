@@ -52,13 +52,13 @@
     var buf = [];
 
     function flyTo() {
-        var driver;
         var selected;
 
         for (var label in drivers) {
-            driver = drivers[label];
-            selected = driver.id === this.id;
+            var d = drivers[label];
+            selected = d.id === this.id;
             if (selected) {
+                var driver = drivers[label];
                 if (gui != null){
                     document.getElementById('dat-gui-container').removeChild(gui.domElement);
                     gui.destroy();  
@@ -108,9 +108,8 @@
                         configuration.add({"OK":function(){ energieip.UpdateSensorNameCfg(driver); }}, "OK").name("Apply");
                         break;
                 }
-
             }
-            driver.labelShown = selected;
+            d.labelShown = selected;
         }
     }
 
