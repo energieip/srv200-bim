@@ -1,6 +1,6 @@
 {
     energieip.UpdateSensorNameCfg = function (driver) {
-        var url = energieip.weblink + 'setup/sensor';
+        var url = energieip.weblink + 'config/sensor';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -21,7 +21,7 @@
     }
 
     energieip.RestSensorCfg = function (driver) {
-        var url = energieip.weblink + 'setup/sensor';
+        var url = energieip.weblink + 'config/sensor';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -36,7 +36,7 @@
         }
         var content = {
             "mac": driver.statusMac,
-            "isConfigured": true,
+            "isConfigured": false,
         };
         xhr.send(JSON.stringify(content));
     }

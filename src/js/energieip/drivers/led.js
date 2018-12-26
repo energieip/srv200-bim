@@ -1,6 +1,6 @@
 {
     energieip.UpdateLedNameCfg = function (driver) {
-        var url = energieip.weblink + 'setup/led';
+        var url = energieip.weblink + 'config/led';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -21,7 +21,7 @@
     }
 
     energieip.RestLedCfg = function (driver) {
-        var url = energieip.weblink + 'setup/led';
+        var url = energieip.weblink + 'config/led';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -36,7 +36,7 @@
         }
         var content = {
             "mac": driver.statusMac,
-            "isConfigured": true,
+            "isConfigured": false,
         };
         xhr.send(JSON.stringify(content));
     }
