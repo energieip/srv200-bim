@@ -88,6 +88,14 @@
             this.controlLight = 0;
             this.controlAuto = false;
 
+            if (this.statusIp === "") {
+                this._spot.className = this.not_available_color;
+            } else {
+                if (this.statusError != 0) {
+                    this._spot.className = this.error_color;
+                }
+            }
+
             var update = function () {
                 requestAnimationFrame(update);
             };

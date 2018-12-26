@@ -48,8 +48,9 @@
  
         init(driverObj) {
             super.init(driverObj);
+            this.default_color = "xeogl-annotation-pin-sensor";
 
-            this._spot.className = "xeogl-annotation-pin-sensor";
+            this._spot.className = this.default_color;
 
             this.deviceType = energieip.sensorDriver;
             this._typeElement.innerHTML = this.deviceType;
@@ -74,6 +75,15 @@
             this.statusBrightness = driverObj.driverProperties.status.brightness;
             this.statusPresence = driverObj.driverProperties.status.presence;
             this.statusHumidity = driverObj.driverProperties.status.humidity;
+
+            if (this.statusIp === "") {
+                this._spot.className = this.not_available_color;
+            } else {
+                if (this.statusError != 0) {
+                    this._spot.className = this.error_color;
+                }
+            }
+
             var update = function () {
                 requestAnimationFrame(update);
             };

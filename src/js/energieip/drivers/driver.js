@@ -7,7 +7,9 @@
         init(driverObj) {
             super.init(driverObj);
 
+            this.default_color = "xeogl-annotation-pin";
             this.error_color = "xeogl-annotation-pin-error";
+            this.not_available_color = "xeogl-annotation-pin-not-present";
             this.deviceType = energieip.driver;
 
             this._typeElement = document.createElement('div');
@@ -83,7 +85,12 @@
             if (this._status_ip === val) {
                 return;
             }
-            this._status_ip = val || "0";
+            this._status_ip = val || "";
+            if (this._status_ip === "") {
+                this._spot.className = this.not_available_color;
+            } else {
+                this._spot.className = this.default_color;
+            }
             this._ipElement.innerHTML = "IP: " +  this._status_ip;
             this.fire("ip", this);
         }
