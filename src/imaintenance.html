@@ -173,41 +173,42 @@
         if (labels != "") {
             labels = labels.substring(0, labels.length - 1);
         }
-        var ifcDrivers = energieip.GetIfcDump(labels);
-        for (var label in model.meshes){
-            if (ifcDrivers.hasOwnProperty(label)){
-                var mesh = model.meshes[label];
-                var ifcModel = ifcDrivers[label];
-                console.log("get ifcModel", ifcModel);
-                var driver = null;
-                var content = {
-                    label: label,
-                    mesh: mesh,
-                    occludable: false,
-                    glyph: ifcModel["status"].group.toString(),
-                    title: "",
-                    desc: "",
-                    driverProperties: ifcModel,
-                    pinShown: true,
-                    labelShown: false
-                };
-                switch (ifcModel["ifc"].deviceType) {
-                    case energieip.sensorDriver:
-                        var driver = new energieip.SensorMaintenance(content);
-                        break;
-                    case energieip.ledDriver:
-                        var driver = new energieip.LedMaintenance(content);
-                        break;
-                    default:
-                        console.log("Received type", ifcModel["ifc"].deviceType);
-                        break;
-                }
-                 if (driver != null){
-                    driver.on("pinClicked", flyTo);
-                    drivers[label] = driver;
+        energieip.GetIfcDump(labels, function (ifcDrivers){
+            for (var label in model.meshes){
+                if (ifcDrivers.hasOwnProperty(label)){
+                    var mesh = model.meshes[label];
+                    var ifcModel = ifcDrivers[label];
+                    console.log("get ifcModel", ifcModel);
+                    var driver = null;
+                    var content = {
+                        label: label,
+                        mesh: mesh,
+                        occludable: false,
+                        glyph: ifcModel["status"].group.toString(),
+                        title: "",
+                        desc: "",
+                        driverProperties: ifcModel,
+                        pinShown: true,
+                        labelShown: false
+                    };
+                    switch (ifcModel["ifc"].deviceType) {
+                        case energieip.sensorDriver:
+                            var driver = new energieip.SensorMaintenance(content);
+                            break;
+                        case energieip.ledDriver:
+                            var driver = new energieip.LedMaintenance(content);
+                            break;
+                        default:
+                            console.log("Received type", ifcModel["ifc"].deviceType);
+                            break;
+                    }
+                    if (driver != null){
+                        driver.on("pinClicked", flyTo);
+                        drivers[label] = driver;
+                    }
                 }
             }
-        }
+        });
 
         energieip.Notifications(function(evt) {
             for (var i  in evt) {

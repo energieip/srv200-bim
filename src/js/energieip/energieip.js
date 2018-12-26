@@ -42,32 +42,32 @@ energieip.Notifications = function (cbkOnMessage) {
 
 }
 
-energieip.GetIfcDump = function (labels) {
+energieip.GetIfcDump = function (labels, cbk) {
 	var Http = new XMLHttpRequest();
 	var url = energieip.weblink + 'dump'
 	if (labels!= ""){ 
 		url += '?labels=' + labels;
 	}
-	console.log("== url", url);
-	Http.open("GET", url, false); //synchrone request
+	Http.open("GET", url, true);
 	Http.send();
 	var drivers = {};
-
-	if (Http.status === 200){
-		var obj = JSON.parse(Http.responseText);
-
-		for (var i  in obj) {
-			for (var elt  in obj[i]){
-				var driver = obj[i][elt];
-				if (driver["ifc"] == null){
-					continue
+	Http.onreadystatechange = function() {
+		if (this.readyState === XMLHttpRequest.DONE){
+			if (this.status === 200) {
+				var obj = JSON.parse(Http.responseText);
+				for (var i  in obj) {
+					for (var elt  in obj[i]){
+						var driver = obj[i][elt];
+						if (driver["ifc"] == null){
+							continue
+						}
+						var label = driver["ifc"].label;
+						drivers[label] = driver;
+					}
 				}
-				var label = driver["ifc"].label;
-				drivers[label] = driver;
+				cbk(drivers);
 			}
-			
 		}
-		return drivers;
 	}
 }
 
