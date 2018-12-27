@@ -83,6 +83,7 @@
                         status.add(driver, "statusHumidity", driver.statusHumidity).name("Humidity").listen();
                         break;
                 }
+                status.add(driver, "statusError", driver.statusError).name("Error Code").listen();
                 status.open();
 
                 var grStatus = gui.addFolder("Group Status");
