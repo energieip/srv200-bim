@@ -50,6 +50,7 @@
     var gui = null;
     var drivers = {};
     var buf = [];
+    var groups = {};
 
     function flyTo() {
         var selected;
@@ -85,6 +86,9 @@
                 }
                 status.open();
 
+                var grStatus = gui.addFolder("Group Status");
+                grStatus.add(driver, "groupStatusLight", driver.groupStatusLight).name("Light").listen();
+
                 switch (driver.deviceType){
                     case energieip.ledDriver:
                         var controlDr = gui.addFolder("Driver Control");
@@ -95,7 +99,7 @@
                 }
 
                 var controlGr = gui.addFolder("Group Control");
-                controlGr.add(driver, "GroupControlLight", driver.GroupControlLight).name("Light");
+                controlGr.add(driver, "groupControlLight", driver.groupControlLight).name("Light");
                 controlGr.add({"OK":function(){ console.log("clicked", driver ) }}, "OK").name("Apply");
 
                 var configuration = gui.addFolder("Driver Configuration");
@@ -165,15 +169,29 @@
                     var mesh = model.meshes[label];
                     var ifcModel = ifcDrivers[label];
                     console.log("get ifcModel", ifcModel);
+                    var grStatus = {};
+                    var groupID = ifcModel["status"].group;
+                    if (groups.hasOwnProperty(groupID)){
+                        grStatus = groups[groupID];
+                    } else {
+                        energieip.GetGroupStatus(groupID, function (grStatus){
+                            groups[groupID] = grStatus;
+                        });
+                        if (groups.hasOwnProperty(groupID)){
+                            grStatus = groups[groupID];
+                        }
+                    }
+
                     var driver = null;
                     var content = {
                         label: label,
                         mesh: mesh,
                         occludable: false,
-                        glyph: ifcModel["status"].group.toString(),
+                        glyph: groupID.toString(),
                         title: "",
                         desc: "",
                         driverProperties: ifcModel,
+                        groupProperties: grStatus,
                         pinShown: true,
                         labelShown: false
                     };
@@ -208,6 +226,16 @@
                     var elt = evt[i].sensors[sensor];
                     if (drivers.hasOwnProperty(elt.label)){
                         drivers[elt.label].updateEvent(elt.sensor);
+                    }
+                }
+
+                for (var group in evt[i].groups){
+                    for (var d in drivers) {
+                        var gr = evt[i].groups[group];
+                        if (drivers[d].statusGroup != gr.group) {
+                            continue
+                        }
+                        drivers[d].updateGroupEvent(gr);
                     }
                 }
             }

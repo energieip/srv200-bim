@@ -40,7 +40,13 @@
 
             this.configName = "";
 
-            this.GroupControlLight = 0;
+            this.groupControlLight = 0;
+            
+            if (driverObj.groupProperties.hasOwnProperty("setpointLeds")) {
+                this.groupStatusLight = driverObj.groupProperties.setpointLeds;
+            } else {
+                this.groupStatusLight = 0;
+            }
         }
 
         get deviceType() {
@@ -143,6 +149,11 @@
             this.statusName = driverObj.friendlyName;
             this.statusIp = driverObj.ip;
             this.statusError = driverObj.error;
+        }
+
+        updateGroupEvent(grObj) {
+            console.log("update group", grObj);
+            this.GroupStatusLight = grObj.setpointLeds;
         }
     };
 }

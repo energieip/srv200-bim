@@ -71,6 +71,21 @@ energieip.GetIfcDump = function (labels, cbk) {
 	}
 }
 
+energieip.GetGroupStatus = function (grID, cbk) {
+	var Http = new XMLHttpRequest();
+	var url = energieip.weblink + 'status/group/' + grID.toString();
+	Http.open("GET", url, true);
+	Http.send();
+	Http.onreadystatechange = function() {
+		if (this.readyState === XMLHttpRequest.DONE){
+			if (this.status === 200) {
+				var obj = JSON.parse(Http.responseText);
+				cbk(obj);
+			}
+		}
+	}
+}
+
 exports.address = address;
 exports.weblink = weblink;
 exports.driver = driver;
