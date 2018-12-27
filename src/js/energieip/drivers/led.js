@@ -73,7 +73,7 @@
             this.default_color = "xeogl-annotation-pin-led";
             
             this.deviceType = energieip.ledDriver;
-            this._typeElement.innerHTML = this.deviceType;
+            this._typeElement.innerHTML = "Driver: " + this.deviceType;
 
             this._spot.className = this.default_color;
 
@@ -81,6 +81,7 @@
             this._setpointElement.className = "xeogl-annotation-group";
 
             this._label.appendChild(this._setpointElement);
+            this._label.appendChild(this._groupElement);
 
             this.statusAuto = driverObj.driverProperties.status.auto;
             this.statusLight = driverObj.driverProperties.status.setpoint;
@@ -119,7 +120,7 @@
                 return;
             }
             this._status_light = val || "0";
-            this._setpointElement.innerHTML = "Percentage: " + this._status_light + " %";
+            this._setpointElement.innerHTML = "Light: " + this._status_light + " %";
             this.fire("setpoint", this);
         }
 

@@ -53,7 +53,7 @@
             this._spot.className = this.default_color;
 
             this.deviceType = energieip.sensorDriver;
-            this._typeElement.innerHTML = this.deviceType;
+            this._typeElement.innerHTML = "Driver: " + this.deviceType;
 
             this._temperatureElement = document.createElement('div');
             this._temperatureElement.className = "xeogl-annotation-group";
@@ -70,6 +70,7 @@
             this._brightnessElement = document.createElement('div');
             this._brightnessElement.className = "xeogl-annotation-group";
             this._label.appendChild(this._brightnessElement);
+            this._label.appendChild(this._groupElement);
 
             this.statusTemperature = driverObj.driverProperties.status.temperature;
             this.statusBrightness = driverObj.driverProperties.status.brightness;

@@ -13,23 +13,22 @@
             this.deviceType = energieip.driver;
 
             this._typeElement = document.createElement('div');
-            this._typeElement.innerHTML = this.deviceType;
+            this._typeElement.innerHTML = "Driver: " + this.deviceType;
             this._typeElement.className = "xeogl-annotation-group";
             this._label.appendChild(this._typeElement);
 
+            this._friendlyNameElement = document.createElement('div');
+            this._friendlyNameElement.className = "xeogl-annotation-alias";
+            this._label.appendChild(this._friendlyNameElement);
+
             this._groupElement = document.createElement('div');
             this._groupElement.className = "xeogl-annotation-group";
-            this._label.appendChild(this._groupElement);
 
             this._ipElement = document.createElement('div');
             this._ipElement.className = "xeogl-annotation-group";
 
             this._macElement = document.createElement('div');
             this._macElement.className = "xeogl-annotation-mac";
-
-            this._friendlyNameElement = document.createElement('div');
-            this._friendlyNameElement.className = "xeogl-annotation-alias";
-            this._label.appendChild(this._friendlyNameElement);
 
             this.statusGroup = driverObj.driverProperties.status.group;
             this.statusMac = driverObj.driverProperties.status.mac;
@@ -41,11 +40,31 @@
             this.configName = "";
 
             this.groupControlLight = 0;
+            this.groupControlAuto = false
+            this.groupConfigName = "";
             
             if (driverObj.groupProperties.hasOwnProperty("setpointLeds")) {
                 this.groupStatusLight = driverObj.groupProperties.setpointLeds;
             } else {
                 this.groupStatusLight = 0;
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("friendlyName")) {
+                this.groupStatusName = driverObj.groupProperties.friendlyName;
+            } else {
+                this.groupStatusName = "";
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("presence")) {
+                this.groupStatusPresence = driverObj.groupProperties.presence;
+            } else {
+                this.groupStatusPresence = false;
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("auto")) {
+                this.groupStatusAuto = driverObj.groupProperties.auto;
+            } else {
+                this.groupStatusAuto = false;
             }
         }
 
@@ -153,7 +172,10 @@
 
         updateGroupEvent(grObj) {
             console.log("update group", grObj);
-            this.GroupStatusLight = grObj.setpointLeds;
+            this.groupStatusLight = grObj.setpointLeds;
+            this.groupStatusName = grObj.friendlyName;
+            this.groupStatusPresence = grObj.presence;
+            this.groupStatusAuto = grObj.auto;
         }
     };
 }

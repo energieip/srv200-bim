@@ -86,6 +86,49 @@ energieip.GetGroupStatus = function (grID, cbk) {
 	}
 }
 
+energieip.UpdateGroupNameCfg = function (driver) {
+	var url = energieip.weblink + 'config/group';
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhr.onreadystatechange = function() {
+		if (this.readyState === XMLHttpRequest.DONE){
+			if (this.status === 200) {
+				alert("Command successfull");
+			} else{
+				alert("Command Error");
+			}
+		}
+	}
+	var content = {
+		"group": parseInt(driver.statusGroup),
+		"friendlyName": driver.groupConfigName,
+	};
+	xhr.send(JSON.stringify(content));
+}
+
+energieip.SendGroupCmd = function (driver) {
+	var url = energieip.weblink + 'command/group';
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhr.onreadystatechange = function() {
+		if (this.readyState === XMLHttpRequest.DONE){
+			if (this.status === 200) {
+				alert("Command successfull");
+			} else{
+				alert("Command Error");
+			}
+		}
+	}
+	var content = {
+		"group": parseInt(driver.statusGroup),
+		"auto": driver.groupControlAuto,
+		"setpointLeds": parseInt(driver.groupControlLight),
+	};
+	xhr.send(JSON.stringify(content));
+}
+
 exports.address = address;
 exports.weblink = weblink;
 exports.driver = driver;
