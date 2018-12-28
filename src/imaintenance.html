@@ -123,9 +123,20 @@
 
                 var grStatus = gui.addFolder("Group Status");
                 grStatus.add(driver, "groupStatusName", driver.groupStatusName).name("Name").listen();
+                grStatus.add(driver, "groupStatusGroup", driver.groupStatusGroup).name("Group").listen();
                 grStatus.add(driver, "groupStatusLight", driver.groupStatusLight).name("Light (%)").listen();
                 grStatus.add(driver, "groupStatusPresence", driver.groupStatusPresence).name("Presence").listen();
                 grStatus.add(driver, "groupStatusAuto", driver.groupStatusAuto).name("Auto").listen();
+                grStatus.add(driver, "groupStatusError", driver.groupStatusError).name("Error Status").listen();
+                grStatus.add(driver, "groupStatusCorrectionInterval", driver.groupStatusCorrectionInterval).name("Correction Interval (s)").listen();
+                grStatus.add(driver, "groupStatusSensorRule", driver.groupStatusSensorRule).name("Sensor Rule").listen();
+                grStatus.add(driver, "groupStatusSlopeStart", driver.groupStatusSlopeStart).name("Slope Start (s)").listen();
+                grStatus.add(driver, "groupStatusSlopeStop", driver.groupStatusSlopeStop).name("Slope Stop (s)").listen();
+                grStatus.add(driver, "groupStatusTimeToAuto", driver.groupStatusTimeToAuto).name("Time to Auto (s)").listen();
+                grStatus.add(driver, "groupStatusTimeToLeave", driver.groupStatusTimeToAuto).name("Time to Leave (s)").listen();
+                grStatus.add(driver, "groupStatusRulePresence", driver.groupStatusRulePresence).name("Rule Presence (s)").listen();
+                grStatus.add(driver, "groupStatusRuleBrightness", driver.groupStatusRuleBrightness).name("Rule Brightness (Lux)").listen();
+                grStatus.add(driver, "groupStatusWatchdog", driver.groupStatusWatchdog).name("Watchdog (s)").listen();
 
                 switch (driver.deviceType){
                     case energieip.ledDriver:

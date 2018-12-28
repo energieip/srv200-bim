@@ -73,6 +73,71 @@
             } else {
                 this.groupStatusAuto = false;
             }
+
+            if (driverObj.groupProperties.hasOwnProperty("error")) {
+                this.groupStatusError = driverObj.groupProperties.error;
+            } else {
+                this.groupStatusError = 0;
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("group")) {
+                this.groupStatusGroup = driverObj.groupProperties.group;
+            } else {
+                this.groupStatusGroup = 0;
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("correctionInterval")) {
+                this.groupStatusCorrectionInterval = driverObj.groupProperties.correctionInterval;
+            } else {
+                this.groupStatusCorrectionInterval = 0;
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("sensorRule")) {
+                this.groupStatusSensorRule = driverObj.groupProperties.sensorRule;
+            } else {
+                this.groupStatusSensorRule = "average";
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("slopeStart")) {
+                this.groupStatusSlopeStart = driverObj.groupProperties.slopeStart;
+            } else {
+                this.groupStatusSlopeStart = 0;
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("slopeStop")) {
+                this.groupStatusSlopeStop = driverObj.groupProperties.slopeStop;
+            } else {
+                this.groupStatusSlopeStop = 0;
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("watchdog")) {
+                this.groupStatusWatchdog = driverObj.groupProperties.watchdog;
+            } else {
+                this.groupStatusWatchdog = 0;
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("timeToAuto")) {
+                this.groupStatusTimeToAuto = driverObj.groupProperties.timeToAuto;
+            } else {
+                this.groupStatusTimeToAuto = 0;
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("timeToLeave")) {
+                this.groupStatusTimeToLeave = driverObj.groupProperties.timeToLeave;
+            } else {
+                this.groupStatusTimeToLeave = 0;
+            }
+
+            this.groupStatusRuleBrightness = 0;
+            this.groupStatusRulePresence = 0;
+            if (driverObj.groupProperties.hasOwnProperty("groupRules")) {
+                if (driverObj.groupProperties.groupRules.hasOwnProperty("brightness")) {
+                    this.groupStatusRuleBrightness = driverObj.groupProperties.groupRules.brightness || 0;
+                }
+                if (driverObj.groupProperties.groupRules.hasOwnProperty("presence")) {
+                    this.groupStatusRulePresence = driverObj.groupProperties.groupRules.presence || 0;
+                }
+            }
         }
 
         get deviceType() {
@@ -191,6 +256,21 @@
             this.groupStatusName = grObj.friendlyName;
             this.groupStatusPresence = grObj.presence;
             this.groupStatusAuto = grObj.auto;
+            this.groupStatusError = grObj.error;
+            this.groupStatusGroup = grObj.group;
+            this.groupStatusCorrectionInterval = grObj.correctionInterval;
+            this.groupStatusSensorRule = grObj.sensorRule;
+            this.groupStatusSlopeStart = grObj.slopeStart;
+            this.groupStatusSlopeStop = grObj.slopeStop;
+            this.groupStatusWatchdog = grObj.watchdog;
+            this.groupStatusTimeToAuto = grObj.timeToAuto;
+            this.groupStatusTimeToLeave = grObj.timeToLeave;
+            if (grObj.groupRules.hasOwnProperty("brightness")) {
+                this.groupStatusRuleBrightness = grObj.groupRules.brightness || 0;
+            }
+            if (grObj.groupRules.hasOwnProperty("presence")) {
+                this.groupStatusRulePresence = grObj.groupRules.presence || 0;
+            }
         }
     };
 }
