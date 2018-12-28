@@ -52,7 +52,7 @@ energieip.GetIfcDump = function (labels, cbk) {
 	Http.send();
 	var drivers = {};
 	Http.onreadystatechange = function() {
-		if (this.readyState === XMLHttpRequest.DONE){
+		if (this.readyState === XMLHttpRequest.DONE) {
 			if (this.status === 200) {
 				var obj = JSON.parse(Http.responseText);
 				for (var i  in obj) {
@@ -77,7 +77,7 @@ energieip.GetGroupStatus = function (grID, cbk) {
 	Http.open("GET", url, true);
 	Http.send();
 	Http.onreadystatechange = function() {
-		if (this.readyState === XMLHttpRequest.DONE){
+		if (this.readyState === XMLHttpRequest.DONE) {
 			if (this.status === 200) {
 				var obj = JSON.parse(Http.responseText);
 				cbk(obj);
@@ -92,10 +92,10 @@ energieip.UpdateGroupNameCfg = function (driver) {
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhr.onreadystatechange = function() {
-		if (this.readyState === XMLHttpRequest.DONE){
+		if (this.readyState === XMLHttpRequest.DONE) {
 			if (this.status === 200) {
 				alert("Command successfull");
-			} else{
+			} else {
 				alert("Command Error");
 			}
 		}
@@ -113,17 +113,26 @@ energieip.UpdateGroupCfg = function (driver) {
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhr.onreadystatechange = function() {
-		if (this.readyState === XMLHttpRequest.DONE){
+		if (this.readyState === XMLHttpRequest.DONE) {
 			if (this.status === 200) {
 				alert("Command successfull");
-			} else{
+			} else {
 				alert("Command Error");
 			}
 		}
 	}
+	var grRules = {
+		"brightness": parseInt(driver.groupConfigRuleBrightness),
+		"presence": parseInt(driver.groupConfigRulePresence),
+	};
 	var content = {
 		"group": parseInt(driver.statusGroup),
 		"friendlyName": driver.groupConfigName,
+		"slopeStart": parseInt(driver.groupConfigSlopeStart),
+		"slopeStop": parseInt(driver.groupConfigSlopeStop),
+		"correctionInterval": parseInt(driver.groupConfigCorrectionInterval),
+		"sensorRule": driver.groupConfigSensorRule,
+		"groupRules": grRules,
 	};
 	xhr.send(JSON.stringify(content));
 }

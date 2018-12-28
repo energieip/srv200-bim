@@ -187,6 +187,12 @@
 
                 var configurationGr = gui.addFolder("Group Configuration");
                 configurationGr.add(driver, "groupConfigName", driver.groupConfigName).name("Name");
+                configurationGr.add(driver, "groupConfigSlopeStart", driver.groupConfigSlopeStart).name("Slope Start (s)");
+                configurationGr.add(driver, "groupConfigSlopeStop", driver.groupConfigSlopeStop).name("Slope Stop (s)");
+                configurationGr.add(driver, "groupConfigCorrectionInterval", driver.groupConfigCorrectionInterval).name("Correction Interval (s)");
+                configurationGr.add(driver, "groupConfigSensorRule", ["average", "min", "max"]).name("Sensor Rule");
+                configurationGr.add(driver, "groupConfigRulePresence", driver.groupConfigRulePresence).name("Rule Presence (s)");
+                configurationGr.add(driver, "groupConfigRuleBrightness", driver.groupConfigRuleBrightness).name("Rule Brightness (Lux)");
                 configurationGr.add({"OK": function(){ energieip.UpdateGroupCfg(driver); }}, "OK").name("Apply");
 
                 var ifc = gui.addFolder("Driver Information");

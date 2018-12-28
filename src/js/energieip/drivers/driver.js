@@ -141,6 +141,12 @@
             this.groupControlLight = this.groupStatusLight;
             this.groupControlAuto = this.groupStatusAuto;
             this.groupConfigName = this.groupStatusName;
+            this.groupConfigSlopeStart = this.groupStatusSlopeStart;
+            this.groupConfigSlopeStop = this.groupStatusSlopeStop;
+            this.groupConfigCorrectionInterval = this.groupStatusCorrectionInterval;
+            this.groupConfigSensorRule = this.groupStatusSensorRule;
+            this.groupConfigRuleBrightness = this.groupStatusRuleBrightness;
+            this.groupConfigRulePresence = this.groupStatusRulePresence;
         }
 
         get deviceType() {
@@ -284,6 +290,12 @@
             this.groupControlLight = this.groupStatusLight;
             this.groupControlAuto = this.groupStatusAuto;
             this.groupConfigName = this.groupStatusName;
+            this.groupConfigSlopeStart = this.groupStatusSlopeStart;
+            this.groupConfigSlopeStop = this.groupStatusSlopeStop;
+            this.groupConfigCorrectionInterval = this.groupStatusCorrectionInterval;
+            this.groupConfigSensorRule = this.groupStatusSensorRule;
+            this.groupConfigRuleBrightness = this.groupStatusRuleBrightness;
+            this.groupConfigRulePresence = this.groupStatusRulePresence;
         }
     };
 }
