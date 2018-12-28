@@ -205,6 +205,23 @@
             return this._status_ip;
         }
 
+        set statusIsConfigured(val) {
+            if (this._status_isConfigured === val) {
+                return;
+            }
+            this._status_isConfigured = val || false;
+            if (this._status_isConfigured === false) {
+                this._spot.className = this.not_available_color;
+            } else {
+                this._spot.className = this.default_color;
+            }
+            this.fire("isConfigured", this);
+        }
+
+        get statusIsConfigured() {
+            return this._status_isConfigured;
+        }
+
         set statusMac(mc) {
             if (this._status_mac === mc) {
                 return;
