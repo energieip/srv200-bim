@@ -20,6 +20,33 @@
         xhr.send(JSON.stringify(content));
     }
 
+    energieip.UpdateLedCfg = function (driver) {
+        var url = energieip.weblink + 'config/led';
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE){
+                if (this.status === 200) {
+                    alert("Command successfull");
+                } else{
+                    alert("Command Error");
+                }
+            }
+        }
+        var content = {
+            "mac": driver.statusMac,
+            "friendlyName": driver.configName,
+            "isBleEnabled": driver.configBle,
+            "group": parseInt(driver.configGroup),
+            "watchdog": parseInt(driver.configWatchdog),
+            "dumpFrequency": parseInt(driver.configDumpFrequency),
+            "thresoldHigh": parseInt(driver.configThresholdHigh),
+            "thresoldLow": parseInt(driver.configThresholdLow),
+        };
+        xhr.send(JSON.stringify(content));
+    }
+
     energieip.RestLedCfg = function (driver) {
         var url = energieip.weblink + 'config/led';
         var xhr = new XMLHttpRequest();
@@ -85,6 +112,23 @@
 
             this.statusAuto = driverObj.driverProperties.status.auto;
             this.statusLight = driverObj.driverProperties.status.setpoint;
+            
+            this.statusDevicePower = driverObj.driverProperties.status.devicePower;
+            this.statusIMax = driverObj.driverProperties.status.iMax;
+            this.statusDaisyChained = driverObj.driverProperties.status.daisyChainEnabled;
+            this.statusDaisyChainedPos = driverObj.driverProperties.status.daisyChainPos;
+            this.statusThresholdLow = driverObj.driverProperties.status.thresholdLow;
+            this.statusThresholdHigh = driverObj.driverProperties.status.thresholdHigh;
+            this.statusVoltageLed = driverObj.driverProperties.status.voltageLed;
+            this.statusEnergy = driverObj.driverProperties.status.energy;
+            this.statusDuration = driverObj.driverProperties.status.duration;
+            this.statusTimeToAuto = driverObj.driverProperties.status.timeToAuto;
+            this.statusLinePower = driverObj.driverProperties.status.linePower;
+            this.statusWatchdog = driverObj.driverProperties.status.watchdog;
+
+            this.configWatchdog = this.statusWatchdog;
+            this.configThresholdLow = this.statusThresholdLow;
+            this.configThresholdHigh = this.statusThresholdHigh;
 
             this.controlLight = 0;
             this.controlAuto = false;
@@ -132,6 +176,22 @@
             super.updateEvent(driverObj);
             this.statusAuto = driverObj.auto;
             this.statusLight = driverObj.setpoint;
+
+            this.statusDevicePower = driverObj.devicePower;
+            this.statusIMax = driverObj.iMax;
+            this.statusDaisyChained = driverObj.daisyChainEnabled;
+            this.statusDaisyChainedPos = driverObj.daisyChainPos;
+            this.statusThresholdHigh = driverObj.thresholdHigh;
+            this.statusVoltageLed = driverObj.voltageLed;
+            this.statusDuration = driverObj.duration;
+            this.statusTimeToAuto = driverObj.timeToAuto;
+            this.statusEnergy = driverObj.energy;
+            this.statusLinePower = driverObj.linePower;
+            this.statusWatchdog = driverObj.watchdog;
+
+            this.configWatchdog = this.statusWatchdog;
+            this.configThresholdLow = this.statusThresholdLow;
+            this.configThresholdHigh = this.statusThresholdHigh;
         }
     };
 
@@ -142,6 +202,10 @@
 
         init(driverObj) {
             super.init(driverObj);
+        }
+
+        updateEvent(driverObj) {
+            super.updateEvent(driverObj);
         }
     };
 
@@ -155,19 +219,6 @@
             this._label.appendChild(this._macElement);
             this._label.appendChild(this._ipElement);
 
-            this.statusDevicePower = driverObj.driverProperties.status.devicePower;
-            this.statusIMax = driverObj.driverProperties.status.iMax;
-            this.statusDaisyChained = driverObj.driverProperties.status.daisyChainEnabled;
-            this.statusDaisyChainedPos = driverObj.driverProperties.status.daisyChainPos;
-            this.statusThresholdLow = driverObj.driverProperties.status.thresholdLow;
-            this.statusThresholdHigh = driverObj.driverProperties.status.thresholdHigh;
-            this.statusVoltageLed = driverObj.driverProperties.status.voltageLed;
-            this.statusEnergy = driverObj.driverProperties.status.energy;
-            this.statusDuration = driverObj.driverProperties.status.duration;
-            this.statusTimeToAuto = driverObj.driverProperties.status.timeToAuto;
-            this.statusLinePower = driverObj.driverProperties.status.linePower;
-            this.statusWatchdog = driverObj.driverProperties.status.watchdog;
-
             this.ifcModelName = driverObj.driverProperties.ifc.modelName;
             this.ifcUrl = driverObj.driverProperties.ifc.url;
             this.ifcVendor = driverObj.driverProperties.ifc.vendor;
@@ -175,17 +226,6 @@
 
         updateEvent(driverObj) {
             super.updateEvent(driverObj);
-            this.statusDevicePower = driverObj.devicePower;
-            this.statusIMax = driverObj.iMax;
-            this.statusDaisyChained = driverObj.daisyChainEnabled;
-            this.statusDaisyChainedPos = driverObj.daisyChainPos;
-            this.statusThresholdHigh = driverObj.thresholdHigh;
-            this.statusVoltageLed = driverObj.voltageLed;
-            this.statusDuration = driverObj.duration;
-            this.statusTimeToAuto = driverObj.timeToAuto;
-            this.statusEnergy = driverObj.energy;
-            this.statusLinePower = driverObj.linePower;
-            this.statusWatchdog = driverObj.watchdog;
         }
     };
 }

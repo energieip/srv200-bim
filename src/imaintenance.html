@@ -167,14 +167,28 @@
 
                 var configuration = gui.addFolder("Driver Configuration");
                 configuration.add(driver, "configName", driver.configName).name("Name");
+                configuration.add(driver, "configGroup", driver.configGroup).name("Group");
+                configuration.add(driver, "configBle", driver.configBle).name("BLE");
+                configuration.add(driver, "configDumpFrequency", driver.configDumpFrequency).name("Refresh Frequency (s)");
                 switch (driver.deviceType){
                     case energieip.ledDriver:
-                        configuration.add({"OK":function(){ energieip.UpdateLedNameCfg(driver); }}, "OK").name("Apply");
+                        configuration.add(driver, "configThresholdLow", driver.configThresholdLow).name("Threshold Low (%)");
+                        configuration.add(driver, "configThresholdHigh", driver.configThresholdHigh).name("Threshold High (%)");
+                        configuration.add(driver, "configWatchdog", driver.configWatchdog).name("Watchdog");
+                        configuration.add({"OK":function(){ energieip.UpdateLedCfg(driver); }}, "OK").name("Apply");
                         break;
                     case energieip.sensorDriver:
-                        configuration.add({"OK":function(){ energieip.UpdateSensorNameCfg(driver); }}, "OK").name("Apply");
+                        configuration.add(driver, "configBrightnessCorrectionFactor", driver.configBrightnessCorrectionFactor).name("Brightness Correction (x)");
+                        configuration.add(driver, "configTemperatureOffset", driver.configTemperatureOffset).name("Temperature Offset (°C)");
+                        configuration.add(driver, "configThresholdPresence", driver.configThresholdPresence).name("Threshold Presence (s)");
+                        configuration.add({"OK":function(){ energieip.UpdateSensorCfg(driver); }}, "OK").name("Apply");
                         break;
                 }
+
+                var configurationGr = gui.addFolder("Group Configuration");
+                configurationGr.add(driver, "groupConfigName", driver.groupConfigName).name("Name");
+                configurationGr.add({"OK": function(){ energieip.UpdateGroupCfg(driver); }}, "OK").name("Apply");
+
                 var ifc = gui.addFolder("Driver Information");
                 ifc.add(driver, "ifcModelName", driver.ifcModelName).name("Model Name");
                 ifc.add(driver, "ifcUrl", driver.ifcUrl).name("URL");

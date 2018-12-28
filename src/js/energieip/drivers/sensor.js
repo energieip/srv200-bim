@@ -8,7 +8,7 @@
             if (this.readyState === XMLHttpRequest.DONE){
                 if (this.status === 200) {
                     alert("Command successfull");
-                } else{
+                } else {
                     alert("Command Error");
                 }
             }
@@ -20,16 +20,43 @@
         xhr.send(JSON.stringify(content));
     }
 
+    energieip.UpdateSensorCfg = function (driver) {
+        var url = energieip.weblink + 'config/sensor';
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    alert("Command successfull");
+                } else {
+                    alert("Command Error");
+                }
+            }
+        }
+        var content = {
+            "mac": driver.statusMac,
+            "friendlyName": driver.configName,
+            "group": parseInt(driver.configGroup),
+            "isBleEnabled": driver.configBle,
+            "dumpFrequency": parseInt(driver.configDumpFrequency),
+            "brightnessCorrectionFactor": parseInt(configBrightnessCorrectionFactor),
+            "thresholdPresence": parseInt(driver.configThresholdPresence),
+            "temperatureOffset": parseInt(driver.configTemperatureOffset),
+        };
+        xhr.send(JSON.stringify(content));
+    }
+
     energieip.RestSensorCfg = function (driver) {
         var url = energieip.weblink + 'config/sensor';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE){
+            if (this.readyState === XMLHttpRequest.DONE) {
                 if (this.status === 200) {
                     alert("Command successfull");
-                } else{
+                } else {
                     alert("Command Error");
                 }
             }
@@ -72,10 +99,21 @@
             this._label.appendChild(this._brightnessElement);
             this._label.appendChild(this._groupElement);
 
-            this.statusTemperature = driverObj.driverProperties.status.temperature * 10; //value in 1/10 °C
+            this.statusTemperature = driverObj.driverProperties.status.temperature / 10; //value in 1/10 °C
             this.statusBrightness = driverObj.driverProperties.status.brightness;
             this.statusPresence = driverObj.driverProperties.status.presence;
             this.statusHumidity = driverObj.driverProperties.status.humidity;
+
+            this.statusBrightnessCorrectionFactor = driverObj.driverProperties.status.brightnessCorrectionFactor;
+            this.statusBrightnessRaw = driverObj.driverProperties.status.brightnessRaw;
+            this.statusTemperatureOffset = driverObj.driverProperties.status.temperatureOffset / 10; //value in 1/10 °C
+            this.statusTemperatureRaw = driverObj.driverProperties.status.temperatureRaw / 10; //value in 1/10 °C
+            this.statusThresholdPresence = driverObj.driverProperties.status.thresholdPresence;
+            this.statusLastMovement = driverObj.driverProperties.status.lastMovement;
+
+            this.configBrightnessCorrectionFactor = this.statusBrightnessCorrectionFactor;
+            this.configThresholdPresence = this.statusThresholdPresence;
+            this.configTemperatureOffset = this.statusTemperatureOffset;
 
             if (this.statusIp === "") {
                 this._spot.className = this.not_available_color;
@@ -148,10 +186,20 @@
 
         updateEvent(driverObj) {
             super.updateEvent(driverObj);
-            this.statusTemperature = driverObj.temperature * 10; //value in 1/10 °C
+            this.statusTemperature = driverObj.temperature / 10; //value in 1/10 °C
             this.statusBrightness = driverObj.brightness;
             this.statusPresence = driverObj.presence;
             this.statusHumidity = driverObj.humidity;
+            this.statusBrightnessCorrectionFactor = driverObj.brightnessCorrectionFactor;
+            this.statusBrightnessRaw = driverObj.brightnessRaw;
+            this.statusTemperatureOffset = driverObj.temperatureOffset / 10; //value in 1/10 °C
+            this.statusTemperatureRaw = driverObj.temperatureRaw / 10; //value in 1/10 °C
+            this.statusThresholdPresence = driverObj.thresholdPresence;
+            this.statusLastMovement = driverObj.lastMovement;
+
+            this.configBrightnessCorrectionFactor = this.statusBrightnessCorrectionFactor;
+            this.configThresholdPresence = this.statusThresholdPresence;
+            this.configTemperatureOffset = this.statusTemperatureOffset;
         }
     };
 
@@ -162,6 +210,10 @@
 
         init(driverObj) {
             super.init(driverObj);
+        }
+
+        updateEvent(driverObj) {
+            super.updateEvent(driverObj);
         }
     };
 
@@ -174,12 +226,6 @@
             super.init(driverObj);
             this._label.appendChild(this._macElement);
             this._label.appendChild(this._ipElement);
-            this.statusBrightnessCorrectionFactor = driverObj.driverProperties.status.brightnessCorrectionFactor;
-            this.statusBrightnessRaw = driverObj.driverProperties.status.brightnessRaw;
-            this.statusTemperatureOffset = driverObj.driverProperties.status.temperatureOffset * 10; //value in 1/10 °C
-            this.statusTemperatureRaw = driverObj.driverProperties.status.temperatureRaw * 10; //value in 1/10 °C
-            this.statusThresholdPresence = driverObj.driverProperties.status.thresholdPresence;
-            this.statusLastMovement = driverObj.driverProperties.status.lastMovement;
 
             this.ifcModelName = driverObj.driverProperties.ifc.modelName;
             this.ifcUrl = driverObj.driverProperties.ifc.url;
@@ -188,12 +234,6 @@
 
         updateEvent(driverObj) {
             super.updateEvent(driverObj);
-            this.statusBrightnessCorrectionFactor = driverObj.brightnessCorrectionFactor;
-            this.statusBrightnessRaw = driverObj.brightnessRaw;
-            this.statusTemperatureOffset = driverObj.temperatureOffset * 10; //value in 1/10 °C
-            this.statusTemperatureRaw = driverObj.temperatureRaw * 10; //value in 1/10 °C
-            this.statusThresholdPresence = driverObj.thresholdPresence;
-            this.statusLastMovement = driverObj.lastMovement;
         }
     };
 }

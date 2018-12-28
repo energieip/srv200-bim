@@ -44,11 +44,10 @@
             this.statusDumpFrequency = driverObj.driverProperties.status.dumpFrequency;
             this.statusVoltageInput = driverObj.driverProperties.status.voltageInput;
 
-            this.configName = "";
-
-            this.groupControlLight = 0;
-            this.groupControlAuto = false
-            this.groupConfigName = "";
+            this.configName = this.statusName;
+            this.configGroup = this.statusGroup;
+            this.configDumpFrequency = this.statusDumpFrequency;
+            this.configBle = this.statusBle;
             
             if (driverObj.groupProperties.hasOwnProperty("setpointLeds")) {
                 this.groupStatusLight = driverObj.groupProperties.setpointLeds;
@@ -138,6 +137,10 @@
                     this.groupStatusRulePresence = driverObj.groupProperties.groupRules.presence || 0;
                 }
             }
+
+            this.groupControlLight = this.groupStatusLight;
+            this.groupControlAuto = this.groupStatusAuto;
+            this.groupConfigName = this.groupStatusName;
         }
 
         get deviceType() {
@@ -248,6 +251,12 @@
             this.statusSwitchMac = driverObj.switchMac;
             this.statusDumpFrequency = driverObj.dumpFrequency;
             this.statusVoltageInput = driverObj.voltageInput;
+
+            //Fix default value
+            this.configName = this.statusName;
+            this.configGroup = this.statusGroup;
+            this.configDumpFrequency = this.statusDumpFrequency;
+            this.configBle = this.statusBle;
         }
 
         updateGroupEvent(grObj) {
@@ -271,6 +280,10 @@
             if (grObj.groupRules.hasOwnProperty("presence")) {
                 this.groupStatusRulePresence = grObj.groupRules.presence || 0;
             }
+
+            this.groupControlLight = this.groupStatusLight;
+            this.groupControlAuto = this.groupStatusAuto;
+            this.groupConfigName = this.groupStatusName;
         }
     };
 }
