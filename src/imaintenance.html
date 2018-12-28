@@ -74,6 +74,8 @@
                     case energieip.ledDriver:
                         status.add(driver, "statusLight", driver.statusLight).name("Light (%)").listen();
                         status.add(driver, "statusAuto", driver.statusAuto).name("Auto").listen();
+                        status.add(driver, "statusTimeToAuto", driver.statusTimeToAuto).name("Time to Auto Mode (s)").listen();
+                        status.add(driver, "statusWatchdog", driver.statusWatchdog).name("Watchdog (s)").listen();
                         break;
                     case energieip.sensorDriver:
                         status.add(driver, "statusTemperature", driver.statusTemperature).name("Temperature (°C)").listen();
@@ -84,6 +86,39 @@
                 }
                 status.add(driver, "statusError", driver.statusError).name("Error Status").listen();
                 status.add(driver, "statusGroup", driver.statusGroup).name("Group").listen();
+                status.add(driver, "statusBle", driver.statusBle).name("BLE").listen();
+                status.add(driver, "statusIsConfigured", driver.statusIsConfigured).name("Ready").listen();
+                status.add(driver, "statusIp", driver.statusIp).name("IP").listen();
+                status.add(driver, "statusMac", driver.statusMac).name("Mac address").listen();
+
+                switch (driver.deviceType){
+                    case energieip.ledDriver:
+                        status.add(driver, "statusThresholdLow", driver.statusThresholdLow).name("Threshold Low (%)").listen();
+                        status.add(driver, "statusThresholdHigh", driver.statusThresholdHigh).name("Threshold High (%)").listen();
+                        status.add(driver, "statusDaisyChained", driver.statusDaisyChained).name("Daisy Chained").listen();
+                        status.add(driver, "statusDaisyChainedPos", driver.statusDaisyChainedPos).name("Daisy Chain Position").listen();
+                        status.add(driver, "statusDevicePower", driver.statusDevicePower).name("Device Power (W)").listen();
+                        status.add(driver, "statusVoltageLed", driver.statusVoltageLed).name("Voltage LED (V)").listen();
+                        status.add(driver, "statusEnergy", driver.statusEnergy).name("Cumulative Energy (Wh)").listen();
+                        status.add(driver, "statusLinePower", driver.statusLinePower).name("Line Power (W)").listen();
+                        status.add(driver, "statusDuration", driver.statusDuration).name("Light Duration (h)").listen();
+                        status.add(driver, "statusIMax", driver.statusIMax).name("IMax (mA)").listen();
+                        break;
+                    case energieip.sensorDriver:
+                        status.add(driver, "statusBrightnessCorrectionFactor", driver.statusBrightnessCorrectionFactor).name("Brightness Correction (x)").listen();
+                        status.add(driver, "statusBrightnessRaw", driver.statusBrightnessRaw).name("Brightness Raw (Lux)").listen();
+                        status.add(driver, "statusTemperatureOffset", driver.statusTemperatureOffset).name("Temperature Offset (°C)").listen();
+                        status.add(driver, "statusTemperatureRaw", driver.statusTemperatureRaw).name("Temperature Raw (°C)").listen();
+                        status.add(driver, "statusThresholdPresence", driver.statusThresholdPresence).name("Threshold Presence (s)").listen();
+                        status.add(driver, "statusLastMovement", driver.statusLastMovement).name("Last Movement (s)").listen();
+                        break;
+                }
+
+                status.add(driver, "statusVoltageInput", driver.statusVoltageInput).name("Voltage Input (V)").listen();
+                status.add(driver, "statusSoftwareVersion", driver.statusSoftwareVersion).name("Software Version").listen();
+                status.add(driver, "statusHardwareVersion", driver.statusHardwareVersion).name("Hardware Version").listen();
+                status.add(driver, "statusSwitchMac", driver.statusSwitchMac).name("Switch Mac address").listen();
+                status.add(driver, "statusDumpFrequency", driver.statusDumpFrequency).name("Refresh Frequency (s)").listen();
                 status.open();
 
                 var grStatus = gui.addFolder("Group Status");

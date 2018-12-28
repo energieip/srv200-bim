@@ -154,9 +154,38 @@
             super.init(driverObj);
             this._label.appendChild(this._macElement);
             this._label.appendChild(this._ipElement);
+
+            this.statusDevicePower = driverObj.driverProperties.status.devicePower;
+            this.statusIMax = driverObj.driverProperties.status.iMax;
+            this.statusDaisyChained = driverObj.driverProperties.status.daisyChainEnabled;
+            this.statusDaisyChainedPos = driverObj.driverProperties.status.daisyChainPos;
+            this.statusThresholdLow = driverObj.driverProperties.status.thresholdLow;
+            this.statusThresholdHigh = driverObj.driverProperties.status.thresholdHigh;
+            this.statusVoltageLed = driverObj.driverProperties.status.voltageLed;
+            this.statusEnergy = driverObj.driverProperties.status.energy;
+            this.statusDuration = driverObj.driverProperties.status.duration;
+            this.statusTimeToAuto = driverObj.driverProperties.status.timeToAuto;
+            this.statusLinePower = driverObj.driverProperties.status.linePower;
+            this.statusWatchdog = driverObj.driverProperties.status.watchdog;
+
             this.ifcModelName = driverObj.driverProperties.ifc.modelName;
             this.ifcUrl = driverObj.driverProperties.ifc.url;
             this.ifcVendor = driverObj.driverProperties.ifc.vendor;
+        }
+
+        updateEvent(driverObj) {
+            super.updateEvent(driverObj);
+            this.statusDevicePower = driverObj.devicePower;
+            this.statusIMax = driverObj.iMax;
+            this.statusDaisyChained = driverObj.daisyChainEnabled;
+            this.statusDaisyChainedPos = driverObj.daisyChainPos;
+            this.statusThresholdHigh = driverObj.thresholdHigh;
+            this.statusVoltageLed = driverObj.voltageLed;
+            this.statusDuration = driverObj.duration;
+            this.statusTimeToAuto = driverObj.timeToAuto;
+            this.statusEnergy = driverObj.energy;
+            this.statusLinePower = driverObj.linePower;
+            this.statusWatchdog = driverObj.watchdog;
         }
     };
 }

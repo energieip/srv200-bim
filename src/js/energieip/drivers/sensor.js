@@ -72,7 +72,7 @@
             this._label.appendChild(this._brightnessElement);
             this._label.appendChild(this._groupElement);
 
-            this.statusTemperature = driverObj.driverProperties.status.temperature;
+            this.statusTemperature = driverObj.driverProperties.status.temperature * 10; //value in 1/10 °C
             this.statusBrightness = driverObj.driverProperties.status.brightness;
             this.statusPresence = driverObj.driverProperties.status.presence;
             this.statusHumidity = driverObj.driverProperties.status.humidity;
@@ -105,16 +105,16 @@
         }
 
         set statusBrightness(val) {
-            if (this._status_brigthness === val) {
+            if (this._status_brightness === val) {
                 return;
             }
-            this._status_brigthness = val;
-            this._brightnessElement.innerHTML = "Brightness: " + this._status_brigthness + " Lux";
-            this.fire("brigthness", this);
+            this._status_brightness = val;
+            this._brightnessElement.innerHTML = "Brightness: " + this._status_brightness + " Lux";
+            this.fire("brightness", this);
         }
 
         get statusBrightness() {
-            return this._status_brigthness;
+            return this._status_brightness;
         }
 
         set statusPresence(val) {
@@ -148,7 +148,7 @@
 
         updateEvent(driverObj) {
             super.updateEvent(driverObj);
-            this.statusTemperature = driverObj.temperature;
+            this.statusTemperature = driverObj.temperature * 10; //value in 1/10 °C
             this.statusBrightness = driverObj.brightness;
             this.statusPresence = driverObj.presence;
             this.statusHumidity = driverObj.humidity;
@@ -174,10 +174,26 @@
             super.init(driverObj);
             this._label.appendChild(this._macElement);
             this._label.appendChild(this._ipElement);
+            this.statusBrightnessCorrectionFactor = driverObj.driverProperties.status.brightnessCorrectionFactor;
+            this.statusBrightnessRaw = driverObj.driverProperties.status.brightnessRaw;
+            this.statusTemperatureOffset = driverObj.driverProperties.status.temperatureOffset * 10; //value in 1/10 °C
+            this.statusTemperatureRaw = driverObj.driverProperties.status.temperatureRaw * 10; //value in 1/10 °C
+            this.statusThresholdPresence = driverObj.driverProperties.status.thresholdPresence;
+            this.statusLastMovement = driverObj.driverProperties.status.lastMovement;
 
             this.ifcModelName = driverObj.driverProperties.ifc.modelName;
             this.ifcUrl = driverObj.driverProperties.ifc.url;
             this.ifcVendor = driverObj.driverProperties.ifc.vendor;
+        }
+
+        updateEvent(driverObj) {
+            super.updateEvent(driverObj);
+            this.statusBrightnessCorrectionFactor = driverObj.brightnessCorrectionFactor;
+            this.statusBrightnessRaw = driverObj.brightnessRaw;
+            this.statusTemperatureOffset = driverObj.temperatureOffset * 10; //value in 1/10 °C
+            this.statusTemperatureRaw = driverObj.temperatureRaw * 10; //value in 1/10 °C
+            this.statusThresholdPresence = driverObj.thresholdPresence;
+            this.statusLastMovement = driverObj.lastMovement;
         }
     };
 }

@@ -36,6 +36,13 @@
             this.statusError = driverObj.driverProperties.status.error;
             this.label = driverObj.label;
             this.statusIp = driverObj.driverProperties.status.ip;
+            this.statusBle = driverObj.driverProperties.status.isBleEnabled;
+            this.statusIsConfigured = driverObj.driverProperties.status.isConfigured;
+            this.statusSoftwareVersion = driverObj.driverProperties.status.softwareVersion;
+            this.statusHardwareVersion = driverObj.driverProperties.status.hardwareVersion;
+            this.statusSwitchMac = driverObj.driverProperties.status.switchMac;
+            this.statusDumpFrequency = driverObj.driverProperties.status.dumpFrequency;
+            this.statusVoltageInput = driverObj.driverProperties.status.voltageInput;
 
             this.configName = "";
 
@@ -167,7 +174,15 @@
             this.statusGroup = driverObj.group;
             this.statusName = driverObj.friendlyName;
             this.statusIp = driverObj.ip;
+            this.statusMac = driverObj.mac;
             this.statusError = driverObj.error;
+            this.statusBle = driverObj.isBleEnabled;
+            this.statusIsConfigured = driverObj.isConfigured;
+            this.statusSoftwareVersion = driverObj.softwareVersion;
+            this.statusHardwareVersion = driverObj.hardwareVersion;
+            this.statusSwitchMac = driverObj.switchMac;
+            this.statusDumpFrequency = driverObj.dumpFrequency;
+            this.statusVoltageInput = driverObj.voltageInput;
         }
 
         updateGroupEvent(grObj) {
