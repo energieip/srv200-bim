@@ -280,6 +280,7 @@
             this.configGroup = this.statusGroup;
             this.configDumpFrequency = this.statusDumpFrequency;
             this.configBle = this.statusBle;
+            this.glyph = this.statusGroup;
         }
 
         updateGroupEvent(grObj) {
