@@ -68,46 +68,46 @@
                 document.getElementById('dat-gui-container').appendChild(gui.domElement);
 
                 var status = gui.addFolder("Driver Status");
-                status.add(driver, "deviceType", driver.deviceType).name("Driver").listen();
-                status.add(driver, "statusName", driver.statusName).name("Name").listen();
+                status.add(driver, "deviceType").name("Driver").listen();
+                status.add(driver, "statusName").name("Name").listen();
 
                 switch (driver.deviceType){
                     case energieip.ledDriver:
-                        status.add(driver, "statusLight", driver.statusLight).name("Light (%)").listen();
-                        status.add(driver, "statusAuto", driver.statusAuto).name("Auto").listen();
+                        status.add(driver, "statusLight", 0, 100).name("Light (%)").listen();
+                        status.add(driver, "statusAuto").name("Auto").listen();
                         break;
                     case energieip.sensorDriver:
-                        status.add(driver, "statusTemperature", driver.statusTemperature).name("Temperature (°C)").listen();
-                        status.add(driver, "statusBrightness", driver.statusBrightness).name("Brightness (Lux)").listen();
-                        status.add(driver, "statusPresence", driver.statusPresence).name("Presence").listen();
-                        status.add(driver, "statusHumidity", driver.statusHumidity).name("Humidity (%)").listen();
+                        status.add(driver, "statusTemperature").name("Temperature (°C)").listen();
+                        status.add(driver, "statusBrightness").name("Brightness (Lux)").listen();
+                        status.add(driver, "statusPresence").name("Presence").listen();
+                        status.add(driver, "statusHumidity", 0, 100).name("Humidity (%)").listen();
                         break;
                 }
-                status.add(driver, "statusGroup", driver.statusGroup).name("Group").listen();
+                status.add(driver, "statusGroup").name("Group").listen();
                 status.open();
 
                 var grStatus = gui.addFolder("Group Status");
-                grStatus.add(driver, "groupStatusName", driver.groupStatusName).name("Name").listen();
-                grStatus.add(driver, "groupStatusLight", driver.groupStatusLight).name("Light (%)").listen();
-                grStatus.add(driver, "groupStatusPresence", driver.groupStatusPresence).name("Presence").listen();
-                grStatus.add(driver, "groupStatusAuto", driver.groupStatusAuto).name("Auto").listen();
+                grStatus.add(driver, "groupStatusName").name("Name").listen();
+                grStatus.add(driver, "groupStatusLight", 0, 100).name("Light (%)").listen();
+                grStatus.add(driver, "groupStatusPresence").name("Presence").listen();
+                grStatus.add(driver, "groupStatusAuto").name("Auto").listen();
 
                 switch (driver.deviceType){
                     case energieip.ledDriver:
                         var controlDr = gui.addFolder("Driver Control");
-                        controlDr.add(driver, "controlLight", driver.controlLight).name("Light (%)");
-                        controlDr.add(driver, "controlAuto", driver.controlAuto).name("Auto");
+                        controlDr.add(driver, "controlLight", 0, 100).name("Light (%)");
+                        controlDr.add(driver, "controlAuto").name("Auto");
                         controlDr.add({"OK":function(){ energieip.SendLedCmd(driver); }}, "OK").name("Apply");
                         break;
                 }
 
                 var controlGr = gui.addFolder("Group Control");
-                controlGr.add(driver, "groupControlLight", driver.groupControlLight).name("Light (%)");
-                controlGr.add(driver, "groupControlAuto", driver.groupControlAuto).name("Auto");
+                controlGr.add(driver, "groupControlLight", 0, 100).name("Light (%)");
+                controlGr.add(driver, "groupControlAuto").name("Auto");
                 controlGr.add({"OK":function(){ energieip.SendGroupCmd(driver); }}, "OK").name("Apply");
 
                 var configuration = gui.addFolder("Driver Configuration");
-                configuration.add(driver, "configName", driver.configName).name("Name");
+                configuration.add(driver, "configName").name("Name");
                 switch (driver.deviceType){
                     case energieip.ledDriver:
                         configuration.add({"OK":function(){ energieip.UpdateLedNameCfg(driver); }}, "OK").name("Apply");
@@ -118,7 +118,7 @@
                 }
 
                 var configurationGr = gui.addFolder("Group Configuration");
-                configurationGr.add(driver, "groupConfigName", driver.groupConfigName).name("Name");
+                configurationGr.add(driver, "groupConfigName").name("Name");
                 configurationGr.add({"OK": function(){ energieip.UpdateGroupNameCfg(driver); }}, "OK").name("Apply");
             }
             d.labelShown = selected;
@@ -244,6 +244,18 @@
                             continue
                         }
                         drivers[d].updateGroupEvent(gr);
+                    }
+                }
+            }
+
+            for (var d in drivers){
+                if (drivers[d].labelShown === true){
+                    //refresh left menu
+                    for (var i = 0; i < Object.keys(gui.__folders).length; i++) {
+                        var key = Object.keys(gui.__folders)[i];
+                        for (var j = 0; j < gui.__folders[key].__controllers.length; j++ ) {
+                            gui.__folders[key].__controllers[j].updateDisplay();
+                        }
                     }
                 }
             }

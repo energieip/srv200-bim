@@ -67,82 +67,82 @@
                 document.getElementById('dat-gui-container').appendChild(gui.domElement);
 
                 var status = gui.addFolder("Driver Status");
-                status.add(driver, "deviceType", driver.deviceType).name("Driver").listen();
-                status.add(driver, "statusName", driver.statusName).name("Name").listen();
+                status.add(driver, "deviceType").name("Driver").listen();
+                status.add(driver, "statusName").name("Name").listen();
 
                 switch (driver.deviceType){
                     case energieip.ledDriver:
-                        status.add(driver, "statusLight", driver.statusLight).name("Light (%)").listen();
-                        status.add(driver, "statusAuto", driver.statusAuto).name("Auto").listen();
-                        status.add(driver, "statusTimeToAuto", driver.statusTimeToAuto).name("Time to Auto Mode (s)").listen();
-                        status.add(driver, "statusWatchdog", driver.statusWatchdog).name("Watchdog (s)").listen();
+                        status.add(driver, "statusLight", 0, 100).name("Light (%)").listen();
+                        status.add(driver, "statusAuto").name("Auto").listen();
+                        status.add(driver, "statusTimeToAuto").name("Time to Auto Mode (s)").listen();
+                        status.add(driver, "statusWatchdog").name("Watchdog (s)").listen();
                         break;
                     case energieip.sensorDriver:
-                        status.add(driver, "statusTemperature", driver.statusTemperature).name("Temperature (°C)").listen();
-                        status.add(driver, "statusBrightness", driver.statusBrightness).name("Brightness (Lux)").listen();
-                        status.add(driver, "statusPresence", driver.statusPresence).name("Presence").listen();
-                        status.add(driver, "statusHumidity", driver.statusHumidity).name("Humidity (%)").listen();
+                        status.add(driver, "statusTemperature").name("Temperature (°C)").listen();
+                        status.add(driver, "statusBrightness",).name("Brightness (Lux)").listen();
+                        status.add(driver, "statusPresence").name("Presence").listen();
+                        status.add(driver, "statusHumidity", 0, 100).name("Humidity (%)").listen();
                         break;
                 }
-                status.add(driver, "statusError", driver.statusError).name("Error Status").listen();
-                status.add(driver, "statusGroup", driver.statusGroup).name("Group").listen();
-                status.add(driver, "statusBle", driver.statusBle).name("BLE").listen();
-                status.add(driver, "statusIsConfigured", driver.statusIsConfigured).name("Ready").listen();
-                status.add(driver, "statusIp", driver.statusIp).name("IP").listen();
-                status.add(driver, "statusMac", driver.statusMac).name("Mac address").listen();
+                status.add(driver, "statusError").name("Error Status").listen();
+                status.add(driver, "statusGroup").name("Group").listen();
+                status.add(driver, "statusBle").name("BLE").listen();
+                status.add(driver, "statusIsConfigured").name("Ready").listen();
+                status.add(driver, "statusIp").name("IP").listen();
+                status.add(driver, "statusMac").name("Mac address").listen();
 
                 switch (driver.deviceType){
                     case energieip.ledDriver:
-                        status.add(driver, "statusThresholdLow", driver.statusThresholdLow).name("Threshold Low (%)").listen();
-                        status.add(driver, "statusThresholdHigh", driver.statusThresholdHigh).name("Threshold High (%)").listen();
-                        status.add(driver, "statusDaisyChained", driver.statusDaisyChained).name("Daisy Chained").listen();
-                        status.add(driver, "statusDaisyChainedPos", driver.statusDaisyChainedPos).name("Daisy Chain Position").listen();
-                        status.add(driver, "statusDevicePower", driver.statusDevicePower).name("Device Power (W)").listen();
-                        status.add(driver, "statusVoltageLed", driver.statusVoltageLed).name("Voltage LED (V)").listen();
-                        status.add(driver, "statusEnergy", driver.statusEnergy).name("Cumulative Energy (Wh)").listen();
-                        status.add(driver, "statusLinePower", driver.statusLinePower).name("Line Power (W)").listen();
-                        status.add(driver, "statusDuration", driver.statusDuration).name("Light Duration (h)").listen();
-                        status.add(driver, "statusIMax", driver.statusIMax).name("IMax (mA)").listen();
+                        status.add(driver, "statusThresholdLow").name("Threshold Low (%)").listen();
+                        status.add(driver, "statusThresholdHigh").name("Threshold High (%)").listen();
+                        status.add(driver, "statusDaisyChained").name("Daisy Chained").listen();
+                        status.add(driver, "statusDaisyChainedPos").name("Daisy Chain Position").listen();
+                        status.add(driver, "statusDevicePower").name("Device Power (W)").listen();
+                        status.add(driver, "statusVoltageLed").name("Voltage LED (V)").listen();
+                        status.add(driver, "statusEnergy").name("Cumulative Energy (Wh)").listen();
+                        status.add(driver, "statusLinePower").name("Line Power (W)").listen();
+                        status.add(driver, "statusDuration").name("Light Duration (h)").listen();
+                        status.add(driver, "statusIMax", 0, 1000).name("IMax (mA)").listen();
                         break;
                     case energieip.sensorDriver:
-                        status.add(driver, "statusBrightnessCorrectionFactor", driver.statusBrightnessCorrectionFactor).name("Brightness Correction (x)").listen();
-                        status.add(driver, "statusBrightnessRaw", driver.statusBrightnessRaw).name("Brightness Raw (Lux)").listen();
-                        status.add(driver, "statusTemperatureOffset", driver.statusTemperatureOffset).name("Temperature Offset (°C)").listen();
-                        status.add(driver, "statusTemperatureRaw", driver.statusTemperatureRaw).name("Temperature Raw (°C)").listen();
-                        status.add(driver, "statusThresholdPresence", driver.statusThresholdPresence).name("Threshold Presence (s)").listen();
-                        status.add(driver, "statusLastMovement", driver.statusLastMovement).name("Last Movement (s)").listen();
+                        status.add(driver, "statusBrightnessCorrectionFactor").name("Brightness Correction (x)").listen();
+                        status.add(driver, "statusBrightnessRaw").name("Brightness Raw (Lux)").listen();
+                        status.add(driver, "statusTemperatureOffset").name("Temperature Offset (°C)").listen();
+                        status.add(driver, "statusTemperatureRaw").name("Temperature Raw (°C)").listen();
+                        status.add(driver, "statusThresholdPresence").name("Threshold Presence (s)").listen();
+                        status.add(driver, "statusLastMovement").name("Last Movement (s)").listen();
                         break;
                 }
 
-                status.add(driver, "statusVoltageInput", driver.statusVoltageInput).name("Voltage Input (V)").listen();
-                status.add(driver, "statusSoftwareVersion", driver.statusSoftwareVersion).name("Software Version").listen();
-                status.add(driver, "statusHardwareVersion", driver.statusHardwareVersion).name("Hardware Version").listen();
-                status.add(driver, "statusSwitchMac", driver.statusSwitchMac).name("Switch Mac address").listen();
-                status.add(driver, "statusDumpFrequency", driver.statusDumpFrequency).name("Refresh Frequency (s)").listen();
+                status.add(driver, "statusVoltageInput").name("Voltage Input (V)").listen();
+                status.add(driver, "statusSoftwareVersion").name("Software Version").listen();
+                status.add(driver, "statusHardwareVersion").name("Hardware Version").listen();
+                status.add(driver, "statusSwitchMac").name("Switch Mac address").listen();
+                status.add(driver, "statusDumpFrequency").name("Refresh Frequency (s)").listen();
                 status.open();
 
                 var grStatus = gui.addFolder("Group Status");
-                grStatus.add(driver, "groupStatusName", driver.groupStatusName).name("Name").listen();
-                grStatus.add(driver, "groupStatusGroup", driver.groupStatusGroup).name("Group").listen();
-                grStatus.add(driver, "groupStatusLight", driver.groupStatusLight).name("Light (%)").listen();
-                grStatus.add(driver, "groupStatusPresence", driver.groupStatusPresence).name("Presence").listen();
-                grStatus.add(driver, "groupStatusAuto", driver.groupStatusAuto).name("Auto").listen();
-                grStatus.add(driver, "groupStatusError", driver.groupStatusError).name("Error Status").listen();
-                grStatus.add(driver, "groupStatusCorrectionInterval", driver.groupStatusCorrectionInterval).name("Correction Interval (s)").listen();
-                grStatus.add(driver, "groupStatusSensorRule", driver.groupStatusSensorRule).name("Sensor Rule").listen();
-                grStatus.add(driver, "groupStatusSlopeStart", driver.groupStatusSlopeStart).name("Slope Start (s)").listen();
-                grStatus.add(driver, "groupStatusSlopeStop", driver.groupStatusSlopeStop).name("Slope Stop (s)").listen();
-                grStatus.add(driver, "groupStatusTimeToAuto", driver.groupStatusTimeToAuto).name("Time to Auto (s)").listen();
-                grStatus.add(driver, "groupStatusTimeToLeave", driver.groupStatusTimeToAuto).name("Time to Leave (s)").listen();
-                grStatus.add(driver, "groupStatusRulePresence", driver.groupStatusRulePresence).name("Rule Presence (s)").listen();
-                grStatus.add(driver, "groupStatusRuleBrightness", driver.groupStatusRuleBrightness).name("Rule Brightness (Lux)").listen();
-                grStatus.add(driver, "groupStatusWatchdog", driver.groupStatusWatchdog).name("Watchdog (s)").listen();
+                grStatus.add(driver, "groupStatusName").name("Name").listen();
+                grStatus.add(driver, "groupStatusGroup").name("Group").listen();
+                grStatus.add(driver, "groupStatusLight",  0, 100).name("Light (%)").listen();
+                grStatus.add(driver, "groupStatusPresence").name("Presence").listen();
+                grStatus.add(driver, "groupStatusAuto").name("Auto").listen();
+                grStatus.add(driver, "groupStatusError").name("Error Status").listen();
+                grStatus.add(driver, "groupStatusCorrectionInterval").name("Correction Interval (s)").listen();
+                grStatus.add(driver, "groupStatusSensorRule").name("Sensor Rule").listen();
+                grStatus.add(driver, "groupStatusSlopeStart").name("Slope Start (s)").listen();
+                grStatus.add(driver, "groupStatusSlopeStop").name("Slope Stop (s)").listen();
+                grStatus.add(driver, "groupStatusTimeToAuto").name("Time to Auto (s)").listen();
+                grStatus.add(driver, "groupStatusTimeToLeave").name("Time to Leave (s)").listen();
+                grStatus.add(driver, "groupStatusRulePresence").name("Rule Presence (s)").listen();
+                grStatus.add(driver, "groupStatusRuleBrightness").name("Rule Brightness (Lux)").listen();
+                grStatus.add(driver, "groupStatusWatchdog").name("Watchdog (s)").listen();
 
                 switch (driver.deviceType){
                     case energieip.ledDriver:
                         var controlDr = gui.addFolder("Driver Control");
-                        controlDr.add(driver, "controlLight", driver.controlLight).name("Light (%)");
-                        controlDr.add(driver, "controlAuto", driver.controlAuto).name("Auto");
+                        controlDr.add(driver, "controlLight",  0, 100).name("Light (%)");
+                        controlDr.add(driver, "controlAuto").name("Auto");
                         controlDr.add({"reset": function() {
                             if (confirm("Do you want to reset the driver configuration ?")) {
                                 energieip.RestLedCfg(driver);
@@ -161,44 +161,44 @@
                 }
 
                 var controlGr = gui.addFolder("Group Control");
-                controlGr.add(driver, "groupControlLight", driver.groupControlLight).name("Light (%)");
-                controlGr.add(driver, "groupControlAuto", driver.groupControlAuto).name("Auto");
+                controlGr.add(driver, "groupControlLight", 0, 100).name("Light (%)");
+                controlGr.add(driver, "groupControlAuto").name("Auto");
                 controlGr.add({"OK":function(){ energieip.SendGroupCmd(driver); }}, "OK").name("Apply");
 
                 var configuration = gui.addFolder("Driver Configuration");
-                configuration.add(driver, "configName", driver.configName).name("Name");
-                configuration.add(driver, "configGroup", driver.configGroup).name("Group");
-                configuration.add(driver, "configBle", driver.configBle).name("BLE");
-                configuration.add(driver, "configDumpFrequency", driver.configDumpFrequency).name("Refresh Frequency (s)");
+                configuration.add(driver, "configName").name("Name");
+                configuration.add(driver, "configGroup").name("Group");
+                configuration.add(driver, "configBle").name("BLE");
+                configuration.add(driver, "configDumpFrequency").name("Refresh Frequency (s)");
                 switch (driver.deviceType){
                     case energieip.ledDriver:
-                        configuration.add(driver, "configThresholdLow", driver.configThresholdLow).name("Threshold Low (%)");
-                        configuration.add(driver, "configThresholdHigh", driver.configThresholdHigh).name("Threshold High (%)");
-                        configuration.add(driver, "configWatchdog", driver.configWatchdog).name("Watchdog");
+                        configuration.add(driver, "configThresholdLow",  0, 100).name("Threshold Low (%)");
+                        configuration.add(driver, "configThresholdHigh",  0, 100).name("Threshold High (%)");
+                        configuration.add(driver, "configWatchdog").name("Watchdog");
                         configuration.add({"OK":function(){ energieip.UpdateLedCfg(driver); }}, "OK").name("Apply");
                         break;
                     case energieip.sensorDriver:
-                        configuration.add(driver, "configBrightnessCorrectionFactor", driver.configBrightnessCorrectionFactor).name("Brightness Correction (x)");
-                        configuration.add(driver, "configTemperatureOffset", driver.configTemperatureOffset).name("Temperature Offset (°C)");
-                        configuration.add(driver, "configThresholdPresence", driver.configThresholdPresence).name("Threshold Presence (s)");
+                        configuration.add(driver, "configBrightnessCorrectionFactor").name("Brightness Correction (x)");
+                        configuration.add(driver, "configTemperatureOffset").name("Temperature Offset (°C)");
+                        configuration.add(driver, "configThresholdPresence").name("Threshold Presence (s)");
                         configuration.add({"OK":function(){ energieip.UpdateSensorCfg(driver); }}, "OK").name("Apply");
                         break;
                 }
 
                 var configurationGr = gui.addFolder("Group Configuration");
-                configurationGr.add(driver, "groupConfigName", driver.groupConfigName).name("Name");
-                configurationGr.add(driver, "groupConfigSlopeStart", driver.groupConfigSlopeStart).name("Slope Start (s)");
-                configurationGr.add(driver, "groupConfigSlopeStop", driver.groupConfigSlopeStop).name("Slope Stop (s)");
-                configurationGr.add(driver, "groupConfigCorrectionInterval", driver.groupConfigCorrectionInterval).name("Correction Interval (s)");
+                configurationGr.add(driver, "groupConfigName").name("Name");
+                configurationGr.add(driver, "groupConfigSlopeStart").name("Slope Start (s)");
+                configurationGr.add(driver, "groupConfigSlopeStop").name("Slope Stop (s)");
+                configurationGr.add(driver, "groupConfigCorrectionInterval").name("Correction Interval (s)");
                 configurationGr.add(driver, "groupConfigSensorRule", ["average", "min", "max"]).name("Sensor Rule");
-                configurationGr.add(driver, "groupConfigRulePresence", driver.groupConfigRulePresence).name("Rule Presence (s)");
-                configurationGr.add(driver, "groupConfigRuleBrightness", driver.groupConfigRuleBrightness).name("Rule Brightness (Lux)");
+                configurationGr.add(driver, "groupConfigRulePresence").name("Rule Presence (s)");
+                configurationGr.add(driver, "groupConfigRuleBrightness").name("Rule Brightness (Lux)");
                 configurationGr.add({"OK": function(){ energieip.UpdateGroupCfg(driver); }}, "OK").name("Apply");
 
                 var ifc = gui.addFolder("Driver Information");
-                ifc.add(driver, "ifcModelName", driver.ifcModelName).name("Model Name");
-                ifc.add(driver, "ifcUrl", driver.ifcUrl).name("URL");
-                ifc.add(driver, "ifcVendor", driver.ifcVendor).name("Vendor Name");
+                ifc.add(driver, "ifcModelName").name("Model Name");
+                ifc.add(driver, "ifcUrl").name("URL");
+                ifc.add(driver, "ifcVendor").name("Vendor Name");
             }
             d.labelShown = selected;
         }
@@ -322,6 +322,18 @@
                             continue
                         }
                         drivers[d].updateGroupEvent(gr);
+                    }
+                }
+            }
+
+            for (var d in drivers){
+                if (drivers[d].labelShown === true){
+                    //refresh left menu
+                    for (var i = 0; i < Object.keys(gui.__folders).length; i++) {
+                        var key = Object.keys(gui.__folders)[i];
+                        for (var j = 0; j < gui.__folders[key].__controllers.length; j++ ) {
+                            gui.__folders[key].__controllers[j].updateDisplay();
+                        }
                     }
                 }
             }
