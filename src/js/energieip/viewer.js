@@ -320,10 +320,12 @@ function CreateView(maintenance=false){
             for (var d in drivers){
                 if (drivers[d].labelShown === true){
                     //refresh left menu
-                    for (var i = 0; i < Object.keys(gui.__folders).length; i++) {
-                        var key = Object.keys(gui.__folders)[i];
-                        for (var j = 0; j < gui.__folders[key].__controllers.length; j++ ) {
-                            gui.__folders[key].__controllers[j].updateDisplay();
+                    if (gui != null) {
+                        for (var i = 0; i < Object.keys(gui.__folders).length; i++) {
+                            var key = Object.keys(gui.__folders)[i];
+                            for (var j = 0; j < gui.__folders[key].__controllers.length; j++ ) {
+                                gui.__folders[key].__controllers[j].updateDisplay();
+                            }
                         }
                     }
                 }
