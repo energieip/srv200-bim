@@ -93,10 +93,17 @@ energieip.UpdateGroupNameCfg = function (driver) {
 	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhr.onreadystatechange = function() {
 		if (this.readyState === XMLHttpRequest.DONE) {
-			if (this.status === 200) {
-				alert("Command successfull");
-			} else {
-				alert("Command Error");
+			switch (this.status) {
+				case 200:
+					alert("Success");
+					break;
+				case 500:
+					var obj = JSON.parse(xhr.responseText);
+					alert("Error: "+ obj.message);
+					break;
+				default:
+					alert("Error");
+					break;
 			}
 		}
 	}
@@ -114,10 +121,17 @@ energieip.UpdateGroupCfg = function (driver) {
 	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhr.onreadystatechange = function() {
 		if (this.readyState === XMLHttpRequest.DONE) {
-			if (this.status === 200) {
-				alert("Command successfull");
-			} else {
-				alert("Command Error");
+			switch (this.status) {
+				case 200:
+					alert("Success");
+					break;
+				case 500:
+					var obj = JSON.parse(xhr.responseText);
+					alert("Error: "+ obj.message);
+					break;
+				default:
+					alert("Error");
+					break;
 			}
 		}
 	}
@@ -144,10 +158,17 @@ energieip.SendGroupCmd = function (driver) {
 	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhr.onreadystatechange = function() {
 		if (this.readyState === XMLHttpRequest.DONE){
-			if (this.status === 200) {
-				alert("Command successfull");
-			} else{
-				alert("Command Error");
+			switch (this.status) {
+				case 200:
+					alert("Success");
+					break;
+				case 500:
+					var obj = JSON.parse(xhr.responseText);
+					alert("Error: "+ obj.message);
+					break;
+				default:
+					alert("Error");
+					break;
 			}
 		}
 	}
