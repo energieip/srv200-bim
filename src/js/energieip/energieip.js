@@ -114,6 +114,46 @@ energieip.UpdateGroupNameCfg = function (driver) {
 	xhr.send(JSON.stringify(content));
 }
 
+energieip.CreateGroup = function (group) {
+	var url = energieip.weblink + 'setup/group';
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhr.onreadystatechange = function() {
+		if (this.readyState === XMLHttpRequest.DONE) {
+			switch (this.status) {
+				case 200:
+					alert("Success");
+					break;
+				case 500:
+					var obj = JSON.parse(xhr.responseText);
+					alert("Error: "+ obj.message);
+					break;
+				default:
+					alert("Error");
+					break;
+			}
+		}
+	}
+	var grRules = {
+		"brightness": parseInt(group.ruleBrightness),
+		"presence": parseInt(group.rulePresence),
+	};
+	var content = {
+		"group": parseInt(group.group),
+		"leds": group.leds,
+		"sensors": group.sensors,
+		"friendlyName": group.name,
+		"slopeStart": parseInt(group.slopeStart),
+		"slopeStop": parseInt(group.slopeStop),
+		"correctionInterval": parseInt(group.correctionInterval),
+		"sensorRule": group.sensorRule,
+		"groupRules": grRules,
+		"watchdog": parseInt(group.watchdog),
+	};
+	xhr.send(JSON.stringify(content));
+}
+
 energieip.UpdateGroupCfg = function (driver) {
 	var url = energieip.weblink + 'config/group';
 	var xhr = new XMLHttpRequest();
@@ -147,6 +187,7 @@ energieip.UpdateGroupCfg = function (driver) {
 		"correctionInterval": parseInt(driver.groupConfigCorrectionInterval),
 		"sensorRule": driver.groupConfigSensorRule,
 		"groupRules": grRules,
+		"watchdog": parseInt(driver.groupConfigWatchdog),
 	};
 	xhr.send(JSON.stringify(content));
 }

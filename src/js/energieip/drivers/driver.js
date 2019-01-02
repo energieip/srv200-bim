@@ -147,6 +147,7 @@
             this.groupConfigSensorRule = this.groupStatusSensorRule;
             this.groupConfigRuleBrightness = this.groupStatusRuleBrightness;
             this.groupConfigRulePresence = this.groupStatusRulePresence;
+            this.groupConfigWatchdog = this.groupStatusWatchdog;
         }
 
         get deviceType() {
@@ -314,6 +315,7 @@
             this.groupConfigSensorRule = this.groupStatusSensorRule;
             this.groupConfigRuleBrightness = this.groupStatusRuleBrightness;
             this.groupConfigRulePresence = this.groupStatusRulePresence;
+            this.groupConfigWatchdog = this.groupStatusWatchdog;
         }
     };
 }

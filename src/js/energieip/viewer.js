@@ -13,11 +13,81 @@ function CreateView(maintenance=false){
     var drivers = {};
     var groups = {};
 
+    var multipleSelection = 0;
+
+    function repartitionning() {
+        var leds = [];
+        var sensors = [];
+        for (var label in model.meshes){
+            if (drivers.hasOwnProperty(label)){
+                var d = drivers[label];
+                if (model.meshes[label].selected === true) {
+                    switch (d.deviceType){
+                        case energieip.ledDriver:
+                            leds.push(d.statusMac);
+                            break;
+                        case energieip.sensorDriver:
+                            sensors.push(d.statusMac);
+                            break; 
+                    }
+                }
+            }
+        }
+        if (gui != null){
+            document.getElementById('dat-gui-container').removeChild(gui.domElement);
+            gui.destroy();
+        }
+        gui = new dat.GUI({autoPlace: false, top: 0, width: 400});
+        document.getElementById('dat-gui-container').appendChild(gui.domElement);
+
+        class GroupMenu {
+            get type() {
+                return "energieip.Group";
+            }
+            constructor(sensors, leds) {
+                this.group = 0;
+                this.sensors = sensors;
+                this.leds = leds;
+                this.slopeStart = 10;
+                this.slopeStop = 10;
+                this.sensorRule = "average";
+                this.correctionInterval = 1;
+                this.name = "Group " + this.group;
+                this.auto = false;
+                this.rulePresence = 60;
+                this.ruleBrightness = 400;
+                this.watchdog = 3600;
+                var update = function () {
+                    requestAnimationFrame(update);
+                };
+                update();
+            }
+        };
+        var menuGroup = new GroupMenu(sensors, leds);
+        console.log("get menu ", menuGroup);
+
+        var groupCfg = gui.addFolder("Create group");
+        groupCfg.add(menuGroup, "group").name("Group");
+        groupCfg.add(menuGroup, "name").name("Name");
+        groupCfg.add(menuGroup, "slopeStart").name("Slope Start (s)");
+        groupCfg.add(menuGroup, "slopeStop").name("Slope Stop (s)");
+        groupCfg.add(menuGroup, "correctionInterval").name("Correction Interval (s)");
+        groupCfg.add(menuGroup, "sensorRule", ["average", "min", "max"]).name("Sensor Rule");
+        groupCfg.add(menuGroup, "rulePresence").name("Rule Presence (s)");
+        groupCfg.add(menuGroup, "ruleBrightness").name("Rule Brightness (Lux)");
+        groupCfg.add({"OK":function(){ energieip.CreateGroup(menuGroup); }}, "OK").name("Apply");
+        groupCfg.open();
+
+    }
+
     function flyTo() {
         for (var label in drivers) {
             var d = drivers[label];
             var selected = d.id === this.id;
             if (selected) {
+                if (maintenance == true && multipleSelection > 1) {
+                    continue
+                }
                 var driver = drivers[label];
                 if (gui != null){
                     document.getElementById('dat-gui-container').removeChild(gui.domElement);
@@ -181,6 +251,7 @@ function CreateView(maintenance=false){
                     configurationGr.add(driver, "groupConfigSensorRule", ["average", "min", "max"]).name("Sensor Rule");
                     configurationGr.add(driver, "groupConfigRulePresence").name("Rule Presence (s)");
                     configurationGr.add(driver, "groupConfigRuleBrightness").name("Rule Brightness (Lux)");
+                    configurationGr.add(driver, "groupConfigWatchdog").name("Watchdog (s)");
                     configurationGr.add({"OK": function(){ energieip.UpdateGroupCfg(driver); }}, "OK").name("Apply");
 
                     var ifc = gui.addFolder("Driver Information");
@@ -359,11 +430,21 @@ function CreateView(maintenance=false){
 
     cameraControl.on("picked", function (hit) {
         var mesh = hit.mesh;
-        if (input.keyDown[input.KEY_SHIFT]) {
-            mesh.selected = !mesh.selected;
-            mesh.highlighted = !mesh.selected;
-        } else {
-            cameraFlight.flyTo(mesh);
+        if (drivers.hasOwnProperty(hit.mesh.id)){
+            if (input.keyDown[input.KEY_SHIFT]) {
+                mesh.selected = !mesh.selected;
+                mesh.highlighted = !mesh.selected;
+                if (mesh.selected) {
+                    multipleSelection += 1;
+                } else {
+                    multipleSelection -= 1;
+                }
+                if (multipleSelection > 1 && maintenance === true){
+                    repartitionning();
+                }
+            } else {
+                cameraFlight.flyTo(mesh);
+            }
         }
     });
 
