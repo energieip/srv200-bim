@@ -135,10 +135,6 @@ energieip.CreateGroup = function (group) {
 			}
 		}
 	}
-	var grRules = {
-		"brightness": parseInt(group.ruleBrightness),
-		"presence": parseInt(group.rulePresence),
-	};
 	var content = {
 		"group": parseInt(group.group),
 		"leds": group.leds,
@@ -148,7 +144,8 @@ energieip.CreateGroup = function (group) {
 		"slopeStop": parseInt(group.slopeStop),
 		"correctionInterval": parseInt(group.correctionInterval),
 		"sensorRule": group.sensorRule,
-		"groupRules": grRules,
+		"ruleBrightness": parseInt(group.ruleBrightness),
+		"rulePresence": parseInt(group.rulePresence),
 		"watchdog": parseInt(group.watchdog),
 	};
 	xhr.send(JSON.stringify(content));
@@ -175,10 +172,6 @@ energieip.UpdateGroupCfg = function (driver) {
 			}
 		}
 	}
-	var grRules = {
-		"brightness": parseInt(driver.groupConfigRuleBrightness),
-		"presence": parseInt(driver.groupConfigRulePresence),
-	};
 	var content = {
 		"group": parseInt(driver.statusGroup),
 		"friendlyName": driver.groupConfigName,
@@ -186,7 +179,8 @@ energieip.UpdateGroupCfg = function (driver) {
 		"slopeStop": parseInt(driver.groupConfigSlopeStop),
 		"correctionInterval": parseInt(driver.groupConfigCorrectionInterval),
 		"sensorRule": driver.groupConfigSensorRule,
-		"groupRules": grRules,
+		"ruleBrightness": parseInt(driver.groupConfigRuleBrightness),
+		"rulePresence": parseInt(driver.groupConfigRulePresence),
 		"watchdog": parseInt(driver.groupConfigWatchdog),
 	};
 	xhr.send(JSON.stringify(content));

@@ -129,13 +129,11 @@
 
             this.groupStatusRuleBrightness = 0;
             this.groupStatusRulePresence = 0;
-            if (driverObj.groupProperties.hasOwnProperty("groupRules")) {
-                if (driverObj.groupProperties.groupRules.hasOwnProperty("brightness")) {
-                    this.groupStatusRuleBrightness = driverObj.groupProperties.groupRules.brightness || 0;
-                }
-                if (driverObj.groupProperties.groupRules.hasOwnProperty("presence")) {
-                    this.groupStatusRulePresence = driverObj.groupProperties.groupRules.presence || 0;
-                }
+            if (driverObj.groupProperties.hasOwnProperty("ruleBrightness")) {
+                this.groupStatusRuleBrightness = driverObj.groupProperties.ruleBrightness || 0;
+            }
+            if (driverObj.groupProperties.hasOwnProperty("rulePresence")) {
+                this.groupStatusRulePresence = driverObj.groupProperties.rulePresence || 0;
             }
 
             this.groupControlLight = this.groupStatusLight;
@@ -299,11 +297,11 @@
             this.groupStatusWatchdog = grObj.watchdog;
             this.groupStatusTimeToAuto = grObj.timeToAuto;
             this.groupStatusTimeToLeave = grObj.timeToLeave;
-            if (grObj.groupRules.hasOwnProperty("brightness")) {
-                this.groupStatusRuleBrightness = grObj.groupRules.brightness || 0;
+            if (grObj.hasOwnProperty("ruleBrightness")) {
+                this.groupStatusRuleBrightness = grObj.ruleBrightness || 0;
             }
-            if (grObj.groupRules.hasOwnProperty("presence")) {
-                this.groupStatusRulePresence = grObj.groupRules.presence || 0;
+            if (grObj.hasOwnProperty("rulePresence")) {
+                this.groupStatusRulePresence = grObj.rulePresence || 0;
             }
 
             this.groupControlLight = this.groupStatusLight;
