@@ -17,7 +17,7 @@
  @author EnergieIP / https://www.energie-ip.com/
  */
 const address = '10.0.0.209:8888';
-const weblink = 'http://'+address+'/';
+const weblink = 'http://'+address+'/v1.0/';
 
 const driver = "driver";
 const ledDriver = "led";
