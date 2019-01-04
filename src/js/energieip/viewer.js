@@ -14,6 +14,27 @@ function CreateView(maintenance=false){
     var groups = {};
 
     var multipleSelection = 0;
+    var buf = [];
+
+    // Logs text to the page
+    function log(event, params) {
+
+        var txt = event;
+        if (params) {
+            txt += ": " + JSON.stringify(params)
+        }
+
+        if (buf.indexOf(txt) >= 0) {
+            return
+        }
+
+        buf.push(txt);
+
+        if (buf.length > 30) {
+            buf.shift();
+        }
+        document.getElementById("log").innerText = buf.join("\n");
+    }
 
     function repartitionning() {
         var leds = [];
@@ -373,15 +394,29 @@ function CreateView(maintenance=false){
             for (var i  in evt) {
                 for (var led in evt[i].leds){
                     var elt = evt[i].leds[led];
-                    if (drivers.hasOwnProperty(elt.label)){
+                    if (drivers.hasOwnProperty(elt.label)) {
                         drivers[elt.label].updateEvent(elt.led);
+                    } else {
+                        if (maintenance === true){
+                            if (elt.label === ""){
+                                var msg = "Led: " + elt.led.friendlyName + " (IP: " + elt.led.ip + ", MAC: "+ elt.led.mac+ " ) appears but not referenced";
+                                log(msg);
+                            }
+                        }
                     }
                 }
 
                 for (var sensor in evt[i].sensors){
                     var elt = evt[i].sensors[sensor];
-                    if (drivers.hasOwnProperty(elt.label)){
+                    if (drivers.hasOwnProperty(elt.label)) {
                         drivers[elt.label].updateEvent(elt.sensor);
+                    } else {
+                        if (maintenance === true){
+                            if (elt.label === ""){
+                                var msg = "Sensor: " + elt.sensor.friendlyName + " (IP: " + elt.sensor.ip + ", MAC: "+ elt.sensor.mac+ " ) appears but not referenced";
+                                log(msg);
+                            }
+                        }
                     }
                 }
 
