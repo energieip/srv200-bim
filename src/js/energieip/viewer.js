@@ -272,7 +272,7 @@ function CreateView(maintenance=false){
     //---------------------------------------------------
     var model = new xeogl.GLTFModel({
         id: "map",
-        src: "maps/N8B-3MK-V4.optimized.gltf",
+        src: "maps/N8B_R3.optimized.gltf",
         objectTree: true,
         scale: [.6, .6, .6],
         handleNode: (function() {
@@ -344,10 +344,18 @@ function CreateView(maintenance=false){
                     };
                     switch (ifcModel["ifc"].deviceType) {
                         case energieip.sensorDriver:
-                            var driver = new energieip.SensorMaintenance(content);
+                            if (maintenance === true) {
+                                var driver = new energieip.SensorMaintenance(content);
+                            } else {
+                                var driver = new energieip.SensorSupervision(content);
+                            }
                             break;
                         case energieip.ledDriver:
-                            var driver = new energieip.LedMaintenance(content);
+                            if (maintenance === true) {
+                                var driver = new energieip.LedMaintenance(content);
+                            } else {
+                                var driver = new energieip.LedSupervision(content);
+                            }
                             break;
                         default:
                             console.log("Received type", ifcModel["ifc"].deviceType);
