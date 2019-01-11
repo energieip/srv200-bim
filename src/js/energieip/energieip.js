@@ -22,6 +22,7 @@ const weblink = 'http://'+address;
 const driver = "driver";
 const ledDriver = "led";
 const sensorDriver = "sensor";
+const switchDevice = "switch";
 
 energieip.Notifications = function (cbkOnMessage) {
 	var ws = new WebSocket("ws://" + address + "events");
@@ -220,6 +221,7 @@ exports.weblink = weblink;
 exports.driver = driver;
 exports.ledDriver = ledDriver;
 exports.sensorDriver = sensorDriver;
+exports.switchDevice = switchDevice;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

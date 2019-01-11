@@ -61,7 +61,7 @@
         xhr.send(JSON.stringify(content));
     }
 
-    energieip.RestLedCfg = function (driver) {
+    energieip.ResetLedCfg = function (driver) {
         var url = energieip.weblink + 'config/led';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
@@ -142,7 +142,7 @@
             this.statusLight = driverObj.driverProperties.status.setpoint;
             
             this.statusDevicePower = driverObj.driverProperties.status.devicePower;
-            this.statusIMax = driverObj.driverProperties.status.iMax;
+            this.statusPMax = driverObj.driverProperties.status.pMax;
             this.statusDaisyChained = driverObj.driverProperties.status.daisyChainEnabled;
             this.statusDaisyChainedPos = driverObj.driverProperties.status.daisyChainPos;
             this.statusThresholdLow = driverObj.driverProperties.status.thresholdLow;
@@ -206,7 +206,7 @@
             this.statusLight = driverObj.setpoint;
 
             this.statusDevicePower = driverObj.devicePower;
-            this.statusIMax = driverObj.iMax;
+            this.statusPMax = driverObj.pMax;
             this.statusDaisyChained = driverObj.daisyChainEnabled;
             this.statusDaisyChainedPos = driverObj.daisyChainPos;
             this.statusThresholdHigh = driverObj.thresholdHigh;
@@ -220,6 +220,8 @@
             this.configWatchdog = this.statusWatchdog;
             this.configThresholdLow = this.statusThresholdLow;
             this.configThresholdHigh = this.statusThresholdHigh;
+            this.controlLight = this.statusLight;
+            this.controlAuto = this.statusAuto;
         }
     };
 

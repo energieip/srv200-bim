@@ -61,7 +61,7 @@
         xhr.send(JSON.stringify(content));
     }
 
-    energieip.RestSensorCfg = function (driver) {
+    energieip.ResetSensorCfg = function (driver) {
         var url = energieip.weblink + 'config/sensor';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);

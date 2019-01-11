@@ -156,8 +156,8 @@ function CreateView(maintenance=false){
                             status.add(driver, "statusVoltageLed").name("Voltage LED (V)").listen();
                             status.add(driver, "statusEnergy").name("Cumulative Energy (Wh)").listen();
                             status.add(driver, "statusLinePower").name("Line Power (W)").listen();
-                            status.add(driver, "statusDuration").name("Light Duration (h)").listen();
-                            status.add(driver, "statusIMax", 0, 1000).name("IMax (mA)").listen();
+                            status.add(driver, "statusDuration").name("Light Duration (s)").listen();
+                            status.add(driver, "statusPMax", 0, 1000).name("PMax (w)").listen();
                             break;
                         case energieip.sensorDriver:
                             status.add(driver, "statusBrightnessCorrectionFactor").name("Brightness Correction (x)").listen();
@@ -173,7 +173,7 @@ function CreateView(maintenance=false){
                     status.add(driver, "statusSoftwareVersion").name("Software Version").listen();
                     status.add(driver, "statusHardwareVersion").name("Hardware Version").listen();
                     status.add(driver, "statusSwitchMac").name("Switch Mac address").listen();
-                    status.add(driver, "statusDumpFrequency").name("Refresh Frequency (s)").listen();
+                    status.add(driver, "statusDumpFrequency").name("Refresh Frequency (ms)").listen();
                 }
 
                 status.open();
@@ -207,7 +207,7 @@ function CreateView(maintenance=false){
                         if (maintenance === true) {
                             controlDr.add({"reset": function() {
                                 if (confirm("Do you want to reset the driver configuration ?")) {
-                                    energieip.RestLedCfg(driver);
+                                    energieip.ResetLedCfg(driver);
                                 }
                             }}, "reset").name("Reset");
                         }                        
@@ -218,7 +218,7 @@ function CreateView(maintenance=false){
                             var controlDr = gui.addFolder("Driver Control");
                             controlDr.add({"reset": function(){
                                 if (confirm("Do you want to reset the driver configuration ?")) {
-                                    energieip.RestSensorCfg(driver);
+                                    energieip.ResetSensorCfg(driver);
                                 }
                             }}, "reset").name("Reset");
                         }
