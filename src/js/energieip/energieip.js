@@ -17,7 +17,7 @@
  @author EnergieIP / https://www.energie-ip.com/
  */
 const address = '10.0.0.209:8888/v1.0/';
-const weblink = 'http://'+address;
+const weblink = 'https://'+address;
 
 const driver = "driver";
 const ledDriver = "led";
@@ -25,7 +25,7 @@ const sensorDriver = "sensor";
 const switchDevice = "switch";
 
 energieip.Notifications = function (cbkOnMessage) {
-	var ws = new WebSocket("ws://" + address + "events");
+	var ws = new WebSocket("wss://" + address + "events");
 
 	ws.onmessage = function (evt) {
 		var event = JSON.parse(evt.data);
