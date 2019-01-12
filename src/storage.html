@@ -16,6 +16,16 @@
     
 	<body class="is-preload">
 
+        <!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+
+         <script> 
+            $(function(){
+                url="https://"+window.location.hostname+":9090/cockpit/@localhost/storage/index.html";
+                document.getElementById('redirect').src=url;
+            });
+        </script>
+
 		<!-- Wrapper -->
 			<div id="wrapper">
 
@@ -29,13 +39,8 @@
                             </header>
                  
                         </div>
-
-                        <iframe  width="100%" height="100%" src="https://10.0.0.209:9090/cockpit/@localhost/storage/index.html"></iframe>
-
+                        <iframe  width="100%" height="100%" id="redirect" src="about:blank"></iframe>
                     </div>
-
-                              
-					
 				<!-- Sidebar -->
                 <div id="sidebar">
                     <div class="inner">
@@ -77,20 +82,10 @@
 
 						</div>
 					</div>
-
             </div>
-
-            
-            
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
+            <script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
             <script src="assets/js/main.js"></script>
-            
-            
-
 	</body>
 </html>

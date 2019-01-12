@@ -16,7 +16,8 @@
  @static
  @author EnergieIP / https://www.energie-ip.com/
  */
-const address = '10.0.0.209:8888/v1.0/';
+
+const address = window.location.hostname + ':8888/v1.0/';
 const weblink = 'https://'+address;
 
 const driver = "driver";
