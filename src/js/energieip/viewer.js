@@ -210,8 +210,23 @@ function CreateView(maintenance=false){
                                     energieip.ResetLedCfg(driver);
                                 }
                             }}, "reset").name("Reset");
-                        }                        
+                        }
                         controlDr.add({"OK":function(){ energieip.SendLedCmd(driver); }}, "OK").name("Apply");
+                        break;
+                    case energieip.blindDriver:
+                        var controlDr = gui.addFolder("Driver Control");
+                        controlDr.add(driver, "controlBlind1", { Stop: 0, Up: 1, Down: 2 } ).name("Action Blind 1");
+                        controlDr.add(driver, "controlBlind2", { Stop: 0, Up: 1, Down: 2 } ).name("Action Blind 2");
+                        controlDr.add(driver, "controlSlat1", { Stop: 0, Up: 1, Down: 2 } ).name("Action Slat 1");
+                        controlDr.add(driver, "controlSlat2", { Stop: 0, Up: 1, Down: 2 } ).name("Action Slat 2");
+                        if (maintenance === true) {
+                            controlDr.add({"reset": function() {
+                                if (confirm("Do you want to reset the driver configuration ?")) {
+                                    energieip.ResetBlindCfg(driver);
+                                }
+                            }}, "reset").name("Reset");
+                        }
+                        controlDr.add({"OK":function(){ energieip.SendBlindCmd(driver); }}, "OK").name("Apply");
                         break;
                     case energieip.sensorDriver:
                         if (maintenance === true) {

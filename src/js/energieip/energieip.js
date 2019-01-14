@@ -22,6 +22,7 @@ const weblink = 'https://'+address;
 
 const driver = "driver";
 const ledDriver = "led";
+const blindDriver = "blind";
 const sensorDriver = "sensor";
 const switchDevice = "switch";
 
@@ -221,6 +222,7 @@ exports.address = address;
 exports.weblink = weblink;
 exports.driver = driver;
 exports.ledDriver = ledDriver;
+exports.blindDriver = blindDriver;
 exports.sensorDriver = sensorDriver;
 exports.switchDevice = switchDevice;
 
