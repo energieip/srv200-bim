@@ -138,6 +138,8 @@
 
             this.groupControlLight = this.groupStatusLight;
             this.groupControlAuto = this.groupStatusAuto;
+            this.groupControlBlinds = 0;
+            this.groupControlBlindsSlats = 0;
             this.groupConfigName = this.groupStatusName;
             this.groupConfigSlopeStart = this.groupStatusSlopeStart;
             this.groupConfigSlopeStop = this.groupStatusSlopeStop;

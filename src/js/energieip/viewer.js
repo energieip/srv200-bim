@@ -248,6 +248,8 @@ function CreateView(maintenance=false){
                 var controlGr = gui.addFolder("Group Control");
                 controlGr.add(driver, "groupControlLight", 0, 100).name("Light (%)");
                 controlGr.add(driver, "groupControlAuto").name("Auto");
+                controlGr.add(driver, "groupControlBlindsSlats", { Stop: 0, Up: 1, Down: 2 }).name("Blinds Slats")
+                controlGr.add(driver, "groupControlBlinds", { Stop: 0, Up: 1, Down: 2 }).name("Blinds")
                 controlGr.add({"OK":function(){ energieip.SendGroupCmd(driver); }}, "OK").name("Apply");
 
                 var configuration = gui.addFolder("Driver Configuration");

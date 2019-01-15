@@ -184,7 +184,7 @@ energieip.UpdateGroupCfg = function (driver) {
 		"sensorRule": driver.groupConfigSensorRule,
 		"ruleBrightness": parseInt(driver.groupConfigRuleBrightness),
 		"rulePresence": parseInt(driver.groupConfigRulePresence),
-		"watchdog": parseInt(driver.groupConfigWatchdog),
+		"watchdog": parseInt(driver.groupConfigWatchdog)
 	};
 	xhr.send(JSON.stringify(content));
 }
@@ -214,6 +214,8 @@ energieip.SendGroupCmd = function (driver) {
 		"group": parseInt(driver.statusGroup),
 		"auto": driver.groupControlAuto,
 		"setpointLeds": parseInt(driver.groupControlLight),
+		"setpointBlinds": parseInt(driver.groupControlBlinds),
+		"setpointSlats": parseInt(driver.groupControlBlindsSlats)
 	};
 	xhr.send(JSON.stringify(content));
 }
