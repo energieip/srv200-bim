@@ -39,6 +39,7 @@ function CreateView(maintenance=false){
     function repartitionning() {
         var leds = [];
         var sensors = [];
+        var blinds = [];
         for (var label in model.meshes){
             if (drivers.hasOwnProperty(label)){
                 var d = drivers[label];
@@ -49,7 +50,10 @@ function CreateView(maintenance=false){
                             break;
                         case energieip.sensorDriver:
                             sensors.push(d.statusMac);
-                            break; 
+                            break;
+                        case energieip.blindDriver:
+                            blinds.push(d.statusMac);
+                            break;
                     }
                 }
             }
@@ -65,10 +69,11 @@ function CreateView(maintenance=false){
             get type() {
                 return "energieip.Group";
             }
-            constructor(sensors, leds) {
+            constructor(sensors, leds, blinds) {
                 this.group = 0;
                 this.sensors = sensors;
                 this.leds = leds;
+                this.blinds = blinds;
                 this.slopeStart = 10;
                 this.slopeStop = 10;
                 this.sensorRule = "average";
@@ -84,7 +89,7 @@ function CreateView(maintenance=false){
                 update();
             }
         };
-        var menuGroup = new GroupMenu(sensors, leds);
+        var menuGroup = new GroupMenu(sensors, leds, blinds);
         console.log("get menu ", menuGroup);
 
         var groupCfg = gui.addFolder("Create group");
@@ -429,6 +434,20 @@ function CreateView(maintenance=false){
                         if (maintenance === true){
                             if (elt.label === ""){
                                 var msg = "Sensor: " + elt.sensor.friendlyName + " (IP: " + elt.sensor.ip + ", MAC: "+ elt.sensor.mac+ " ) appears but not referenced";
+                                log(msg);
+                            }
+                        }
+                    }
+                }
+
+                for (var blind in evt[i].blinds){
+                    var elt = evt[i].blinds[blind];
+                    if (drivers.hasOwnProperty(elt.label)) {
+                        drivers[elt.label].updateEvent(elt.blind);
+                    } else {
+                        if (maintenance === true){
+                            if (elt.label === ""){
+                                var msg = "Blind: " + elt.blind.friendlyName + " (IP: " + elt.blind.ip + ", MAC: "+ elt.blind.mac+ " ) appears but not referenced";
                                 log(msg);
                             }
                         }
