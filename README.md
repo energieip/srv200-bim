@@ -7,4 +7,5 @@ Server UI is responsible for:
 
 For development:
 * For bim project: use *xeogl* library
-* For server management: use *cockpit* library
+* For server management: use *cockpit* software
+* For graphic display: use *Chart.js* library
