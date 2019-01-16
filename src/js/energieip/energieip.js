@@ -220,6 +220,25 @@ energieip.SendGroupCmd = function (driver) {
 	xhr.send(JSON.stringify(content));
 }
 
+energieip.ConsumptionsEvent = function (cbkOnMessage) {
+	var ws = new WebSocket("wss://" + address + "events/consumption");
+
+	ws.onmessage = function (evt) {
+		var event = JSON.parse(evt.data);
+		cbkOnMessage(event);
+	};
+
+	ws.onclose = function() {
+		console.log("connection close; reconnect");
+		energieip.ConsumptionsEvent(cbkOnMessage);
+	};
+
+	ws.onerror = function() {
+		console.log("connection on erreur ");
+	};
+
+}
+
 exports.address = address;
 exports.weblink = weblink;
 exports.driver = driver;
