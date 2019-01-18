@@ -315,7 +315,7 @@ function CreateView(maintenance=false){
     //---------------------------------------------------
     var model = new xeogl.GLTFModel({
         id: "map",
-        src: "maps/N8B_R3.optimized.gltf",
+        src: "maps/N8B_R3_mockup_V7.gltf",
         objectTree: true,
         scale: [.6, .6, .6],
         handleNode: (function() {
@@ -325,12 +325,13 @@ function CreateView(maintenance=false){
                     var parse = nodeInfo.name.split("_");
                     parse.splice(0, 1);
                     var label = parse.join("_");
-                    if (label.indexOf('_') > -1){
-                        labels += label + ","
+                    var count = (label.match(/_/g)||[]).length;
+                    if (count > 1){
+                        labels += label + ",";
+                        actions.createObject = {
+                            id: label,
+                        };
                     }
-                    actions.createObject = {
-                        id: label,
-                    };
                 }
                 return true;
             };
@@ -354,13 +355,18 @@ function CreateView(maintenance=false){
             labels = labels.substring(0, labels.length - 1);
         }
         energieip.GetIfcDump(labels, function (ifcDrivers){
-            for (var label in model.meshes){
+            for (var lbl in model.meshes){
+                var parse = lbl.split(".");
+                parse.splice(0, 0);
+                var label = parse[0];
+                if (drivers.hasOwnProperty(label)){
+                    continue
+                }
                 if (ifcDrivers.hasOwnProperty(label)){
-                    var mesh = model.meshes[label];
+                    var mesh = model.meshes[lbl];
                     var ifcModel = ifcDrivers[label];
-                    console.log("get ifcModel", ifcModel);
                     var grStatus = {};
-                    var groupID = ifcModel["status"].group;
+                    var groupID = ifcModel["status"].group || 0;
                     if (groups.hasOwnProperty(groupID)){
                         grStatus = groups[groupID];
                     } else {
@@ -398,6 +404,13 @@ function CreateView(maintenance=false){
                                 var driver = new energieip.LedMaintenance(content);
                             } else {
                                 var driver = new energieip.LedSupervision(content);
+                            }
+                            break;
+                        case energieip.blindDriver:
+                            if (maintenance === true) {
+                                var driver = new energieip.BlindMaintenance(content);
+                            } else {
+                                var driver = new energieip.BlindSupervision(content);
                             }
                             break;
                         default:
