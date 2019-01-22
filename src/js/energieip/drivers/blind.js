@@ -160,6 +160,13 @@
             update();
         }
 
+        removeEvent() {
+            super.removeEvent();
+
+            this.statusDaisyChained = false;
+            this.statusDaisyChainedPos = 0;
+        }
+
         updateEvent(driverObj) {
             super.updateEvent(driverObj);
 

@@ -215,6 +215,24 @@
             this.configThresholdPresence = this.statusThresholdPresence;
             this.configTemperatureOffset = this.statusTemperatureOffset;
         }
+
+        removeEvent() {
+            super.removeEvent();
+            this.statusTemperature = 0;
+            this.statusBrightness = 0;
+            this.statusPresence = false;
+            this.statusHumidity = 0;
+            this.statusBrightnessCorrectionFactor = 0;
+            this.statusBrightnessRaw = 0;
+            this.statusTemperatureOffset = 0;
+            this.statusTemperatureRaw = 0;
+            this.statusThresholdPresence = 0;
+            this.statusLastMovement = 0;
+
+            this.configBrightnessCorrectionFactor = this.statusBrightnessCorrectionFactor;
+            this.configThresholdPresence = this.statusThresholdPresence;
+            this.configTemperatureOffset = this.statusTemperatureOffset;
+        }
     };
 
     energieip.SensorSupervision = class sensorSupervision extends energieip.Sensor {

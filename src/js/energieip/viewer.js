@@ -257,7 +257,7 @@ function CreateView(maintenance=false){
                 if (maintenance === true){
                     configuration.add(driver, "configGroup").name("Group");
                     configuration.add(driver, "configBle").name("BLE");
-                    configuration.add(driver, "configDumpFrequency").name("Refresh Frequency (s)");
+                    configuration.add(driver, "configDumpFrequency").name("Refresh Frequency (ms)");
                     switch (driver.deviceType){
                         case energieip.ledDriver:
                             configuration.add(driver, "configThresholdLow",  0, 100).name("Threshold Low (%)");
@@ -430,7 +430,11 @@ function CreateView(maintenance=false){
                 for (var led in evt[i].leds){
                     var elt = evt[i].leds[led];
                     if (drivers.hasOwnProperty(elt.label)) {
-                        drivers[elt.label].updateEvent(elt.led);
+                        if (i === "remove"){
+                            drivers[elt.label].removeEvent();
+                        } else {
+                            drivers[elt.label].updateEvent(elt.led);
+                        }
                     } else {
                         if (maintenance === true){
                             if (elt.label === ""){
@@ -444,7 +448,11 @@ function CreateView(maintenance=false){
                 for (var sensor in evt[i].sensors){
                     var elt = evt[i].sensors[sensor];
                     if (drivers.hasOwnProperty(elt.label)) {
-                        drivers[elt.label].updateEvent(elt.sensor);
+                        if (i === "remove"){
+                            drivers[elt.label].removeEvent();
+                        } else {
+                            drivers[elt.label].updateEvent(elt.sensor);
+                        }
                     } else {
                         if (maintenance === true){
                             if (elt.label === ""){
@@ -458,7 +466,11 @@ function CreateView(maintenance=false){
                 for (var blind in evt[i].blinds){
                     var elt = evt[i].blinds[blind];
                     if (drivers.hasOwnProperty(elt.label)) {
-                        drivers[elt.label].updateEvent(elt.blind);
+                        if (i === "remove"){
+                            drivers[elt.label].removeEvent();
+                        } else {
+                            drivers[elt.label].updateEvent(elt.blind);
+                        }
                     } else {
                         if (maintenance === true){
                             if (elt.label === ""){

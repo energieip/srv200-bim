@@ -284,6 +284,28 @@
             this.glyph = this.statusGroup;
         }
 
+        removeEvent() {
+            console.log("remove");
+            this.statusGroup = 0;
+            this.statusName = "";
+            this.statusIp = "";
+            this.statusError = 0;
+            this.statusBle = false;
+            this.statusIsConfigured = false;
+            this.statusSoftwareVersion = 0;
+            this.statusHardwareVersion = 0;
+            this.statusSwitchMac = "";
+            this.statusDumpFrequency = 0;
+            this.statusVoltageInput = 0;
+
+            //Fix default value
+            this.configName = this.statusName;
+            this.configGroup = this.statusGroup;
+            this.configDumpFrequency = this.statusDumpFrequency;
+            this.configBle = this.statusBle;
+            this.glyph = this.statusGroup;
+        }
+
         updateGroupEvent(grObj) {
             console.log("update group", grObj);
             this.groupStatusLight = grObj.setpointLeds;
