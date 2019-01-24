@@ -74,8 +74,10 @@ function CreateView(maintenance=false){
                 this.sensors = sensors;
                 this.leds = leds;
                 this.blinds = blinds;
-                this.slopeStart = 10;
-                this.slopeStop = 10;
+                this.slopeStartManual = 10;
+                this.slopeStopManual = 10;
+                this.slopeStartAuto = 10;
+                this.slopeStopAuto = 10;
                 this.sensorRule = "average";
                 this.correctionInterval = 1;
                 this.name = "Group " + this.group;
@@ -95,8 +97,10 @@ function CreateView(maintenance=false){
         var groupCfg = gui.addFolder("Create group");
         groupCfg.add(menuGroup, "group").name("Group");
         groupCfg.add(menuGroup, "name").name("Name");
-        groupCfg.add(menuGroup, "slopeStart").name("Slope Start (s)");
-        groupCfg.add(menuGroup, "slopeStop").name("Slope Stop (s)");
+        groupCfg.add(menuGroup, "slopeStartManual").name("Slope Start Manual (s)");
+        groupCfg.add(menuGroup, "slopeStopManual").name("Slope Stop Manual (s)");
+        groupCfg.add(menuGroup, "slopeStartAuto").name("Slope Start Auto (s)");
+        groupCfg.add(menuGroup, "slopeStopAuto").name("Slope Stop Auto (s)");
         groupCfg.add(menuGroup, "correctionInterval").name("Correction Interval (s)");
         groupCfg.add(menuGroup, "sensorRule", ["average", "min", "max"]).name("Sensor Rule");
         groupCfg.add(menuGroup, "rulePresence").name("Rule Presence (s)");
@@ -145,7 +149,6 @@ function CreateView(maintenance=false){
                 status.add(driver, "statusGroup").name("Group").listen();
                 if (maintenance === true){
                     status.add(driver, "statusError").name("Error Status").listen();
-                    status.add(driver, "statusGroup").name("Group").listen();
                     status.add(driver, "statusBle").name("BLE").listen();
                     status.add(driver, "statusIsConfigured").name("Ready").listen();
                     status.add(driver, "statusIp").name("IP").listen();
@@ -163,6 +166,7 @@ function CreateView(maintenance=false){
                             status.add(driver, "statusLinePower").name("Line Power (W)").listen();
                             status.add(driver, "statusDuration").name("Light Duration (s)").listen();
                             status.add(driver, "statusPMax", 0, 100).name("PMax (w)").listen();
+                            status.add(driver, "statusIMax", 0, 1000).name("IMax (mA)").listen();
                             break;
                         case energieip.sensorDriver:
                             status.add(driver, "statusBrightnessCorrectionFactor").name("Brightness Correction (x)").listen();
@@ -194,8 +198,10 @@ function CreateView(maintenance=false){
                     grStatus.add(driver, "groupStatusError").name("Error Status").listen();
                     grStatus.add(driver, "groupStatusCorrectionInterval").name("Correction Interval (s)").listen();
                     grStatus.add(driver, "groupStatusSensorRule").name("Sensor Rule").listen();
-                    grStatus.add(driver, "groupStatusSlopeStart").name("Slope Start (s)").listen();
-                    grStatus.add(driver, "groupStatusSlopeStop").name("Slope Stop (s)").listen();
+                    grStatus.add(driver, "groupStatusSlopeStartManual").name("Slope Start Manual (s)").listen();
+                    grStatus.add(driver, "groupStatusSlopeStopManual").name("Slope Stop Manual (s)").listen();
+                    grStatus.add(driver, "groupStatusSlopeStartAuto").name("Slope Start Auto (s)").listen();
+                    grStatus.add(driver, "groupStatusSlopeStopAuto").name("Slope Stop Auto (s)").listen();
                     grStatus.add(driver, "groupStatusTimeToAuto").name("Time to Auto (s)").listen();
                     grStatus.add(driver, "groupStatusTimeToLeave").name("Time to Leave (s)").listen();
                     grStatus.add(driver, "groupStatusRulePresence").name("Rule Presence (s)").listen();
@@ -288,8 +294,10 @@ function CreateView(maintenance=false){
                 configurationGr.add(driver, "groupConfigName").name("Name");
                 
                 if (maintenance === true) {
-                    configurationGr.add(driver, "groupConfigSlopeStart").name("Slope Start (s)");
-                    configurationGr.add(driver, "groupConfigSlopeStop").name("Slope Stop (s)");
+                    configurationGr.add(driver, "groupConfigSlopeStartManual").name("Slope Start Manual (s)");
+                    configurationGr.add(driver, "groupConfigSlopeStopManual").name("Slope Stop Manual (s)");
+                    configurationGr.add(driver, "groupConfigSlopeStartAuto").name("Slope Start Auto (s)");
+                    configurationGr.add(driver, "groupConfigSlopeStopAuto").name("Slope Stop Auto (s)");
                     configurationGr.add(driver, "groupConfigCorrectionInterval").name("Correction Interval (s)");
                     configurationGr.add(driver, "groupConfigSensorRule", ["average", "min", "max"]).name("Sensor Rule");
                     configurationGr.add(driver, "groupConfigRulePresence").name("Rule Presence (s)");

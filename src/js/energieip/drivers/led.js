@@ -143,6 +143,7 @@
             
             this.statusDevicePower = driverObj.driverProperties.status.devicePower;
             this.statusPMax = driverObj.driverProperties.status.pMax;
+            this.statusIMax = driverObj.driverProperties.status.iMax;
             this.statusDaisyChained = driverObj.driverProperties.status.daisyChainEnabled;
             this.statusDaisyChainedPos = driverObj.driverProperties.status.daisyChainPos;
             this.statusThresholdLow = driverObj.driverProperties.status.thresholdLow;
@@ -207,6 +208,7 @@
 
             this.statusDevicePower = driverObj.devicePower;
             this.statusPMax = driverObj.pMax;
+            this.statusIMax = driverObj.iMax;
             this.statusDaisyChained = driverObj.daisyChainEnabled;
             this.statusDaisyChainedPos = driverObj.daisyChainPos;
             this.statusThresholdHigh = driverObj.thresholdHigh;
@@ -232,6 +234,7 @@
 
             this.statusDevicePower = 0;
             this.statusPMax = 0;
+            this.statusIMax = 0;
             this.statusDaisyChained = false;
             this.statusDaisyChainedPos = 0;
             this.statusThresholdHigh = 100;

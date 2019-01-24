@@ -97,16 +97,28 @@
                 this.groupStatusSensorRule = "average";
             }
 
-            if (driverObj.groupProperties.hasOwnProperty("slopeStart")) {
-                this.groupStatusSlopeStart = driverObj.groupProperties.slopeStart;
+            if (driverObj.groupProperties.hasOwnProperty("slopeStartManual")) {
+                this.groupStatusSlopeStartManual = driverObj.groupProperties.slopeStartManual;
             } else {
-                this.groupStatusSlopeStart = 0;
+                this.groupStatusSlopeStartManual = 0;
             }
 
-            if (driverObj.groupProperties.hasOwnProperty("slopeStop")) {
-                this.groupStatusSlopeStop = driverObj.groupProperties.slopeStop;
+            if (driverObj.groupProperties.hasOwnProperty("slopeStopManual")) {
+                this.groupStatusSlopeStopManual = driverObj.groupProperties.slopeStopManual;
             } else {
-                this.groupStatusSlopeStop = 0;
+                this.groupStatusSlopeStopManual = 0;
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("slopeStartAuto")) {
+                this.groupStatusSlopeStartAuto = driverObj.groupProperties.slopeStartAuto;
+            } else {
+                this.groupStatusSlopeStartAuto = 0;
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("slopeStopAuto")) {
+                this.groupStatusSlopeStopAuto = driverObj.groupProperties.slopeStopAuto;
+            } else {
+                this.groupStatusSlopeStopAuto = 0;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("watchdog")) {
@@ -141,8 +153,10 @@
             this.groupControlBlinds = 0;
             this.groupControlBlindsSlats = 0;
             this.groupConfigName = this.groupStatusName;
-            this.groupConfigSlopeStart = this.groupStatusSlopeStart;
-            this.groupConfigSlopeStop = this.groupStatusSlopeStop;
+            this.groupConfigSlopeStartManual = this.groupStatusSlopeStartManual;
+            this.groupConfigSlopeStopManual = this.groupStatusSlopeStopManual;
+            this.groupConfigSlopeStartAuto = this.groupStatusSlopeStartAuto;
+            this.groupConfigSlopeStopAuto = this.groupStatusSlopeStopAuto;
             this.groupConfigCorrectionInterval = this.groupStatusCorrectionInterval;
             this.groupConfigSensorRule = this.groupStatusSensorRule;
             this.groupConfigRuleBrightness = this.groupStatusRuleBrightness;
@@ -316,8 +330,10 @@
             this.groupStatusGroup = grObj.group;
             this.groupStatusCorrectionInterval = grObj.correctionInterval;
             this.groupStatusSensorRule = grObj.sensorRule;
-            this.groupStatusSlopeStart = grObj.slopeStart;
-            this.groupStatusSlopeStop = grObj.slopeStop;
+            this.groupStatusSlopeStartManual = grObj.slopeStartManual;
+            this.groupStatusSlopeStopManual = grObj.slopeStopManual;
+            this.groupStatusSlopeStartAuto = grObj.slopeStartAuto;
+            this.groupStatusSlopeStopAuto = grObj.slopeStopAuto;
             this.groupStatusWatchdog = grObj.watchdog;
             this.groupStatusTimeToAuto = grObj.timeToAuto;
             this.groupStatusTimeToLeave = grObj.timeToLeave;
@@ -331,8 +347,10 @@
             this.groupControlLight = this.groupStatusLight;
             this.groupControlAuto = this.groupStatusAuto;
             this.groupConfigName = this.groupStatusName;
-            this.groupConfigSlopeStart = this.groupStatusSlopeStart;
-            this.groupConfigSlopeStop = this.groupStatusSlopeStop;
+            this.groupConfigSlopeStartManual = this.groupStatusSlopeStartManual;
+            this.groupConfigSlopeStopManual = this.groupStatusSlopeStopManual;
+            this.groupConfigSlopeStartAuto = this.groupStatusSlopeStartAuto;
+            this.groupConfigSlopeStopAuto = this.groupStatusSlopeStopAuto;
             this.groupConfigCorrectionInterval = this.groupStatusCorrectionInterval;
             this.groupConfigSensorRule = this.groupStatusSensorRule;
             this.groupConfigRuleBrightness = this.groupStatusRuleBrightness;
