@@ -53,7 +53,7 @@
             "friendlyName": driver.configName,
             "group": parseInt(driver.configGroup),
             "isBleEnabled": driver.configBle,
-            "dumpFrequency": parseInt(driver.configDumpFrequency),
+            "dumpFrequency": parseInt(driver.configDumpFrequency) * 1000,
             "brightnessCorrectionFactor": parseInt(driver.configBrightnessCorrectionFactor),
             "thresholdPresence": parseInt(driver.configThresholdPresence),
             "temperatureOffset": parseInt(driver.configTemperatureOffset),

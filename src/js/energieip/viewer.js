@@ -182,7 +182,7 @@ function CreateView(maintenance=false){
                     status.add(driver, "statusSoftwareVersion").name("Software Version").listen();
                     status.add(driver, "statusHardwareVersion").name("Hardware Version").listen();
                     status.add(driver, "statusSwitchMac").name("Switch Mac address").listen();
-                    status.add(driver, "statusDumpFrequency").name("Refresh Frequency (ms)").listen();
+                    status.add(driver, "statusDumpFrequency").name("Refresh Frequency (s)").listen();
                 }
 
                 status.open();
@@ -263,7 +263,7 @@ function CreateView(maintenance=false){
                 if (maintenance === true){
                     configuration.add(driver, "configGroup").name("Group");
                     configuration.add(driver, "configBle").name("BLE");
-                    configuration.add(driver, "configDumpFrequency").name("Refresh Frequency (ms)");
+                    configuration.add(driver, "configDumpFrequency").name("Refresh Frequency (s)");
                     switch (driver.deviceType){
                         case energieip.ledDriver:
                             configuration.add(driver, "configThresholdLow",  0, 100).name("Threshold Low (%)");

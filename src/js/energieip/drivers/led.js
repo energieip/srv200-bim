@@ -54,7 +54,7 @@
             "isBleEnabled": driver.configBle,
             "group": parseInt(driver.configGroup),
             "watchdog": parseInt(driver.configWatchdog),
-            "dumpFrequency": parseInt(driver.configDumpFrequency),
+            "dumpFrequency": parseInt(driver.configDumpFrequency) * 1000,
             "thresoldHigh": parseInt(driver.configThresholdHigh),
             "thresoldLow": parseInt(driver.configThresholdLow),
         };

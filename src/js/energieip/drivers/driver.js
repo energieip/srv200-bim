@@ -41,7 +41,7 @@
             this.statusSoftwareVersion = driverObj.driverProperties.status.softwareVersion;
             this.statusHardwareVersion = driverObj.driverProperties.status.hardwareVersion;
             this.statusSwitchMac = driverObj.driverProperties.status.switchMac;
-            this.statusDumpFrequency = driverObj.driverProperties.status.dumpFrequency;
+            this.statusDumpFrequency = driverObj.driverProperties.status.dumpFrequency / 1000;
             this.statusVoltageInput = driverObj.driverProperties.status.voltageInput;
 
             this.configName = this.statusName;
@@ -98,25 +98,25 @@
             }
 
             if (driverObj.groupProperties.hasOwnProperty("slopeStartManual")) {
-                this.groupStatusSlopeStartManual = driverObj.groupProperties.slopeStartManual;
+                this.groupStatusSlopeStartManual = driverObj.groupProperties.slopeStartManual / 1000; //data in ms
             } else {
                 this.groupStatusSlopeStartManual = 0;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("slopeStopManual")) {
-                this.groupStatusSlopeStopManual = driverObj.groupProperties.slopeStopManual;
+                this.groupStatusSlopeStopManual = driverObj.groupProperties.slopeStopManual / 1000; //data in ms
             } else {
                 this.groupStatusSlopeStopManual = 0;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("slopeStartAuto")) {
-                this.groupStatusSlopeStartAuto = driverObj.groupProperties.slopeStartAuto;
+                this.groupStatusSlopeStartAuto = driverObj.groupProperties.slopeStartAuto / 1000; //data in ms
             } else {
                 this.groupStatusSlopeStartAuto = 0;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("slopeStopAuto")) {
-                this.groupStatusSlopeStopAuto = driverObj.groupProperties.slopeStopAuto;
+                this.groupStatusSlopeStopAuto = driverObj.groupProperties.slopeStopAuto / 1000; //data in ms
             } else {
                 this.groupStatusSlopeStopAuto = 0;
             }
@@ -287,7 +287,7 @@
             this.statusSoftwareVersion = driverObj.softwareVersion;
             this.statusHardwareVersion = driverObj.hardwareVersion;
             this.statusSwitchMac = driverObj.switchMac;
-            this.statusDumpFrequency = driverObj.dumpFrequency;
+            this.statusDumpFrequency = driverObj.dumpFrequency / 1000;
             this.statusVoltageInput = driverObj.voltageInput;
 
             //Fix default value
@@ -330,10 +330,10 @@
             this.groupStatusGroup = grObj.group;
             this.groupStatusCorrectionInterval = grObj.correctionInterval;
             this.groupStatusSensorRule = grObj.sensorRule;
-            this.groupStatusSlopeStartManual = grObj.slopeStartManual;
-            this.groupStatusSlopeStopManual = grObj.slopeStopManual;
-            this.groupStatusSlopeStartAuto = grObj.slopeStartAuto;
-            this.groupStatusSlopeStopAuto = grObj.slopeStopAuto;
+            this.groupStatusSlopeStartManual = grObj.slopeStartManual / 1000; //data in ms
+            this.groupStatusSlopeStopManual = grObj.slopeStopManual / 1000; //data in ms
+            this.groupStatusSlopeStartAuto = grObj.slopeStartAuto / 1000; //data in ms
+            this.groupStatusSlopeStopAuto = grObj.slopeStopAuto / 1000; //data in ms
             this.groupStatusWatchdog = grObj.watchdog;
             this.groupStatusTimeToAuto = grObj.timeToAuto;
             this.groupStatusTimeToLeave = grObj.timeToLeave;
