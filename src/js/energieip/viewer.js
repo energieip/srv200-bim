@@ -331,7 +331,7 @@ function CreateView(maintenance=false){
                 console.log("=== " , nodeInfo);
                 if (nodeInfo.name && nodeInfo.mesh !== undefined) {
                     var parse = nodeInfo.name.split("_");
-                    parse.splice(0, 1);
+                    parse.splice(0, 2);
                     var label = parse.join("_");
                     var count = (label.match(/_/g)||[]).length;
                     if (count > 1){
