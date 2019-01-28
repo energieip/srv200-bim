@@ -323,7 +323,7 @@ function CreateView(maintenance=false){
     //---------------------------------------------------
     var model = new xeogl.GLTFModel({
         id: "map",
-        src: "maps/N8B_R3_mockup_V7.gltf",
+        src: "maps/N8B_R3_mockup_V8.gltf",
         objectTree: true,
         scale: [.6, .6, .6],
         handleNode: (function() {
