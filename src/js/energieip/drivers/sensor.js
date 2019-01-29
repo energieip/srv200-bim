@@ -4,15 +4,15 @@
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE){
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE) {
                 switch (this.status) {
                     case 200:
                         alert("Success");
                         break;
                     case 500:
                         var obj = JSON.parse(xhr.responseText);
-                        alert("Error: "+ obj.message);
+                        alert("Error: " + obj.message);
                         break;
                     default:
                         alert("Error");
@@ -32,7 +32,7 @@
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE) {
                 switch (this.status) {
                     case 200:
@@ -40,7 +40,7 @@
                         break;
                     case 500:
                         var obj = JSON.parse(xhr.responseText);
-                        alert("Error: "+ obj.message);
+                        alert("Error: " + obj.message);
                         break;
                     default:
                         alert("Error");
@@ -56,7 +56,7 @@
             "dumpFrequency": parseInt(driver.configDumpFrequency) * 1000,
             "brightnessCorrectionFactor": parseInt(driver.configBrightnessCorrectionFactor),
             "thresholdPresence": parseInt(driver.configThresholdPresence),
-            "temperatureOffset": parseInt(driver.configTemperatureOffset),
+            "temperatureOffset": parseInt(driver.configTemperatureOffset) * 10,
         };
         xhr.send(JSON.stringify(content));
     }
@@ -66,7 +66,7 @@
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE) {
                 if (this.status === 200) {
                     alert("Command successfull");
@@ -86,7 +86,7 @@
         get type() {
             return "energieip.Sensor";
         }
- 
+
         init(driverObj) {
             super.init(driverObj);
             this.default_color = "xeogl-annotation-pin-sensor";
@@ -116,7 +116,7 @@
             this.statusTemperature = driverObj.driverProperties.status.temperature / 10; //value in 1/10 °C
             this.statusBrightness = driverObj.driverProperties.status.brightness;
             this.statusPresence = driverObj.driverProperties.status.presence;
-            this.statusHumidity = driverObj.driverProperties.status.humidity;
+            this.statusHumidity = driverObj.driverProperties.status.humidity / 10;
 
             this.statusBrightnessCorrectionFactor = driverObj.driverProperties.status.brightnessCorrectionFactor;
             this.statusBrightnessRaw = driverObj.driverProperties.status.brightnessRaw;
@@ -203,7 +203,7 @@
             this.statusTemperature = driverObj.temperature / 10; //value in 1/10 °C
             this.statusBrightness = driverObj.brightness;
             this.statusPresence = driverObj.presence;
-            this.statusHumidity = driverObj.humidity;
+            this.statusHumidity = driverObj.humidity / 10;
             this.statusBrightnessCorrectionFactor = driverObj.brightnessCorrectionFactor;
             this.statusBrightnessRaw = driverObj.brightnessRaw;
             this.statusTemperatureOffset = driverObj.temperatureOffset / 10; //value in 1/10 °C
