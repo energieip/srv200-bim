@@ -344,18 +344,18 @@
                 this.groupStatusRulePresence = grObj.rulePresence || 0;
             }
 
-            this.groupControlLight = this.groupStatusLight;
-            this.groupControlAuto = this.groupStatusAuto;
-            this.groupConfigName = this.groupStatusName;
-            this.groupConfigSlopeStartManual = this.groupStatusSlopeStartManual;
-            this.groupConfigSlopeStopManual = this.groupStatusSlopeStopManual;
-            this.groupConfigSlopeStartAuto = this.groupStatusSlopeStartAuto;
-            this.groupConfigSlopeStopAuto = this.groupStatusSlopeStopAuto;
-            this.groupConfigCorrectionInterval = this.groupStatusCorrectionInterval;
-            this.groupConfigSensorRule = this.groupStatusSensorRule;
-            this.groupConfigRuleBrightness = this.groupStatusRuleBrightness;
-            this.groupConfigRulePresence = this.groupStatusRulePresence;
-            this.groupConfigWatchdog = this.groupStatusWatchdog;
+            // this.groupControlLight = this.groupStatusLight;
+            // this.groupControlAuto = this.groupStatusAuto;
+            // this.groupConfigName = this.groupStatusName;
+            // this.groupConfigSlopeStartManual = this.groupStatusSlopeStartManual;
+            // this.groupConfigSlopeStopManual = this.groupStatusSlopeStopManual;
+            // this.groupConfigSlopeStartAuto = this.groupStatusSlopeStartAuto;
+            // this.groupConfigSlopeStopAuto = this.groupStatusSlopeStopAuto;
+            // this.groupConfigCorrectionInterval = this.groupStatusCorrectionInterval;
+            // this.groupConfigSensorRule = this.groupStatusSensorRule;
+            // this.groupConfigRuleBrightness = this.groupStatusRuleBrightness;
+            // this.groupConfigRulePresence = this.groupStatusRulePresence;
+            // this.groupConfigWatchdog = this.groupStatusWatchdog;
         }
     };
 }

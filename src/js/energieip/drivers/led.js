@@ -141,19 +141,19 @@
             this.statusAuto = driverObj.driverProperties.status.auto;
             this.statusLight = driverObj.driverProperties.status.setpoint;
             
-            this.statusDevicePower = driverObj.driverProperties.status.devicePower;
-            this.statusPMax = driverObj.driverProperties.status.pMax;
-            this.statusIMax = driverObj.driverProperties.status.iMax;
-            this.statusDaisyChained = driverObj.driverProperties.status.daisyChainEnabled;
-            this.statusDaisyChainedPos = driverObj.driverProperties.status.daisyChainPos;
-            this.statusThresholdLow = driverObj.driverProperties.status.thresholdLow;
-            this.statusThresholdHigh = driverObj.driverProperties.status.thresholdHigh;
-            this.statusVoltageLed = driverObj.driverProperties.status.voltageLed;
-            this.statusEnergy = driverObj.driverProperties.status.energy;
-            this.statusDuration = driverObj.driverProperties.status.duration;
-            this.statusTimeToAuto = driverObj.driverProperties.status.timeToAuto;
-            this.statusLinePower = driverObj.driverProperties.status.linePower;
-            this.statusWatchdog = driverObj.driverProperties.status.watchdog;
+            this.statusDevicePower = driverObj.driverProperties.status.devicePower || 0;
+            this.statusPMax = driverObj.driverProperties.status.pMax || 0;
+            this.statusIMax = driverObj.driverProperties.status.iMax || 0;
+            this.statusDaisyChained = driverObj.driverProperties.status.daisyChainEnabled || false;
+            this.statusDaisyChainedPos = driverObj.driverProperties.status.daisyChainPos || 0;
+            this.statusThresholdLow = driverObj.driverProperties.status.thresholdLow || 0;
+            this.statusThresholdHigh = driverObj.driverProperties.status.thresholdHigh || 100;
+            this.statusVoltageLed = driverObj.driverProperties.status.voltageLed || 0;
+            this.statusEnergy = driverObj.driverProperties.status.energy || 0;
+            this.statusDuration = driverObj.driverProperties.status.duration || 0;
+            this.statusTimeToAuto = driverObj.driverProperties.status.timeToAuto || 0;
+            this.statusLinePower = driverObj.driverProperties.status.linePower || 0;
+            this.statusWatchdog = driverObj.driverProperties.status.watchdog || 0;
 
             this.configWatchdog = this.statusWatchdog;
             this.configThresholdLow = this.statusThresholdLow;
@@ -180,7 +180,7 @@
             if (this._status_auto === val) {
                 return;
             }
-            this._status_auto = val;
+            this._status_auto = val || false;
             this.fire("auto", this);
         }
 
@@ -206,19 +206,19 @@
             this.statusAuto = driverObj.auto;
             this.statusLight = driverObj.setpoint;
 
-            this.statusDevicePower = driverObj.devicePower;
-            this.statusPMax = driverObj.pMax;
-            this.statusIMax = driverObj.iMax;
-            this.statusDaisyChained = driverObj.daisyChainEnabled;
-            this.statusDaisyChainedPos = driverObj.daisyChainPos;
-            this.statusThresholdHigh = driverObj.thresholdHigh;
-            this.statusThresholdLow = driverObj.thresholdLow;
-            this.statusVoltageLed = driverObj.voltageLed;
-            this.statusDuration = driverObj.duration;
-            this.statusTimeToAuto = driverObj.timeToAuto;
-            this.statusEnergy = driverObj.energy;
-            this.statusLinePower = driverObj.linePower;
-            this.statusWatchdog = driverObj.watchdog;
+            this.statusDevicePower = driverObj.devicePower || 0;
+            this.statusPMax = driverObj.pMax || 0;
+            this.statusIMax = driverObj.iMax || 0;
+            this.statusDaisyChained = driverObj.daisyChainEnabled || false;
+            this.statusDaisyChainedPos = driverObj.daisyChainPos || 0;
+            this.statusThresholdHigh = driverObj.thresholdHigh || 100;
+            this.statusThresholdLow = driverObj.thresholdLow || 0;
+            this.statusVoltageLed = driverObj.voltageLed || 0;
+            this.statusDuration = driverObj.duration || 0;
+            this.statusTimeToAuto = driverObj.timeToAuto || 0;
+            this.statusEnergy = driverObj.energy || 0;
+            this.statusLinePower = driverObj.linePower || 0;
+            this.statusWatchdog = driverObj.watchdog || 0;
 
             this.configWatchdog = this.statusWatchdog;
             this.configThresholdLow = this.statusThresholdLow;
