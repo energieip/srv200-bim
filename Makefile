@@ -11,6 +11,13 @@ deb-amd64:
 	$(eval BUILD_PATH := $(shell echo "build/$(BUILD_NAME)"))
 	make deb VERSION=$(VERSION) BUILD_PATH=$(BUILD_PATH) ARCH=$(ARCH) BUILD_NAME=$(BUILD_NAME)
 
+deb-armhf:
+	$(eval VERSION := $(shell cat ./version))
+	$(eval ARCH := $(shell echo "armhf"))
+	$(eval BUILD_NAME := $(shell echo "$(COMPONENT)-$(VERSION)-$(ARCH)"))
+	$(eval BUILD_PATH := $(shell echo "build/$(BUILD_NAME)"))
+	make deb VERSION=$(VERSION) BUILD_PATH=$(BUILD_PATH) ARCH=$(ARCH) BUILD_NAME=$(BUILD_NAME)
+
 deb:
 	mkdir -p $(BUILD_PATH)/media/userdata/www/webui $(BUILD_PATH)/etc/apache2/sites-available
 	cp -r ./scripts/DEBIAN $(BUILD_PATH)/
