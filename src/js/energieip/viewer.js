@@ -145,6 +145,10 @@ function CreateView(maintenance=false){
                         status.add(driver, "statusPresence").name("Presence").listen();
                         status.add(driver, "statusHumidity", 0, 100).name("Humidity (%)").listen();
                         break;
+                    case energieip.blindDriver:
+                        status.add(driver, "statusWindowOpen1").name("Window 1 Open").listen();
+                        status.add(driver, "statusWindowOpen2").name("Window 2 Open").listen();
+                        break;
                 }
                 status.add(driver, "statusGroup").name("Group").listen();
                 if (maintenance === true){
