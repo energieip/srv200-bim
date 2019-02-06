@@ -232,8 +232,8 @@ function CreateView(maintenance=false){
                         var controlDr = gui.addFolder("Driver Control");
                         controlDr.add(driver, "controlBlind1", { Stop: 0, Up: 1, Down: 2 } ).name("Action Blind 1");
                         controlDr.add(driver, "controlBlind2", { Stop: 0, Up: 1, Down: 2 } ).name("Action Blind 2");
-                        controlDr.add(driver, "controlSlat1", { Stop: 0, Up: 1, Down: 2 } ).name("Action Slat 1");
-                        controlDr.add(driver, "controlSlat2", { Stop: 0, Up: 1, Down: 2 } ).name("Action Slat 2");
+                        controlDr.add(driver, "controlSlat1", 0,  90 ).name("Action Slat 1");
+                        controlDr.add(driver, "controlSlat2", 0,  90 ).name("Action Slat 2");
                         if (maintenance === true) {
                             controlDr.add({"reset": function() {
                                 if (confirm("Do you want to reset the driver configuration ?")) {
@@ -258,8 +258,8 @@ function CreateView(maintenance=false){
                 var controlGr = gui.addFolder("Group Control");
                 controlGr.add(driver, "groupControlLight", 0, 100).name("Light (%)");
                 controlGr.add(driver, "groupControlAuto").name("Auto");
-                controlGr.add(driver, "groupControlBlindsSlats", { Stop: 0, Up: 1, Down: 2 }).name("Blinds Slats")
                 controlGr.add(driver, "groupControlBlinds", { Stop: 0, Up: 1, Down: 2 }).name("Blinds")
+                controlGr.add(driver, "groupControlBlindsSlats", 0,  90).name("Blinds Slats")
                 controlGr.add({"OK":function(){ energieip.SendGroupCmd(driver); }}, "OK").name("Apply");
 
                 var configuration = gui.addFolder("Driver Configuration");
