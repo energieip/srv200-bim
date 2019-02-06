@@ -140,8 +140,8 @@
             
             this.statusDaisyChained = driverObj.driverProperties.status.daisyChainEnabled;
             this.statusDaisyChainedPos = driverObj.driverProperties.status.daisyChainPos;
-            this.statusWindowOpen1 = driverObj.driverProperties.status.windowOpen1;
-            this.statusWindowOpen2 = driverObj.driverProperties.status.windowOpen2;
+            this.statusWindowStatus1 = driverObj.driverProperties.status.windowStatus1;
+            this.statusWindowStatus2 = driverObj.driverProperties.status.windowStatus2;
 
             this.controlBlind1 = 0;
             this.controlBlind2 = 0;
@@ -167,8 +167,8 @@
 
             this.statusDaisyChained = false;
             this.statusDaisyChainedPos = 0;
-            this.statusWindowOpen1 = false;
-            this.statusWindowOpen2 = false;
+            this.statusWindowStatus1 = false;
+            this.statusWindowStatus2 = false;
         }
 
         updateEvent(driverObj) {
@@ -176,8 +176,8 @@
 
             this.statusDaisyChained = driverObj.daisyChainEnabled;
             this.statusDaisyChainedPos = driverObj.daisyChainPos;
-            this.statusWindowOpen1 = driverObj.windowOpen1;
-            this.statusWindowOpen2 = driverObj.windowOpen2;
+            this.statusWindowStatus1 = driverObj.windowStatus1;
+            this.statusWindowStatus2 = driverObj.windowStatus2;
         }
     };
 
