@@ -28,6 +28,7 @@ const switchDevice = "switch";
 
 energieip.Notifications = function (cbkOnMessage) {
 	var ws = new WebSocket("wss://" + address + "events");
+	console.log("Connect ws ", ws);
 
 	ws.onmessage = function (evt) {
 		var event = JSON.parse(evt.data);
@@ -40,7 +41,8 @@ energieip.Notifications = function (cbkOnMessage) {
 	};
 
 	ws.onerror = function() {
-		console.log("connection on erreur ");
+		console.log("connection on erreur; reconnect");
+		energieip.Notifications(cbkOnMessage);
 	};
 
 }

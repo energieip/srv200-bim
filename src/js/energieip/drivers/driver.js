@@ -291,10 +291,10 @@
             this.statusVoltageInput = driverObj.voltageInput;
 
             //Fix default value
-            this.configName = this.statusName;
-            this.configGroup = this.statusGroup;
-            this.configDumpFrequency = this.statusDumpFrequency;
-            this.configBle = this.statusBle;
+            // this.configName = this.statusName;
+            // this.configGroup = this.statusGroup;
+            // this.configDumpFrequency = this.statusDumpFrequency;
+            // this.configBle = this.statusBle;
             this.glyph = this.statusGroup;
         }
 
@@ -313,15 +313,14 @@
             this.statusVoltageInput = 0;
 
             //Fix default value
-            this.configName = this.statusName;
-            this.configGroup = this.statusGroup;
-            this.configDumpFrequency = this.statusDumpFrequency;
-            this.configBle = this.statusBle;
+            // this.configName = this.statusName;
+            // this.configGroup = this.statusGroup;
+            // this.configDumpFrequency = this.statusDumpFrequency;
+            // this.configBle = this.statusBle;
             this.glyph = this.statusGroup;
         }
 
         updateGroupEvent(grObj) {
-            console.log("update group", grObj);
             this.groupStatusLight = grObj.setpointLeds;
             this.groupStatusName = grObj.friendlyName;
             this.groupStatusPresence = grObj.presence;

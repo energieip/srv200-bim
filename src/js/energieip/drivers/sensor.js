@@ -211,9 +211,9 @@
             this.statusThresholdPresence = driverObj.thresholdPresence;
             this.statusLastMovement = driverObj.lastMovement;
 
-            this.configBrightnessCorrectionFactor = this.statusBrightnessCorrectionFactor;
-            this.configThresholdPresence = this.statusThresholdPresence;
-            this.configTemperatureOffset = this.statusTemperatureOffset;
+            // this.configBrightnessCorrectionFactor = this.statusBrightnessCorrectionFactor;
+            // this.configThresholdPresence = this.statusThresholdPresence;
+            // this.configTemperatureOffset = this.statusTemperatureOffset;
         }
 
         removeEvent() {
@@ -229,9 +229,9 @@
             this.statusThresholdPresence = 0;
             this.statusLastMovement = 0;
 
-            this.configBrightnessCorrectionFactor = this.statusBrightnessCorrectionFactor;
-            this.configThresholdPresence = this.statusThresholdPresence;
-            this.configTemperatureOffset = this.statusTemperatureOffset;
+            // this.configBrightnessCorrectionFactor = this.statusBrightnessCorrectionFactor;
+            // this.configThresholdPresence = this.statusThresholdPresence;
+            // this.configTemperatureOffset = this.statusTemperatureOffset;
         }
     };
 

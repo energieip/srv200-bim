@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Viewer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+    <link href="css/styles.css" rel="stylesheet"/>  
+    <link href="css/annotation-style.css" rel="stylesheet"/>
+
+    <style>
+        body {
+            background-color: white;
+            padding: 0;
+            margin: 0;
+        }
+        canvas{
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+    </style>
+
+<body>
+    <script src="js/chart/Chart.min.js"></script>
+    <script src="js/chart/utils.js"></script>
+    <script src="js/energieip/energieip.js"></script>
+    <script src="js/energieip/statsHvacs.js"></script>
+
+    <div style="width:75%;">
+        <canvas id="stats"></canvas>
+    </div>
+
+    <script>
+        CreateStats();
+    </script>
+
+</body>
+</html>

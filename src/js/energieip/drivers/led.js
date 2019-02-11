@@ -246,11 +246,11 @@
             this.statusLinePower = 0;
             this.statusWatchdog = 0;
 
-            this.configWatchdog = this.statusWatchdog;
-            this.configThresholdLow = this.statusThresholdLow;
-            this.configThresholdHigh = this.statusThresholdHigh;
-            this.controlLight = this.statusLight;
-            this.controlAuto = this.statusAuto;
+            // this.configWatchdog = this.statusWatchdog;
+            // this.configThresholdLow = this.statusThresholdLow;
+            // this.configThresholdHigh = this.statusThresholdHigh;
+            // this.controlLight = this.statusLight;
+            // this.controlAuto = this.statusAuto;
         }
     };
 
