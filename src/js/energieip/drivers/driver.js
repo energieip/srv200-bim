@@ -55,6 +55,12 @@
                 this.groupStatusLight = 0;
             }
 
+            if (driverObj.groupProperties.hasOwnProperty("setpointLedsFirstDay")) {
+                this.groupStatusLightFirstDay = driverObj.groupProperties.setpointLedsFirstDay;
+            } else {
+                this.groupStatusLightFirstDay = 0;
+            }
+
             if (driverObj.groupProperties.hasOwnProperty("friendlyName")) {
                 this.groupStatusName = driverObj.groupProperties.friendlyName;
             } else {
@@ -149,10 +155,12 @@
             }
 
             this.groupControlLight = this.groupStatusLight;
+            this.groupControlLightFirstDay = this.groupStatusLightFirstDay;
             this.groupControlAuto = this.groupStatusAuto;
             this.groupControlBlinds = 0;
             this.groupControlBlindsSlats = 0;
             this.groupConfigName = this.groupStatusName;
+            this.groupConfigFirstDayOffset = 0;
             this.groupConfigSlopeStartManual = this.groupStatusSlopeStartManual;
             this.groupConfigSlopeStopManual = this.groupStatusSlopeStopManual;
             this.groupConfigSlopeStartAuto = this.groupStatusSlopeStartAuto;
@@ -336,6 +344,12 @@
             this.groupStatusWatchdog = grObj.watchdog;
             this.groupStatusTimeToAuto = grObj.timeToAuto;
             this.groupStatusTimeToLeave = grObj.timeToLeave;
+            if (grObj.hasOwnProperty("firstDayOffset")) {
+                this.groupStatusFirstDayOffset = grObj.firstDayOffset || 0;
+            }
+            if (grObj.hasOwnProperty("setpointLedsFirstDay")) {
+                this.groupStatusLightFirstDay = grObj.setpointLedsFirstDay || 0;
+            } 
             if (grObj.hasOwnProperty("ruleBrightness")) {
                 this.groupStatusRuleBrightness = grObj.ruleBrightness || 0;
             }

@@ -189,13 +189,14 @@ function CreateView(maintenance=false){
                     status.add(driver, "statusDumpFrequency").name("Refresh Frequency (s)").listen();
                 }
 
-                status.open();
+                //status.open();
 
                 var grStatus = gui.addFolder("Group Status");
                 grStatus.add(driver, "groupStatusName").name("Name").listen();
                 grStatus.add(driver, "groupStatusGroup").name("Group").listen();
                 grStatus.add(driver, "groupStatusLight", 0, 100).name("Light (%)").listen();
-                grStatus.add(driver, "groupStatusPresence").name("Presence").listen();
+                grStatus.add(driver, "groupStatusLightFirstDay", 0, 100).name("1st Days Light (%)").listen();
+                grStatus.add(driver, "groupStatusPresence").name("Detection").listen();
                 grStatus.add(driver, "groupStatusAuto").name("Auto").listen();
 
                 if (maintenance === true){
@@ -210,6 +211,7 @@ function CreateView(maintenance=false){
                     grStatus.add(driver, "groupStatusTimeToLeave").name("Time to Leave (s)").listen();
                     grStatus.add(driver, "groupStatusRulePresence").name("Rule Presence (s)").listen();
                     grStatus.add(driver, "groupStatusRuleBrightness").name("Rule Brightness (Lux)").listen();
+                    grStatus.add(driver, "groupStatusFirstDayOffset").name("1st Day Offset (%)").listen();
                     grStatus.add(driver, "groupStatusWatchdog").name("Watchdog (s)").listen();
                 }
 
@@ -306,6 +308,7 @@ function CreateView(maintenance=false){
                     configurationGr.add(driver, "groupConfigSensorRule", ["average", "min", "max"]).name("Sensor Rule");
                     configurationGr.add(driver, "groupConfigRulePresence").name("Rule Presence (s)");
                     configurationGr.add(driver, "groupConfigRuleBrightness").name("Rule Brightness (Lux)");
+                    configurationGr.add(driver, "groupConfigFirstDayOffset").name("1st Day Offset (%)");
                     configurationGr.add(driver, "groupConfigWatchdog").name("Watchdog (s)");
                     configurationGr.add({"OK": function(){ energieip.UpdateGroupCfg(driver); }}, "OK").name("Apply");
 

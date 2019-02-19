@@ -190,6 +190,7 @@ energieip.UpdateGroupCfg = function (driver) {
 		"sensorRule": driver.groupConfigSensorRule,
 		"ruleBrightness": parseInt(driver.groupConfigRuleBrightness),
 		"rulePresence": parseInt(driver.groupConfigRulePresence),
+		"firstDayOffset": parseInt(driver.groupConfigFirstDayOffset),
 		"watchdog": parseInt(driver.groupConfigWatchdog)
 	};
 	xhr.send(JSON.stringify(content));
