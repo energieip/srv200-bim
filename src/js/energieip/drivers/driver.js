@@ -45,7 +45,7 @@
             this.statusVoltageInput = driverObj.driverProperties.status.voltageInput;
 
             this.configName = this.statusName;
-            this.configGroup = this.statusGroup;
+            this.configGroup = this.statusGroup.toString() || "0";
             this.configDumpFrequency = this.statusDumpFrequency;
             this.configBle = this.statusBle;
             
