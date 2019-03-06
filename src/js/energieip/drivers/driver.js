@@ -46,7 +46,7 @@
 
             this.configName = this.statusName;
             this.configGroup = this.statusGroup.toString() || "0";
-            this.configDumpFrequency = this.statusDumpFrequency;
+            this.configDumpFrequency = this.statusDumpFrequency.toString() || "0";
             this.configBle = this.statusBle;
             
             if (driverObj.groupProperties.hasOwnProperty("setpointLeds")) {

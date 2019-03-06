@@ -155,7 +155,7 @@
             this.statusLinePower = driverObj.driverProperties.status.linePower || 0;
             this.statusWatchdog = driverObj.driverProperties.status.watchdog || 0;
 
-            this.configWatchdog = this.statusWatchdog;
+            this.configWatchdog = this.statusWatchdog.toString() || "0";
             this.configThresholdLow = this.statusThresholdLow;
             this.configThresholdHigh = this.statusThresholdHigh;
 
