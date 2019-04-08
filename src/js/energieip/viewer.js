@@ -330,9 +330,10 @@ function CreateView(maintenance=false){
     //---------------------------------------------------
     var model = new xeogl.GLTFModel({
         id: "map",
-        src: "maps/N8B_R3_mockup_V8.gltf",
+        src: "maps/N8B_R3_mockup_V8_furnitures2.gltf",
         objectTree: true,
-        scale: [.6, .6, .6],
+        //scale: [.6, .6, .6],
+        scale: [2, 2, 2],
         handleNode: (function() {
             return function (nodeInfo, actions) {
                 console.log("=== " , nodeInfo);
@@ -360,6 +361,7 @@ function CreateView(maintenance=false){
     //-----------------------------------------------------------------------------------------------------
 
     camera.eye = [-20.21798706054688, 50.6997528076172, -40.179931640625];
+    camera.look = [20,0,0];
     camera.up = [0,1,0];
 
     model.on("loaded", function () {
