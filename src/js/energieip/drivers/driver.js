@@ -37,6 +37,11 @@
             this.label = driverObj.label;
             this.statusIp = driverObj.driverProperties.status.ip;
             this.statusBle = driverObj.driverProperties.status.isBleEnabled;
+            this.statusBleMode = driverObj.driverProperties.status.bleMode || "";
+            this.statusIBeaconUUID = driverObj.driverProperties.status.iBeaconUUID || "";
+            this.statusIBeaconMajor = driverObj.driverProperties.status.iBeaconMajor || 0;
+            this.statusIBeaconMinor = driverObj.driverProperties.status.iBeaconMinor || 0;
+            this.statusIBeaconTxPower = driverObj.driverProperties.status.iBeaconTxPower || "";
             this.statusIsConfigured = driverObj.driverProperties.status.isConfigured;
             this.statusSoftwareVersion = driverObj.driverProperties.status.softwareVersion;
             this.statusHardwareVersion = driverObj.driverProperties.status.hardwareVersion;
@@ -291,6 +296,11 @@
             this.statusMac = driverObj.mac;
             this.statusError = driverObj.error;
             this.statusBle = driverObj.isBleEnabled;
+            this.statusBleMode = driverObj.bleMode || "";
+            this.statusIBeaconUUID = driverObj.iBeaconUUID || "";
+            this.statusIBeaconMajor = driverObj.iBeaconMajor || 0;
+            this.statusIBeaconMinor = driverObj.iBeaconMinor || 0;
+            this.statusIBeaconTxPower = driverObj.iBeaconTxPower || "";
             this.statusIsConfigured = driverObj.isConfigured;
             this.statusSoftwareVersion = driverObj.softwareVersion;
             this.statusHardwareVersion = driverObj.hardwareVersion;
@@ -313,6 +323,11 @@
             this.statusIp = "";
             this.statusError = 0;
             this.statusBle = false;
+            this.statusBleMode = "";
+            this.statusIBeaconUUID = "";
+            this.statusIBeaconMajor = 0;
+            this.statusIBeaconMinor = 0;
+            this.statusIBeaconTxPower = "";
             this.statusIsConfigured = false;
             this.statusSoftwareVersion = 0;
             this.statusHardwareVersion = 0;

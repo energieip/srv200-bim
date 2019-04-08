@@ -154,6 +154,11 @@ function CreateView(maintenance=false){
                 if (maintenance === true){
                     status.add(driver, "statusError").name("Error Status").listen();
                     status.add(driver, "statusBle").name("BLE").listen();
+                    status.add(driver, "statusBleMode").name("BLE Mode").listen();
+                    status.add(driver, "statusIBeaconUUID").name("iBeacon UUID").listen();
+                    status.add(driver, "statusIBeaconMajor").name("iBeacon Major").listen();
+                    status.add(driver, "statusIBeaconMinor").name("iBeacon Minor").listen();
+                    status.add(driver, "statusIBeaconTxPower").name("iBeacon Tx Power").listen();
                     status.add(driver, "statusIsConfigured").name("Ready").listen();
                     status.add(driver, "statusIp").name("IP").listen();
                     status.add(driver, "statusMac").name("Mac address").listen();
