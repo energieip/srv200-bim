@@ -126,7 +126,11 @@ function CreateView(maintenance=false){
                 gui = new dat.GUI({autoPlace: false, top: 0, width: 400});
                 document.getElementById('dat-gui-container').appendChild(gui.domElement);
 
-                var status = gui.addFolder("Driver Status");
+                if (driver.deviceType != energieip.switchDevice){
+                    var status = gui.addFolder("Driver Status");
+                } else{
+                    var status = gui.addFolder("Switch Status");
+                }
                 status.add(driver, "deviceType").name("Driver").listen();
                 status.add(driver, "statusName").name("Name").listen();
 
@@ -150,16 +154,21 @@ function CreateView(maintenance=false){
                         status.add(driver, "statusWindowStatus2").name("Window 2 Open").listen();
                         break;
                 }
-                status.add(driver, "statusGroup").name("Group").listen();
+                if (driver.deviceType != energieip.switchDevice){
+                    status.add(driver, "statusGroup").name("Group").listen();
+                }
                 if (maintenance === true){
                     status.add(driver, "statusError").name("Error Status").listen();
-                    status.add(driver, "statusBle").name("BLE").listen();
-                    status.add(driver, "statusBleMode").name("BLE Mode").listen();
-                    status.add(driver, "statusIBeaconUUID").name("iBeacon UUID").listen();
-                    status.add(driver, "statusIBeaconMajor").name("iBeacon Major").listen();
-                    status.add(driver, "statusIBeaconMinor").name("iBeacon Minor").listen();
-                    status.add(driver, "statusIBeaconTxPower").name("iBeacon Tx Power").listen();
-                    status.add(driver, "statusIsConfigured").name("Ready").listen();
+                    status.add(driver, "label").name("Cable").listen();
+                    if (driver.deviceType != energieip.switchDevice){
+                        status.add(driver, "statusBle").name("BLE").listen();
+                        status.add(driver, "statusBleMode").name("BLE Mode").listen();
+                        status.add(driver, "statusIBeaconUUID").name("iBeacon UUID").listen();
+                        status.add(driver, "statusIBeaconMajor").name("iBeacon Major").listen();
+                        status.add(driver, "statusIBeaconMinor").name("iBeacon Minor").listen();
+                        status.add(driver, "statusIBeaconTxPower").name("iBeacon Tx Power").listen();
+                        status.add(driver, "statusIsConfigured").name("Ready").listen();
+                    }
                     status.add(driver, "statusIp").name("IP").listen();
                     status.add(driver, "statusMac").name("Mac address").listen();
 
@@ -187,37 +196,42 @@ function CreateView(maintenance=false){
                             break;
                     }
 
-                    status.add(driver, "statusVoltageInput").name("Voltage Input (V)").listen();
+                    if (driver.deviceType != energieip.switchDevice){
+                        status.add(driver, "statusVoltageInput").name("Voltage Input (V)").listen();
+                    }
                     status.add(driver, "statusSoftwareVersion").name("Software Version").listen();
                     status.add(driver, "statusHardwareVersion").name("Hardware Version").listen();
-                    status.add(driver, "statusSwitchMac").name("Switch Mac address").listen();
+                    if (driver.deviceType != energieip.switchDevice){
+                        status.add(driver, "statusSwitchMac").name("Switch Mac address").listen();
+                    }
                     status.add(driver, "statusDumpFrequency").name("Refresh Frequency (s)").listen();
-                }
 
-                //status.open();
+                    //status.open();
+                    if (driver.deviceType != energieip.switchDevice){
+                        var grStatus = gui.addFolder("Group Status");
+                        grStatus.add(driver, "groupStatusName").name("Name").listen();
+                        grStatus.add(driver, "groupStatusGroup").name("Group").listen();
+                        grStatus.add(driver, "groupStatusLight", 0, 100).name("Light (%)").listen();
+                        grStatus.add(driver, "groupStatusLightFirstDay", 0, 100).name("1st Days Light (%)").listen();
+                        grStatus.add(driver, "groupStatusPresence").name("Detection").listen();
+                        grStatus.add(driver, "groupStatusAuto").name("Auto").listen();
 
-                var grStatus = gui.addFolder("Group Status");
-                grStatus.add(driver, "groupStatusName").name("Name").listen();
-                grStatus.add(driver, "groupStatusGroup").name("Group").listen();
-                grStatus.add(driver, "groupStatusLight", 0, 100).name("Light (%)").listen();
-                grStatus.add(driver, "groupStatusLightFirstDay", 0, 100).name("1st Days Light (%)").listen();
-                grStatus.add(driver, "groupStatusPresence").name("Detection").listen();
-                grStatus.add(driver, "groupStatusAuto").name("Auto").listen();
-
-                if (maintenance === true){
-                    grStatus.add(driver, "groupStatusError").name("Error Status").listen();
-                    grStatus.add(driver, "groupStatusCorrectionInterval").name("Correction Interval (s)").listen();
-                    grStatus.add(driver, "groupStatusSensorRule").name("Sensor Rule").listen();
-                    grStatus.add(driver, "groupStatusSlopeStartManual").name("Slope Start Manual (s)").listen();
-                    grStatus.add(driver, "groupStatusSlopeStopManual").name("Slope Stop Manual (s)").listen();
-                    grStatus.add(driver, "groupStatusSlopeStartAuto").name("Slope Start Auto (s)").listen();
-                    grStatus.add(driver, "groupStatusSlopeStopAuto").name("Slope Stop Auto (s)").listen();
-                    grStatus.add(driver, "groupStatusTimeToAuto").name("Time to Auto (s)").listen();
-                    grStatus.add(driver, "groupStatusTimeToLeave").name("Time to Leave (s)").listen();
-                    grStatus.add(driver, "groupStatusRulePresence").name("Rule Presence (s)").listen();
-                    grStatus.add(driver, "groupStatusRuleBrightness").name("Rule Brightness (Lux)").listen();
-                    grStatus.add(driver, "groupStatusFirstDayOffset").name("1st Day Offset (%)").listen();
-                    grStatus.add(driver, "groupStatusWatchdog").name("Watchdog (s)").listen();
+                        if (maintenance === true){
+                            grStatus.add(driver, "groupStatusError").name("Error Status").listen();
+                            grStatus.add(driver, "groupStatusCorrectionInterval").name("Correction Interval (s)").listen();
+                            grStatus.add(driver, "groupStatusSensorRule").name("Sensor Rule").listen();
+                            grStatus.add(driver, "groupStatusSlopeStartManual").name("Slope Start Manual (s)").listen();
+                            grStatus.add(driver, "groupStatusSlopeStopManual").name("Slope Stop Manual (s)").listen();
+                            grStatus.add(driver, "groupStatusSlopeStartAuto").name("Slope Start Auto (s)").listen();
+                            grStatus.add(driver, "groupStatusSlopeStopAuto").name("Slope Stop Auto (s)").listen();
+                            grStatus.add(driver, "groupStatusTimeToAuto").name("Time to Auto (s)").listen();
+                            grStatus.add(driver, "groupStatusTimeToLeave").name("Time to Leave (s)").listen();
+                            grStatus.add(driver, "groupStatusRulePresence").name("Rule Presence (s)").listen();
+                            grStatus.add(driver, "groupStatusRuleBrightness").name("Rule Brightness (Lux)").listen();
+                            grStatus.add(driver, "groupStatusFirstDayOffset").name("1st Day Offset (%)").listen();
+                            grStatus.add(driver, "groupStatusWatchdog").name("Watchdog (s)").listen();
+                        }
+                    }
                 }
 
                 switch (driver.deviceType){
@@ -260,69 +274,95 @@ function CreateView(maintenance=false){
                             }}, "reset").name("Reset");
                         }
                         break;
+                    case energieip.switchDevice:
+                        if (maintenance === true) {
+                            var controlDr = gui.addFolder("Switch Control");
+                            controlDr.add({"reset": function(){
+                                if (confirm("Do you want to reset the switch configuration ?")) {
+                                    energieip.ResetSwitchCfg(driver);
+                                }
+                            }}, "reset").name("Reset");
+                        }
+                        break;
                 }
 
-                var controlGr = gui.addFolder("Group Control");
-                controlGr.add(driver, "groupControlLight", 0, 100).name("Light (%)");
-                controlGr.add(driver, "groupControlAuto").name("Auto");
-                controlGr.add(driver, "groupControlBlinds", { Stop: 0, Up: 1, Down: 2 }).name("Blinds")
-                controlGr.add(driver, "groupControlBlindsSlats", 0,  90).name("Blinds Slats")
-                controlGr.add({"OK":function(){ energieip.SendGroupCmd(driver); }}, "OK").name("Apply");
-
-                var configuration = gui.addFolder("Driver Configuration");
-                configuration.add(driver, "configName").name("Name");
-                if (maintenance === true){
-                    configuration.add(driver, "configGroup").name("Group");
-                    configuration.add(driver, "configBle").name("BLE");
+                if (driver.deviceType != energieip.switchDevice){
+                    var controlGr = gui.addFolder("Group Control");
+                    controlGr.add(driver, "groupControlLight", 0, 100).name("Light (%)");
+                    controlGr.add(driver, "groupControlAuto").name("Auto");
+                    controlGr.add(driver, "groupControlBlinds", { Stop: 0, Up: 1, Down: 2 }).name("Blinds")
+                    controlGr.add(driver, "groupControlBlindsSlats", 0,  90).name("Blinds Slats")
+                    controlGr.add({"OK":function(){ energieip.SendGroupCmd(driver); }}, "OK").name("Apply");
+                    var configuration = gui.addFolder("Driver Configuration");
+                    configuration.add(driver, "configName").name("Name");
+               
+                    if (maintenance === true){
+                        configuration.add(driver, "configGroup").name("Group");
+                        configuration.add(driver, "configBle").name("BLE");
+                        configuration.add(driver, "configDumpFrequency").name("Refresh Frequency (s)");
+                        switch (driver.deviceType){
+                            case energieip.ledDriver:
+                                configuration.add(driver, "configThresholdLow",  0, 100).name("Threshold Low (%)");
+                                configuration.add(driver, "configThresholdHigh",  0, 100).name("Threshold High (%)");
+                                configuration.add(driver, "configWatchdog").name("Watchdog");
+                                configuration.add({"OK":function(){ energieip.UpdateLedCfg(driver); }}, "OK").name("Apply");
+                                break;
+                            case energieip.sensorDriver:
+                                configuration.add(driver, "configBrightnessCorrectionFactor").name("Brightness Correction (x)");
+                                configuration.add(driver, "configTemperatureOffset").name("Temperature Offset (°C)");
+                                configuration.add(driver, "configThresholdPresence").name("Threshold Presence (s)");
+                                configuration.add({"OK":function(){ energieip.UpdateSensorCfg(driver); }}, "OK").name("Apply");
+                                break;
+                        }
+                    
+                    } else {
+                        switch (driver.deviceType){
+                            case energieip.ledDriver:
+                                configuration.add({"OK":function(){ energieip.UpdateLedNameCfg(driver); }}, "OK").name("Apply");
+                                break;
+                            case energieip.sensorDriver:
+                                configuration.add({"OK":function(){ energieip.UpdateSensorNameCfg(driver); }}, "OK").name("Apply");
+                                break;
+                        }
+                    }
+                } else {
+                    var configuration = gui.addFolder("Switch Configuration");
+                    configuration.add(driver, "configName").name("Name");
                     configuration.add(driver, "configDumpFrequency").name("Refresh Frequency (s)");
-                    switch (driver.deviceType){
-                        case energieip.ledDriver:
-                            configuration.add(driver, "configThresholdLow",  0, 100).name("Threshold Low (%)");
-                            configuration.add(driver, "configThresholdHigh",  0, 100).name("Threshold High (%)");
-                            configuration.add(driver, "configWatchdog").name("Watchdog");
-                            configuration.add({"OK":function(){ energieip.UpdateLedCfg(driver); }}, "OK").name("Apply");
-                            break;
-                        case energieip.sensorDriver:
-                            configuration.add(driver, "configBrightnessCorrectionFactor").name("Brightness Correction (x)");
-                            configuration.add(driver, "configTemperatureOffset").name("Temperature Offset (°C)");
-                            configuration.add(driver, "configThresholdPresence").name("Threshold Presence (s)");
-                            configuration.add({"OK":function(){ energieip.UpdateSensorCfg(driver); }}, "OK").name("Apply");
-                            break;
-                    }
-                
-                } else {
-                    switch (driver.deviceType){
-                        case energieip.ledDriver:
-                            configuration.add({"OK":function(){ energieip.UpdateLedNameCfg(driver); }}, "OK").name("Apply");
-                            break;
-                        case energieip.sensorDriver:
-                            configuration.add({"OK":function(){ energieip.UpdateSensorNameCfg(driver); }}, "OK").name("Apply");
-                            break;
-                    }
+                    configuration.add({"OK":function(){ energieip.UpdateSwitchCfg(driver); }}, "OK").name("Apply");
                 }
 
-                var configurationGr = gui.addFolder("Group Configuration");
-                configurationGr.add(driver, "groupConfigName").name("Name");
-                
-                if (maintenance === true) {
-                    configurationGr.add(driver, "groupConfigSlopeStartManual").name("Slope Start Manual (s)");
-                    configurationGr.add(driver, "groupConfigSlopeStopManual").name("Slope Stop Manual (s)");
-                    configurationGr.add(driver, "groupConfigSlopeStartAuto").name("Slope Start Auto (s)");
-                    configurationGr.add(driver, "groupConfigSlopeStopAuto").name("Slope Stop Auto (s)");
-                    configurationGr.add(driver, "groupConfigCorrectionInterval").name("Correction Interval (s)");
-                    configurationGr.add(driver, "groupConfigSensorRule", ["average", "min", "max"]).name("Sensor Rule");
-                    configurationGr.add(driver, "groupConfigRulePresence").name("Rule Presence (s)");
-                    configurationGr.add(driver, "groupConfigRuleBrightness").name("Rule Brightness (Lux)");
-                    configurationGr.add(driver, "groupConfigFirstDayOffset").name("1st Day Offset (%)");
-                    configurationGr.add(driver, "groupConfigWatchdog").name("Watchdog (s)");
-                    configurationGr.add({"OK": function(){ energieip.UpdateGroupCfg(driver); }}, "OK").name("Apply");
+                if (driver.deviceType != energieip.switchDevice){
+                    var configurationGr = gui.addFolder("Group Configuration");
+                    configurationGr.add(driver, "groupConfigName").name("Name");
+                    
+                    if (maintenance === true) {
+                        configurationGr.add(driver, "groupConfigSlopeStartManual").name("Slope Start Manual (s)");
+                        configurationGr.add(driver, "groupConfigSlopeStopManual").name("Slope Stop Manual (s)");
+                        configurationGr.add(driver, "groupConfigSlopeStartAuto").name("Slope Start Auto (s)");
+                        configurationGr.add(driver, "groupConfigSlopeStopAuto").name("Slope Stop Auto (s)");
+                        configurationGr.add(driver, "groupConfigCorrectionInterval").name("Correction Interval (s)");
+                        configurationGr.add(driver, "groupConfigSensorRule", ["average", "min", "max"]).name("Sensor Rule");
+                        configurationGr.add(driver, "groupConfigRulePresence").name("Rule Presence (s)");
+                        configurationGr.add(driver, "groupConfigRuleBrightness").name("Rule Brightness (Lux)");
+                        configurationGr.add(driver, "groupConfigFirstDayOffset").name("1st Day Offset (%)");
+                        configurationGr.add(driver, "groupConfigWatchdog").name("Watchdog (s)");
+                        configurationGr.add({"OK": function(){ energieip.UpdateGroupCfg(driver); }}, "OK").name("Apply");
 
-                    var ifc = gui.addFolder("Driver Information");
-                    ifc.add(driver, "ifcModelName").name("Model Name");
-                    ifc.add(driver, "ifcUrl").name("URL");
-                    ifc.add(driver, "ifcVendor").name("Vendor Name");
+                        var ifc = gui.addFolder("Driver Information");
+                        ifc.add(driver, "ifcModelName").name("Model Name");
+                        ifc.add(driver, "ifcUrl").name("URL");
+                        ifc.add(driver, "ifcVendor").name("Vendor Name");
+                    } else {
+                        configurationGr.add({"OK": function(){ energieip.UpdateGroupNameCfg(driver); }}, "OK").name("Apply");
+                    }
                 } else {
-                    configurationGr.add({"OK": function(){ energieip.UpdateGroupNameCfg(driver); }}, "OK").name("Apply");
+                    if (maintenance === true){
+                        var ifc = gui.addFolder("Switch Information");
+                        ifc.add(driver, "ifcModelName").name("Model Name");
+                        ifc.add(driver, "ifcUrl").name("URL");
+                        ifc.add(driver, "ifcVendor").name("Vendor Name");
+                    }
                 }
             }
             d.labelShown = selected;
@@ -335,7 +375,7 @@ function CreateView(maintenance=false){
     //---------------------------------------------------
     var model = new xeogl.GLTFModel({
         id: "map",
-        src: "maps/N8B_R3_mockup_V8_furnitures2.gltf",
+        src: "maps/N8B_R3_mockup_V8_furnitures4.gltf",
         objectTree: true,
         //scale: [.6, .6, .6],
         scale: [2, 2, 2],
@@ -344,10 +384,11 @@ function CreateView(maintenance=false){
                 console.log("=== " , nodeInfo);
                 if (nodeInfo.name && nodeInfo.mesh !== undefined) {
                     var parse = nodeInfo.name.split("_");
-                    parse.splice(0, 2);
+                    parse.splice(0, 1);
                     var label = parse.join("_");
                     var count = (label.match(/_/g)||[]).length;
                     if (count > 1){
+                        console.log("=== label", label);
                         labels += label + ",";
                         actions.createObject = {
                             id: label,
@@ -435,6 +476,13 @@ function CreateView(maintenance=false){
                                 var driver = new energieip.BlindSupervision(content);
                             }
                             break;
+                        case energieip.switchDevice:
+                            if (maintenance === true) {
+                                var driver = new energieip.SwitchMaintenance(content);
+                            } else {
+                                var driver = new energieip.SwitchSupervision(content);
+                            }
+                            break;
                         default:
                             console.log("Received type", ifcModel["ifc"].deviceType);
                             break;
@@ -497,6 +545,24 @@ function CreateView(maintenance=false){
                         if (maintenance === true){
                             if (elt.label === ""){
                                 var msg = "Blind: " + elt.blind.friendlyName + " (IP: " + elt.blind.ip + ", MAC: "+ elt.blind.mac+ " ) appears but not referenced";
+                                log(msg);
+                            }
+                        }
+                    }
+                }
+
+                for (var sw in evt[i].switchs){
+                    var elt = evt[i].switchs[sw];
+                    if (drivers.hasOwnProperty(elt.label)) {
+                        if (i === "remove"){
+                            drivers[elt.label].removeEvent();
+                        } else {
+                            drivers[elt.label].updateEvent(elt.switch);
+                        }
+                    } else {
+                        if (maintenance === true){
+                            if (elt.label === ""){
+                                var msg = "Switch: " + elt.switch.friendlyName + " (IP: " + elt.switch.ip + ", MAC: "+ elt.switch.mac+ " ) appears but not referenced";
                                 log(msg);
                             }
                         }

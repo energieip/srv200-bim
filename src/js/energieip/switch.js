@@ -28,7 +28,7 @@
     }
 
     energieip.UpdateSwitchCfg = function (driver) {
-        var url = energieip.weblink + 'config/sensor';
+        var url = energieip.weblink + 'config/switch';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -58,7 +58,7 @@
     }
 
     energieip.ResetSwitchCfg = function (driver) {
-        var url = energieip.weblink + 'config/sensor';
+        var url = energieip.weblink + 'config/switch';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -84,6 +84,7 @@
         }
  
         init(driverObj) {
+            super.init(driverObj);
             this.error_color = "xeogl-annotation-pin-error";
             this.not_available_color = "xeogl-annotation-pin-not-present";
             this.default_color = "xeogl-annotation-pin-switch";
@@ -109,16 +110,19 @@
             this._clusterElement = document.createElement('div');
             this._clusterElement.className = "xeogl-annotation-group";
             this._label.appendChild(this._clusterElement);
+            this._labelElement = document.createElement('div');
+            this._labelElement.className = "xeogl-annotation-mac";
 
             this.statusMac = driverObj.driverProperties.status.mac;
             this.statusName = driverObj.driverProperties.status.friendlyName;
-            this.statusError = driverObj.driverProperties.status.error;
+            this.statusError = driverObj.driverProperties.status.error||0;
             this.statusCluster = driverObj.driverProperties.status.cluster;
-            this.label = driverObj.label;
+            this.label = driverObj.driverProperties.ifc.label;
+            this._labelElement.innerHTML = "Cable: " + this.label;
             this.statusIp = driverObj.driverProperties.status.ip;
             this.statusIsConfigured = driverObj.driverProperties.status.isConfigured;
-            // this.statusSoftwareVersion = driverObj.driverProperties.status.softwareVersion;
-            // this.statusHardwareVersion = driverObj.driverProperties.status.hardwareVersion;
+            this.statusSoftwareVersion = driverObj.driverProperties.status.softwareVersion|| 0;
+            this.statusHardwareVersion = driverObj.driverProperties.status.hardwareVersion ||0;
             this.statusDumpFrequency = driverObj.driverProperties.status.dumpFrequency;
 
             this.configName = this.statusName;
@@ -243,19 +247,21 @@
             this.statusName = driverObj.friendlyName;
             this.statusIp = driverObj.ip;
             this.statusMac = driverObj.mac;
-            this.statusError = driverObj.error;
+            if (driverObj.hasOwnProperty("error")) {
+                this.statusError = driverObj.error;
+            }
             this.statusIsConfigured = driverObj.isConfigured;
             // this.statusSoftwareVersion = driverObj.softwareVersion;
             // this.statusHardwareVersion = driverObj.hardwareVersion;
             this.statusDumpFrequency = driverObj.dumpFrequency;
 
             //Fix default value
-            this.configName = this.statusName;
+            //this.configName = this.statusName;
             this.statusCluster = driverObj.cluster;
 
-            this.configCluster = this.statusCluster;
-            this.configDumpFrequency = this.statusDumpFrequency;
-            this.glyph = this.statusGroup;
+           // this.configCluster = this.statusCluster;
+           // this.configDumpFrequency = this.statusDumpFrequency;
+            this.glyph = "";
         }
 
         destroy() {
@@ -278,6 +284,7 @@
             super.init(driverObj);
             this._label.appendChild(this._macElement);
             this._label.appendChild(this._ipElement);
+            this._label.appendChild(this._labelElement);
 
             this.ifcModelName = driverObj.driverProperties.ifc.modelName;
             this.ifcUrl = driverObj.driverProperties.ifc.url;

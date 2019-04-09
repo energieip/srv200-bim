@@ -30,11 +30,15 @@
             this._macElement = document.createElement('div');
             this._macElement.className = "xeogl-annotation-mac";
 
+            this._labelElement = document.createElement('div');
+            this._labelElement.className = "xeogl-annotation-mac";
+
             this.statusGroup = driverObj.driverProperties.status.group;
             this.statusMac = driverObj.driverProperties.status.mac;
             this.statusName = driverObj.driverProperties.status.friendlyName;
             this.statusError = driverObj.driverProperties.status.error;
-            this.label = driverObj.label;
+            this.label = driverObj.driverProperties.ifc.label;
+            this._labelElement.innerHTML = "Cable: " + this.label;
             this.statusIp = driverObj.driverProperties.status.ip;
             this.statusBle = driverObj.driverProperties.status.isBleEnabled;
             this.statusBleMode = driverObj.driverProperties.status.bleMode || "";
@@ -48,106 +52,95 @@
             this.statusSwitchMac = driverObj.driverProperties.status.switchMac;
             this.statusDumpFrequency = driverObj.driverProperties.status.dumpFrequency / 1000;
             this.statusVoltageInput = driverObj.driverProperties.status.voltageInput;
+            this.groupStatusLightFirstDay = 0;
+            this.groupStatusLight = 0;
+            this.groupStatusName = "";
+            this.groupStatusPresence = false;
+            this.groupStatusAuto = false;
+            this.groupStatusError = 0;
+            this.groupStatusGroup = 0;
+            this.groupStatusCorrectionInterval = 0;
+            this.groupStatusSensorRule = "average";
+            this.groupStatusSlopeStartManual = 0;
+            this.groupStatusSlopeStopManual = 0;
+            this.groupStatusSlopeStartAuto = 0;
+            this.groupStatusSlopeStopAuto = 0;
+            this.groupStatusWatchdog = 0;
+            this.groupStatusTimeToAuto = 0;
+            this.groupStatusTimeToLeave = 0;
+            this.groupStatusFirstDayOffset = 0;
 
             this.configName = this.statusName;
             this.configGroup = this.statusGroup.toString() || "0";
             this.configDumpFrequency = this.statusDumpFrequency.toString() || "0";
             this.configBle = this.statusBle;
             
+            if (driverObj.groupProperties.hasOwnProperty("firstDayOffset")) {
+                this.groupStatusFirstDayOffset = driverObj.groupProperties.firstDayOffset||0;
+            }
+
             if (driverObj.groupProperties.hasOwnProperty("setpointLeds")) {
                 this.groupStatusLight = driverObj.groupProperties.setpointLeds;
-            } else {
-                this.groupStatusLight = 0;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("setpointLedsFirstDay")) {
                 this.groupStatusLightFirstDay = driverObj.groupProperties.setpointLedsFirstDay;
-            } else {
-                this.groupStatusLightFirstDay = 0;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("friendlyName")) {
                 this.groupStatusName = driverObj.groupProperties.friendlyName;
-            } else {
-                this.groupStatusName = "";
             }
 
             if (driverObj.groupProperties.hasOwnProperty("presence")) {
                 this.groupStatusPresence = driverObj.groupProperties.presence;
-            } else {
-                this.groupStatusPresence = false;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("auto")) {
                 this.groupStatusAuto = driverObj.groupProperties.auto;
-            } else {
-                this.groupStatusAuto = false;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("error")) {
                 this.groupStatusError = driverObj.groupProperties.error;
-            } else {
-                this.groupStatusError = 0;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("group")) {
                 this.groupStatusGroup = driverObj.groupProperties.group;
-            } else {
-                this.groupStatusGroup = 0;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("correctionInterval")) {
                 this.groupStatusCorrectionInterval = driverObj.groupProperties.correctionInterval;
-            } else {
-                this.groupStatusCorrectionInterval = 0;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("sensorRule")) {
                 this.groupStatusSensorRule = driverObj.groupProperties.sensorRule;
-            } else {
-                this.groupStatusSensorRule = "average";
             }
 
             if (driverObj.groupProperties.hasOwnProperty("slopeStartManual")) {
                 this.groupStatusSlopeStartManual = driverObj.groupProperties.slopeStartManual / 1000; //data in ms
-            } else {
-                this.groupStatusSlopeStartManual = 0;
-            }
+            } 
 
             if (driverObj.groupProperties.hasOwnProperty("slopeStopManual")) {
                 this.groupStatusSlopeStopManual = driverObj.groupProperties.slopeStopManual / 1000; //data in ms
-            } else {
-                this.groupStatusSlopeStopManual = 0;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("slopeStartAuto")) {
                 this.groupStatusSlopeStartAuto = driverObj.groupProperties.slopeStartAuto / 1000; //data in ms
-            } else {
-                this.groupStatusSlopeStartAuto = 0;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("slopeStopAuto")) {
                 this.groupStatusSlopeStopAuto = driverObj.groupProperties.slopeStopAuto / 1000; //data in ms
-            } else {
-                this.groupStatusSlopeStopAuto = 0;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("watchdog")) {
                 this.groupStatusWatchdog = driverObj.groupProperties.watchdog;
-            } else {
-                this.groupStatusWatchdog = 0;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("timeToAuto")) {
                 this.groupStatusTimeToAuto = driverObj.groupProperties.timeToAuto;
-            } else {
-                this.groupStatusTimeToAuto = 0;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("timeToLeave")) {
                 this.groupStatusTimeToLeave = driverObj.groupProperties.timeToLeave;
-            } else {
-                this.groupStatusTimeToLeave = 0;
             }
 
             this.groupStatusRuleBrightness = 0;
