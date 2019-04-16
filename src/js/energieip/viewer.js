@@ -40,6 +40,7 @@ function CreateView(maintenance=false){
         var leds = [];
         var sensors = [];
         var blinds = [];
+        var hvacs = [];
         for (var label in model.meshes){
             if (drivers.hasOwnProperty(label)){
                 var d = drivers[label];
@@ -53,6 +54,9 @@ function CreateView(maintenance=false){
                             break;
                         case energieip.blindDriver:
                             blinds.push(d.statusMac);
+                            break;
+                        case energieip.hvacDriver:
+                            hvacs.push(d.statusMac);
                             break;
                     }
                 }
@@ -74,6 +78,7 @@ function CreateView(maintenance=false){
                 this.sensors = sensors;
                 this.leds = leds;
                 this.blinds = blinds;
+                this.hvacs = hvacs;
                 this.slopeStartManual = 10;
                 this.slopeStopManual = 10;
                 this.slopeStartAuto = 10;
@@ -153,6 +158,8 @@ function CreateView(maintenance=false){
                         status.add(driver, "statusWindowStatus1").name("Window 1 Open").listen();
                         status.add(driver, "statusWindowStatus2").name("Window 2 Open").listen();
                         break;
+                    case energieip.hvacDriver:
+                        break;
                 }
                 if (driver.deviceType != energieip.switchDevice){
                     status.add(driver, "statusGroup").name("Group").listen();
@@ -160,7 +167,7 @@ function CreateView(maintenance=false){
                 if (maintenance === true){
                     status.add(driver, "statusError").name("Error Status").listen();
                     status.add(driver, "label").name("Cable").listen();
-                    if (driver.deviceType != energieip.switchDevice){
+                    if ((driver.deviceType != energieip.switchDevice)&&(driver.deviceType != energieip.hvacDriver)){
                         status.add(driver, "statusBle").name("BLE").listen();
                         status.add(driver, "statusBleMode").name("BLE Mode").listen();
                         status.add(driver, "statusIBeaconUUID").name("iBeacon UUID").listen();
@@ -193,6 +200,8 @@ function CreateView(maintenance=false){
                             status.add(driver, "statusTemperatureRaw").name("Temperature Raw (°C)").listen();
                             status.add(driver, "statusThresholdPresence").name("Threshold Presence (s)").listen();
                             status.add(driver, "statusLastMovement").name("Last Movement (s)").listen();
+                            break;
+                        case energieip.hvacDriver:
                             break;
                     }
 
@@ -274,6 +283,16 @@ function CreateView(maintenance=false){
                             }}, "reset").name("Reset");
                         }
                         break;
+                    case energieip.hvacDriver:
+                        if (maintenance === true) {
+                            var controlDr = gui.addFolder("Driver Control");
+                            controlDr.add({"reset": function(){
+                                if (confirm("Do you want to reset the driver configuration ?")) {
+                                    energieip.ResetHvacCfg(driver);
+                                }
+                            }}, "reset").name("Reset");
+                        }
+                        break;
                     case energieip.switchDevice:
                         if (maintenance === true) {
                             var controlDr = gui.addFolder("Switch Control");
@@ -298,7 +317,9 @@ function CreateView(maintenance=false){
                
                     if (maintenance === true){
                         configuration.add(driver, "configGroup").name("Group");
-                        configuration.add(driver, "configBle").name("BLE");
+                        if (driver.deviceType != energieip.hvacDriver){
+                            configuration.add(driver, "configBle").name("BLE");
+                        }
                         configuration.add(driver, "configDumpFrequency").name("Refresh Frequency (s)");
                         switch (driver.deviceType){
                             case energieip.ledDriver:
@@ -313,6 +334,9 @@ function CreateView(maintenance=false){
                                 configuration.add(driver, "configThresholdPresence").name("Threshold Presence (s)");
                                 configuration.add({"OK":function(){ energieip.UpdateSensorCfg(driver); }}, "OK").name("Apply");
                                 break;
+                            case energieip.hvacDriver:
+                                configuration.add({"OK":function(){ energieip.UpdateHvacCfg(driver); }}, "OK").name("Apply");
+                                break;
                         }
                     
                     } else {
@@ -322,6 +346,9 @@ function CreateView(maintenance=false){
                                 break;
                             case energieip.sensorDriver:
                                 configuration.add({"OK":function(){ energieip.UpdateSensorNameCfg(driver); }}, "OK").name("Apply");
+                                break;
+                            case energieip.hvacDriver:
+                                configuration.add({"OK":function(){ energieip.UpdateHvacNameCfg(driver); }}, "OK").name("Apply");
                                 break;
                         }
                     }
@@ -384,7 +411,7 @@ function CreateView(maintenance=false){
                 console.log("=== " , nodeInfo);
                 if (nodeInfo.name && nodeInfo.mesh !== undefined) {
                     var parse = nodeInfo.name.split("_");
-                    parse.splice(0, 1);
+                    parse.splice(0, 2);
                     var label = parse.join("_");
                     var count = (label.match(/_/g)||[]).length;
                     if (count > 1){
@@ -476,6 +503,13 @@ function CreateView(maintenance=false){
                                 var driver = new energieip.BlindSupervision(content);
                             }
                             break;
+                        case energieip.hvacDriver:
+                            if (maintenance === true) {
+                                var driver = new energieip.HvacMaintenance(content);
+                            } else {
+                                var driver = new energieip.HvacSupervision(content);
+                            }
+                            break;
                         case energieip.switchDevice:
                             if (maintenance === true) {
                                 var driver = new energieip.SwitchMaintenance(content);
@@ -563,6 +597,24 @@ function CreateView(maintenance=false){
                         if (maintenance === true){
                             if (elt.label === ""){
                                 var msg = "Switch: " + elt.switch.friendlyName + " (IP: " + elt.switch.ip + ", MAC: "+ elt.switch.mac+ " ) appears but not referenced";
+                                log(msg);
+                            }
+                        }
+                    }
+                }
+
+                for (var hv in evt[i].hvacs){
+                    var elt = evt[i].hvacs[hv];
+                    if (drivers.hasOwnProperty(elt.label)) {
+                        if (i === "remove"){
+                            drivers[elt.label].removeEvent();
+                        } else {
+                            drivers[elt.label].updateEvent(elt.hvac);
+                        }
+                    } else {
+                        if (maintenance === true){
+                            if (elt.label === ""){
+                                var msg = "Hvac: " + elt.switch.friendlyName + " (IP: " + elt.switch.ip + ", MAC: "+ elt.switch.mac+ " ) appears but not referenced";
                                 log(msg);
                             }
                         }

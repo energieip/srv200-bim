@@ -22,6 +22,7 @@ const weblink = 'https://'+address;
 
 const driver = "driver";
 const ledDriver = "led";
+const hvacDriver = "hvac";
 const blindDriver = "blind";
 const sensorDriver = "sensor";
 const switchDevice = "switch";
@@ -144,6 +145,7 @@ energieip.CreateGroup = function (group) {
 		"group": parseInt(group.group),
 		"leds": group.leds,
 		"sensors": group.sensors,
+		"hvacs": group.hvacs,
 		"friendlyName": group.name,
 		"slopeStartManual": parseInt(group.slopeStartManual) * 1000,
 		"slopeStopManual": parseInt(group.slopeStopManual) * 1000,
@@ -250,6 +252,7 @@ exports.address = address;
 exports.weblink = weblink;
 exports.driver = driver;
 exports.ledDriver = ledDriver;
+exports.hvacDriver = hvacDriver;
 exports.blindDriver = blindDriver;
 exports.sensorDriver = sensorDriver;
 exports.switchDevice = switchDevice;
