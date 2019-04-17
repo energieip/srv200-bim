@@ -223,6 +223,7 @@ function CreateView(maintenance=false){
                         grStatus.add(driver, "groupStatusLight", 0, 100).name("Light (%)").listen();
                         grStatus.add(driver, "groupStatusLightFirstDay", 0, 100).name("1st Days Light (%)").listen();
                         grStatus.add(driver, "groupStatusPresence").name("Detection").listen();
+                        grStatus.add(driver, "groupStatusWindowsOpened").name("Windows Opened").listen();
                         grStatus.add(driver, "groupStatusAuto").name("Auto").listen();
 
                         if (maintenance === true){

@@ -56,6 +56,7 @@
             this.groupStatusLight = 0;
             this.groupStatusName = "";
             this.groupStatusPresence = false;
+            this.groupStatusWindowsOpened = false;
             this.groupStatusAuto = false;
             this.groupStatusError = 0;
             this.groupStatusGroup = 0;
@@ -93,6 +94,10 @@
 
             if (driverObj.groupProperties.hasOwnProperty("presence")) {
                 this.groupStatusPresence = driverObj.groupProperties.presence;
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("windowsOpened")) {
+                this.groupStatusWindowsOpened = driverObj.groupProperties.windowsOpened;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("auto")) {
@@ -340,6 +345,7 @@
             this.groupStatusLight = grObj.setpointLeds;
             this.groupStatusName = grObj.friendlyName;
             this.groupStatusPresence = grObj.presence;
+            this.groupStatusWindowsOpened = grObj.windowsOpened;
             this.groupStatusAuto = grObj.auto;
             this.groupStatusError = grObj.error;
             this.groupStatusGroup = grObj.group;
