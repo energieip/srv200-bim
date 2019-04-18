@@ -57,6 +57,9 @@
             this.groupStatusName = "";
             this.groupStatusPresence = false;
             this.groupStatusWindowsOpened = false;
+            this.groupStatusBrightness = 0;
+            this.groupStatusTemperature = 0;
+            this.groupStatusHumidity = 0;
             this.groupStatusAuto = false;
             this.groupStatusError = 0;
             this.groupStatusGroup = 0;
@@ -98,6 +101,18 @@
 
             if (driverObj.groupProperties.hasOwnProperty("windowsOpened")) {
                 this.groupStatusWindowsOpened = driverObj.groupProperties.windowsOpened;
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("temperature")) {
+                this.groupStatusTemperature = driverObj.groupProperties.temperature/10;
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("humidity")) {
+                this.groupStatusHumidity = driverObj.groupProperties.humidity/10;
+            }
+
+            if (driverObj.groupProperties.hasOwnProperty("brightness")) {
+                this.groupStatusBrightness = driverObj.groupProperties.brightness||0;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("auto")) {
@@ -345,6 +360,9 @@
             this.groupStatusLight = grObj.setpointLeds;
             this.groupStatusName = grObj.friendlyName;
             this.groupStatusPresence = grObj.presence;
+            this.groupStatusTemperature = grObj.temperature/10;
+            this.groupStatusBrightness = grObj.brightness;
+            this.groupStatusHumidity = grObj.humidity/10;
             this.groupStatusWindowsOpened = grObj.windowsOpened;
             this.groupStatusAuto = grObj.auto;
             this.groupStatusError = grObj.error;
