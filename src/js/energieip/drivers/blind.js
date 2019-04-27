@@ -142,6 +142,10 @@
             this.statusDaisyChainedPos = driverObj.driverProperties.status.daisyChainPos;
             this.statusWindowStatus1 = driverObj.driverProperties.status.windowStatus1;
             this.statusWindowStatus2 = driverObj.driverProperties.status.windowStatus2;
+            this.statusBlind1 = driverObj.driverProperties.status.blind1 || 0;
+            this.statusBlind2 = driverObj.driverProperties.status.blind2 ||0;
+            this.statusSlat1 = driverObj.driverProperties.status.slat1 || 0;
+            this.statusSlat2 = driverObj.driverProperties.status.slat2 ||0;
 
             this.controlBlind1 = 0;
             this.controlBlind2 = 0;
@@ -169,6 +173,10 @@
             this.statusDaisyChainedPos = 0;
             this.statusWindowStatus1 = false;
             this.statusWindowStatus2 = false;
+            this.statusBlind1 = 0;
+            this.statusBlind2 = 0;
+            this.statusSlat1 = 0;
+            this.statusSlat2 = 0;
         }
 
         updateEvent(driverObj) {
@@ -178,6 +186,10 @@
             this.statusDaisyChainedPos = driverObj.daisyChainPos;
             this.statusWindowStatus1 = driverObj.windowStatus1;
             this.statusWindowStatus2 = driverObj.windowStatus2;
+            this.statusBlind1 = driverObj.blind1||0;
+            this.statusBlind2 = driverObj.blind2||0;
+            this.statusSlat1 = driverObj.slat1||0;
+            this.statusSlat2 = driverObj.slat2||0;
         }
     };
 
