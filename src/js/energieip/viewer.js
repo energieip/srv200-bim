@@ -195,7 +195,6 @@ function CreateView(maintenance=false){
                             status.add(driver, "statusLinePower").name("Line Power (W)").listen();
                             status.add(driver, "statusDuration").name("Light Duration (s)").listen();
                             status.add(driver, "statusPMax", 0, 100).name("PMax (w)").listen();
-                            status.add(driver, "statusIMax", 0, 1000).name("IMax (mA)").listen();
                             break;
                         case energieip.sensorDriver:
                             status.add(driver, "statusBrightnessCorrectionFactor").name("Brightness Correction (x)").listen();

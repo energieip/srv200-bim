@@ -143,7 +143,6 @@
             
             this.statusDevicePower = driverObj.driverProperties.status.devicePower || 0;
             this.statusPMax = driverObj.driverProperties.status.pMax || 0;
-            this.statusIMax = driverObj.driverProperties.status.iMax || 0;
             this.statusDaisyChained = driverObj.driverProperties.status.daisyChainEnabled || false;
             this.statusDaisyChainedPos = driverObj.driverProperties.status.daisyChainPos || 0;
             this.statusThresholdLow = driverObj.driverProperties.status.thresholdLow || 0;
@@ -208,7 +207,6 @@
 
             this.statusDevicePower = driverObj.devicePower || 0;
             this.statusPMax = driverObj.pMax || 0;
-            this.statusIMax = driverObj.iMax || 0;
             this.statusDaisyChained = driverObj.daisyChainEnabled || false;
             this.statusDaisyChainedPos = driverObj.daisyChainPos || 0;
             this.statusThresholdHigh = driverObj.thresholdHigh || 100;
@@ -234,7 +232,6 @@
 
             this.statusDevicePower = 0;
             this.statusPMax = 0;
-            this.statusIMax = 0;
             this.statusDaisyChained = false;
             this.statusDaisyChainedPos = 0;
             this.statusThresholdHigh = 100;
