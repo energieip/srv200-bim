@@ -320,12 +320,6 @@
             this.statusSwitchMac = driverObj.switchMac;
             this.statusDumpFrequency = driverObj.dumpFrequency / 1000;
             this.statusVoltageInput = driverObj.voltageInput;
-
-            //Fix default value
-            // this.configName = this.statusName;
-            // this.configGroup = this.statusGroup;
-            // this.configDumpFrequency = this.statusDumpFrequency;
-            // this.configBle = this.statusBle;
             this.glyph = this.statusGroup;
         }
 
@@ -347,12 +341,6 @@
             this.statusSwitchMac = "";
             this.statusDumpFrequency = 0;
             this.statusVoltageInput = 0;
-
-            //Fix default value
-            // this.configName = this.statusName;
-            // this.configGroup = this.statusGroup;
-            // this.configDumpFrequency = this.statusDumpFrequency;
-            // this.configBle = this.statusBle;
             this.glyph = this.statusGroup;
         }
 
@@ -388,19 +376,41 @@
             if (grObj.hasOwnProperty("rulePresence")) {
                 this.groupStatusRulePresence = grObj.rulePresence || 0;
             }
+        }
 
-            // this.groupControlLight = this.groupStatusLight;
-            // this.groupControlAuto = this.groupStatusAuto;
-            // this.groupConfigName = this.groupStatusName;
-            // this.groupConfigSlopeStartManual = this.groupStatusSlopeStartManual;
-            // this.groupConfigSlopeStopManual = this.groupStatusSlopeStopManual;
-            // this.groupConfigSlopeStartAuto = this.groupStatusSlopeStartAuto;
-            // this.groupConfigSlopeStopAuto = this.groupStatusSlopeStopAuto;
-            // this.groupConfigCorrectionInterval = this.groupStatusCorrectionInterval;
-            // this.groupConfigSensorRule = this.groupStatusSensorRule;
-            // this.groupConfigRuleBrightness = this.groupStatusRuleBrightness;
-            // this.groupConfigRulePresence = this.groupStatusRulePresence;
-            // this.groupConfigWatchdog = this.groupStatusWatchdog;
+        statusElement(gui){}
+        ifcInfo(gui){}
+
+        statusGroupInfo(gui){
+            var grStatus = gui.addFolder("Group Status");
+            grStatus.add(this, "groupStatusName").name("Name").listen();
+            grStatus.add(this, "groupStatusGroup").name("Group").listen();
+            grStatus.add(this, "groupStatusLight", 0, 100).name("Light (%)").listen();
+            grStatus.add(this, "groupStatusLightFirstDay", 0, 100).name("1st Days Light (%)").listen();
+            grStatus.add(this, "groupStatusPresence").name("Detection").listen();
+            grStatus.add(this, "groupStatusWindowsOpened").name("Windows Opened").listen();
+            grStatus.add(this, "groupStatusHumidity").name("Humidity (%)").listen();
+            grStatus.add(this, "groupStatusTemperature").name("Temperature (°C)").listen();
+            grStatus.add(this, "groupStatusBrightness").name("Brigthness (Lux)").listen();
+            grStatus.add(this, "groupStatusAuto").name("Auto").listen();
+            return grStatus
+        }
+
+        groupControlParam(gui){
+            var controlGr = gui.addFolder("Group Control");
+            controlGr.add(this, "groupControlLight", 0, 100).name("Light (%)");
+            controlGr.add(this, "groupControlAuto").name("Auto");
+            controlGr.add(this, "groupControlBlinds", { Stop: 0, Up: 1, Down: 2 }).name("Blinds")
+            controlGr.add(this, "groupControlBlindsSlats", 0,  180).name("Blinds Slats")
+            controlGr.add({"OK":function(){ energieip.SendGroupCmd(this); }}, "OK").name("Apply");
+            controlGr.open();
+        }
+
+        groupConfigParam(gui){
+            var controlGr = gui.addFolder("Group Configuration");
+            controlGr.add(this, "groupConfigName").name("Name");
+            controlGr.add({"OK": function(){ energieip.UpdateGroupNameCfg(this); }}, "OK").name("Apply");
+            controlGr.open();
         }
     };
 }

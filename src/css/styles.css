@@ -14,8 +14,6 @@ body {
     margin: 0;
 }
 
-
-
 #viewer {
     position: absolute;
     left: 300px;
@@ -204,8 +202,8 @@ body {
 
 #dat-gui-container {
     position: absolute;
-    /*top: 120px;*/
-    top:0;
+    top: 120px;
+    /* top:0; */
     right: 0;
     z-index: 100001;
     float: right;
@@ -225,7 +223,7 @@ body {
     margin-right : 60px !important;
 }
 
-#header {
+/* #header {
     background: white;
     width: 100%;
     max-width: 900px;
@@ -234,7 +232,7 @@ body {
     padding: 10px;
     padding-top: 50px;
     padding-bottom: 50px;
-}
+} */
 
 #image {
     background: white;

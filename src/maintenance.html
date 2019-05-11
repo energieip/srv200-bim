@@ -6,99 +6,61 @@
 <html>
 
 	<head>
-		<title>EnergieIP SRV200</title>
+		<title>BMS Server</title>
 		<meta charset="utf-8" />
 		<!-- responsive design -->
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<!-- main css loading -->
-		<link rel="stylesheet" href="assets/css/main.css" />
+		
+        <link href="css/styles.css" rel="stylesheet"/>  
+        <link href="css/annotation-style.css" rel="stylesheet"/>
+        <link href="css/viewer.css" rel="stylesheet"/>
+       
+       
     </head>
     
 	<body class="is-preload">
+        <header id="header">
+            <div id="top"></div>
+        </header>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+        <div class="inner"></div>
+        <div id="info"></div>
+        <div id="log"></div>
+        <div id="dat-gui-container"></div>
 
-				<!-- Main -->
-					<div id="main">
-						<div class="inner">
-
-                            <!-- Header -->
-                            <header id="header">
-                                <a href="index.html" class="logo"><strong>EnergieIP</strong> SRV200 configuration & visualization tool</a>
-                            </header>
-                 
-                        </div>
-
-                        <iframe  width="100%" height="100%" src="./imaintenance.html"></iframe>
-
-                    </div>
-
-                              
-					
-				<!-- Sidebar -->
-                <div id="sidebar">
-                    <div class="inner">
-
-                        <!-- Logo -->
-                            <img  src="images/logo_original.png"  width="70%" alt="logo"/>
-
-                        <!-- Menu -->
-                            <nav id="menu">
-                                <header class="major">
-                                    <h2>Menu</h2>
-                                </header>
-                                <ul>
-                                    <li><a href="index.html">Status</a></li>
-                                     <li><a href="supervision.html">Supervision</a></li>
-                                    <li><a href="maintenance.html">Maintenance</a></li>
-                                    <li>
-                                        <span class="opener">Consumptions</span>
-                                        <ul>
-                                        <li><a href="statsLeds.html">Lighting</a></li>
-                                        <li><a href="statsBlinds.html">Blinds</a></li>
-                                        <li><a href="statsHVACs.html">HVACs</a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <span class="opener">System</span>
-                                        <ul>
-                                            <li><a href="system.html">Info</a></li>
-                                            <li><a href="log.html">Log</a></li>
-                                            <li><a href="network.html">Network</a></li>
-                                            <li><a href="storage.html">Storage</a></li>
-                                            <li><a href="users.html">Users</a></li>
-                                            <li><a href="services.html">Services</a></li>
-                                            <li><a href="terminal.html">Terminal</a></li>
-                                            <li><a href="dashboard.html">Dashboard</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="legal.html">Licence information</a></li>
-                                </ul>
-                            </nav>
-
-                        <!-- Footer -->
-                            <footer id="footer">
-                                <!--&copy; EnergieIP-->
-                               <p class="copyright">&copy; EnergieIP. Join us on <a href="https://developer.energie-ip.com">developer.energie-ip.com</a></p>
-                            </footer>
-
-						</div>
-					</div>
-
-            </div>
-
-            
-            
+         <!-- Footer -->
+        <footer id="footer">
+            <div id="bottom"></div>
+            <p class="copyright">&copy; EnergieIP. Join us on <a href="https://developer.energie-ip.com">developer.energie-ip.com</a></p>
+        </footer>
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
+            <script src="assets/js/jquery.cookie.js"></script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
             <script src="assets/js/main.js"></script>
-            
-            
+            <script src="js/xeogl/xeogl.js"></script>
+            <script src="js/xeogl/models/glTFModel.js"></script>
+
+            <script src="js/xeogl/skyboxes/skybox.js"></script>
+            <script src="js/xeogl/libs/dat.gui.min.js"></script>
+
+            <script src="js/xeogl/annotations/pin.js"></script>
+            <script src="js/xeogl/annotations/annotation.js"></script>
+
+            <script src="js/energieip/energieip.js"></script>
+            <script src="js/energieip/drivers/driver.js"></script>
+            <script src="js/energieip/drivers/sensor.js"></script>
+            <script src="js/energieip/drivers/blind.js"></script>
+            <script src="js/energieip/switch.js"></script>
+            <script src="js/energieip/drivers/led.js"></script>
+            <script src="js/energieip/drivers/hvac.js"></script>
+
+            <script src="js/energieip/viewer.js"></script>
+            <script src="js/energieip/maintenance.js"></script>
 
 	</body>
 </html>

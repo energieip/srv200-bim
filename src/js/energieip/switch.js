@@ -251,21 +251,54 @@
                 this.statusError = driverObj.error;
             }
             this.statusIsConfigured = driverObj.isConfigured;
-            // this.statusSoftwareVersion = driverObj.softwareVersion;
-            // this.statusHardwareVersion = driverObj.hardwareVersion;
+            this.statusSoftwareVersion = driverObj.softwareVersion;
+            this.statusHardwareVersion = driverObj.hardwareVersion;
             this.statusDumpFrequency = driverObj.dumpFrequency;
 
-            //Fix default value
-            //this.configName = this.statusName;
             this.statusCluster = driverObj.cluster;
-
-           // this.configCluster = this.statusCluster;
-           // this.configDumpFrequency = this.statusDumpFrequency;
             this.glyph = "";
         }
 
         destroy() {
             super.destroy();
+        }
+
+        statusElement(gui){
+            var status = gui.addFolder("Switch Status");
+            status.add(this, "statusName").name("Name").listen();
+            return status;
+        }
+
+        statusGroupInfo(gui){
+            if (gui != null){
+                document.getElementById('dat-gui-container').removeChild(gui.domElement);
+                gui.destroy();
+                window.gui = null;
+            }
+        }
+
+        groupControlParam(gui){
+            if (gui != null){
+                document.getElementById('dat-gui-container').removeChild(gui.domElement);
+                gui.destroy();
+                window.gui = null;
+            }
+        }
+
+        groupConfigParam(gui){
+            if (gui != null){
+                document.getElementById('dat-gui-container').removeChild(gui.domElement);
+                gui.destroy();
+                window.gui = null;
+            }
+        }
+
+        configElement(gui){
+            var configuration = gui.addFolder("Switch Configuration");
+            configuration.add(this, "configName").name("Name");
+            configuration.add(this, "configDumpFrequency").name("Refresh Frequency (s)");
+            configuration.add({"OK":function(){ energieip.UpdateSwitchCfg(this); }}, "OK").name("Apply");
+            configuration.open();
         }
     };
 
@@ -276,6 +309,21 @@
 
         updateEvent(driverObj) {
             super.updateEvent(driverObj);
+        }
+
+        statusElement(gui){
+            var status = super.statusElement(gui);
+            status.open();
+        }
+
+        ifcInfo(gui){}
+
+        controlElement(gui){
+            if (gui != null){
+                document.getElementById('dat-gui-container').removeChild(gui.domElement);
+                gui.destroy();
+                window.gui = null;
+            }
         }
     };
 
@@ -293,6 +341,36 @@
 
         updateEvent(driverObj) {
             super.updateEvent(driverObj);
+        }
+
+        statusElement(gui){
+            var status = super.statusElement(gui);
+            status.add(this, "statusError").name("Error Status").listen();
+            status.add(this, "label").name("Cable").listen();
+            status.add(this, "statusIp").name("IP").listen();
+            status.add(this, "statusMac").name("Mac address").listen();
+            status.add(this, "statusSoftwareVersion").name("Software Version").listen();
+            status.add(this, "statusHardwareVersion").name("Hardware Version").listen();
+            status.add(this, "statusDumpFrequency").name("Refresh Frequency (s)").listen();
+            status.open();
+        }
+
+        ifcInfo(gui){
+            var ifc = gui.addFolder("Switch Information");
+            ifc.add(this, "ifcModelName").name("Model Name");
+            ifc.add(this, "ifcUrl").name("URL");
+            ifc.add(this, "ifcVendor").name("Vendor Name");
+            ifc.open();
+        }
+
+        controlElement(gui){
+            var controlDr = gui.addFolder("Switch Control");
+            controlDr.add({"reset": function(){
+                if (confirm("Do you want to reset the switch configuration ?")) {
+                    energieip.ResetSwitchCfg(this);
+                }
+            }}, "reset").name("Reset");
+            controlDr.open();
         }
     };
 }

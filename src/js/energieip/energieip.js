@@ -19,6 +19,7 @@
 
 const address = window.location.hostname + ':8888/v1.0/';
 const weblink = 'https://'+address;
+const accessToken = "EiPAccessToken";
 
 const driver = "driver";
 const ledDriver = "led";
@@ -256,6 +257,7 @@ exports.hvacDriver = hvacDriver;
 exports.blindDriver = blindDriver;
 exports.sensorDriver = sensorDriver;
 exports.switchDevice = switchDevice;
+exports.accessToken = accessToken;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

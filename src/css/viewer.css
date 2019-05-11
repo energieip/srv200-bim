@@ -1,0 +1,104 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    padding: 0;
+    margin: 0;
+}
+
+footer, header {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+    vertical-align: baseline;
+    display: block;
+}
+
+footer{
+    position: absolute;
+    bottom: 0em;
+    text-align: center;
+    justify-content: space-between;
+    padding: 0 16px;
+}
+
+#bottom {
+    text-align: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    bottom: 0em;
+  }
+
+#header {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    border-bottom: solid 5px #6CC24A;   /* line under header */
+    padding: 1em 0 1em 0;
+    position: relative;
+}
+
+    #header > * {
+        -moz-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        margin-bottom: 0;
+    }
+
+    #header .logo {
+        border-bottom: 0;
+        color: inherit;
+        font-family: "Roboto Slab", serif;
+        font-size: 1.125em;
+    }
+
+    #header .icons {
+        text-align: right;
+    }
+
+    @media screen and (max-width: 1680px) {
+
+        #header {
+            padding-top: 5em;
+            max-height: 10em;
+        }
+
+    }
+
+    @media screen and (max-width: 736px) {
+
+        #header {
+            padding-top: 6.5em;
+            max-height: 10em;
+        }
+
+            #header .logo {
+                font-size: 1.25em;
+                margin: 0;
+            }
+
+            #header .icons {
+                height: 5em;
+                line-height: 5em;
+                position: absolute;
+                right: -0.5em;
+                top: 0;
+            }
+
+    }
+
+/* Footer */
+
+#footer .copyright {
+    color: #9fa3a6;
+    font-size: 0.9em;
+}
+
+    #footer .copyright a {
+        color: inherit;
+    }
+
+ 

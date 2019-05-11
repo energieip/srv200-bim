@@ -210,10 +210,6 @@
             this.statusTemperatureRaw = driverObj.temperatureRaw / 10; //value in 1/10 °C
             this.statusThresholdPresence = driverObj.thresholdPresence;
             this.statusLastMovement = driverObj.lastMovement;
-
-            // this.configBrightnessCorrectionFactor = this.statusBrightnessCorrectionFactor;
-            // this.configThresholdPresence = this.statusThresholdPresence;
-            // this.configTemperatureOffset = this.statusTemperatureOffset;
         }
 
         removeEvent() {
@@ -228,10 +224,17 @@
             this.statusTemperatureRaw = 0;
             this.statusThresholdPresence = 0;
             this.statusLastMovement = 0;
+        }
 
-            // this.configBrightnessCorrectionFactor = this.statusBrightnessCorrectionFactor;
-            // this.configThresholdPresence = this.statusThresholdPresence;
-            // this.configTemperatureOffset = this.statusTemperatureOffset;
+        statusElement(gui){
+            var status = gui.addFolder("Sensor Status");
+            status.add(this, "statusName").name("Name").listen();
+            status.add(this, "statusTemperature").name("Temperature (°C)").listen();
+            status.add(this, "statusBrightness").name("Brightness (Lux)").listen();
+            status.add(this, "statusPresence").name("Presence").listen();
+            status.add(this, "statusHumidity", 0, 100).name("Humidity (%)").listen();
+            status.add(this, "statusGroup").name("Group").listen();
+            return status;
         }
     };
 
@@ -246,6 +249,33 @@
 
         updateEvent(driverObj) {
             super.updateEvent(driverObj);
+        }
+
+        statusElement(gui){
+           var status = super.statusElement(gui);
+           status.open();
+        }
+
+        statusGroupInfo(gui){
+            var status = super.statusGroupInfo(gui);
+            status.open();
+        }
+
+        ifcInfo(gui){}
+
+        controlElement(gui){
+            if (gui != null){
+                document.getElementById('dat-gui-container').removeChild(gui.domElement);
+                gui.destroy();
+                window.gui = null;
+            }
+        }
+
+        configElement(gui){
+            var config = gui.addFolder("Sensor Configuration");
+            config.add(this, "configName").name("Name");
+            config.add({"OK":function(){ energieip.UpdateSensorNameCfg(this); }}, "OK").name("Apply");
+            config.open();
         }
     };
 
@@ -267,6 +297,100 @@
 
         updateEvent(driverObj) {
             super.updateEvent(driverObj);
+        }
+
+        statusElement(gui){
+            var status = super.statusElement(gui);
+            status.add(this, "statusGroup").name("Group").listen();
+            status.add(this, "statusError").name("Error Status").listen();
+            status.add(this, "label").name("Cable").listen();
+            status.add(this, "statusBle").name("BLE").listen();
+            status.add(this, "statusBleMode").name("BLE Mode").listen();
+            status.add(this, "statusIBeaconUUID").name("iBeacon UUID").listen();
+            status.add(this, "statusIBeaconMajor").name("iBeacon Major").listen();
+            status.add(this, "statusIBeaconMinor").name("iBeacon Minor").listen();
+            status.add(this, "statusIBeaconTxPower").name("iBeacon Tx Power").listen();
+            status.add(this, "statusIsConfigured").name("Ready").listen();
+            status.add(this, "statusIp").name("IP").listen();
+            status.add(this, "statusMac").name("Mac address").listen();
+            status.add(this, "statusBrightnessCorrectionFactor").name("Brightness Correction (x)").listen();
+            status.add(this, "statusBrightnessRaw").name("Brightness Raw (Lux)").listen();
+            status.add(this, "statusTemperatureOffset").name("Temperature Offset (°C)").listen();
+            status.add(this, "statusTemperatureRaw").name("Temperature Raw (°C)").listen();
+            status.add(this, "statusThresholdPresence").name("Threshold Presence (s)").listen();
+            status.add(this, "statusLastMovement").name("Last Movement (s)").listen();
+            status.add(this, "statusVoltageInput").name("Voltage Input (V)").listen();
+            status.add(this, "statusSoftwareVersion").name("Software Version").listen();
+            status.add(this, "statusHardwareVersion").name("Hardware Version").listen();
+            status.add(this, "statusSwitchMac").name("Switch Mac address").listen();
+            status.add(this, "statusDumpFrequency").name("Refresh Frequency (s)").listen();
+            status.open();
+        }
+
+        ifcInfo(gui){
+            var ifc = gui.addFolder("Sensor Information");
+            ifc.add(this, "ifcModelName").name("Model Name");
+            ifc.add(this, "ifcUrl").name("URL");
+            ifc.add(this, "ifcVendor").name("Vendor Name");
+            ifc.open();
+        }
+
+        statusGroupInfo(gui){
+            var status = super.statusGroupInfo(gui);
+            status.add(this, "groupStatusError").name("Error Status").listen();
+            status.add(this, "groupStatusCorrectionInterval").name("Correction Interval (s)").listen();
+            status.add(this, "groupStatusSensorRule").name("Sensor Rule").listen();
+            status.add(this, "groupStatusSlopeStartManual").name("Slope Start Manual (s)").listen();
+            status.add(this, "groupStatusSlopeStopManual").name("Slope Stop Manual (s)").listen();
+            status.add(this, "groupStatusSlopeStartAuto").name("Slope Start Auto (s)").listen();
+            status.add(this, "groupStatusSlopeStopAuto").name("Slope Stop Auto (s)").listen();
+            status.add(this, "groupStatusTimeToAuto").name("Time to Auto (s)").listen();
+            status.add(this, "groupStatusTimeToLeave").name("Time to Leave (s)").listen();
+            status.add(this, "groupStatusRulePresence").name("Rule Presence (s)").listen();
+            status.add(this, "groupStatusRuleBrightness").name("Rule Brightness (Lux)").listen();
+            status.add(this, "groupStatusFirstDayOffset").name("1st Day Offset (%)").listen();
+            status.add(this, "groupStatusWatchdog").name("Watchdog (s)").listen();
+            status.open();
+        };
+
+        controlElement(gui){
+            var controlDr = gui.addFolder("Sensor Control");
+            controlDr.add({"reset": function(){
+                if (confirm("Do you want to reset the sensor configuration ?")) {
+                    energieip.ResetSensorCfg(this);
+                }
+            }}, "reset").name("Reset");
+            controlDr.open();
+        }
+
+        configElement(gui){
+            var config = gui.addFolder("Sensor Configuration");
+            config.add(this, "configName").name("Name");
+            config.add(this, "configGroup").name("Group");
+            config.add(this, "configBle").name("BLE");
+            config.add(this, "configDumpFrequency").name("Refresh Frequency (s)");
+            config.add(this, "configBrightnessCorrectionFactor").name("Brightness Correction (x)");
+            config.add(this, "configTemperatureOffset").name("Temperature Offset (°C)");
+            config.add(this, "configThresholdPresence").name("Threshold Presence (s)");
+            config.add({"OK":function(){ energieip.UpdateSensorCfg(this); }}, "OK").name("Apply");
+            config.open();
+        }
+
+        groupConfigParam(gui){
+            var controlGr = gui.addFolder("Group Configuration");
+            controlGr.add(this, "groupConfigName").name("Name");
+            controlGr.add(this, "groupConfigSlopeStartManual").name("Slope Start Manual (s)");
+            controlGr.add(this, "groupConfigSlopeStopManual").name("Slope Stop Manual (s)");
+            controlGr.add(this, "groupConfigSlopeStartAuto").name("Slope Start Auto (s)");
+            controlGr.add(this, "groupConfigSlopeStopAuto").name("Slope Stop Auto (s)");
+            controlGr.add(this, "groupConfigCorrectionInterval").name("Correction Interval (s)");
+            controlGr.add(this, "groupConfigSensorRule", ["average", "min", "max"]).name("Sensor Rule");
+            controlGr.add(this, "groupConfigRulePresence").name("Rule Presence (s)");
+            controlGr.add(this, "groupConfigRuleBrightness").name("Rule Brightness (Lux)");
+            controlGr.add(this, "groupConfigFirstDayOffset").name("1st Day Offset (%)");
+            controlGr.add(this, "groupConfigWatchdog").name("Watchdog (s)");
+            controlGr.add({"OK": function(){ energieip.UpdateGroupCfg(this); }}, "OK").name("Apply");
+            controlGr.open();
         }
     };
 }

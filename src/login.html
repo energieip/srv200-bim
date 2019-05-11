@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<!--
+	EnergieIP Server SRV200 UI
+	Based on html5up.up @ajlkn Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+	<head>
+		<title>BMS Server</title>
+		<meta charset="utf-8" />
+		<!-- responsive design -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!-- main css loading -->
+		<link rel="stylesheet" href="css/login.css" />
+	</head>
+	<body  class="is-preload">
+	
+	<h2>SRV200 BMS server</h2>
+
+
+	<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+
+	<div id="id01" class="modal">
+	
+	<form id="loginForm" class="modal-content animate" method="post">
+		<div class="imgcontainer">
+		<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+		<img src="images/logo_e.png" alt="Avatar" class="avatar">
+		</div>
+
+		<div class="container">
+		<label for="uname"><b>Username</b></label>
+		<input type="text" placeholder="Enter Username" name="uname" required>
+
+		<label for="pwd"><b>Password</b></label>
+		<input type="password" placeholder="Enter Password" name="pwd" required>
+			
+		<button type="submit">Login</button>
+		<label>
+			<input type="checkbox" checked="checked" name="remember"> Remember me
+		</label>
+		</div>
+
+		<div class="container" style="background-color:#f1f1f1">
+		<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+		</div>
+	</form>
+	</div>
+
+	<section id="banner">
+		<img  src="images/server_face.png" alt="server picture"/>
+	</section>
+	<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.cookie.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/sha256.js"></script>
+		<script src="js/energieip/energieip.js"></script>
+		<script src="js/energieip/login.js"></script>
+	</body>
+</html>
