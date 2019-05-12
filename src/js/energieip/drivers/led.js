@@ -1,54 +1,23 @@
 {
     energieip.UpdateLedNameCfg = function (driver) {
         var url = energieip.weblink + 'config/led';
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE){
-                switch (this.status) {
-                    case 200:
-                        alert("Success");
-                        break;
-                    case 500:
-                        var obj = JSON.parse(xhr.responseText);
-                        alert("Error: "+ obj.message);
-                        break;
-                    default:
-                        alert("Error");
-                        break;
-                }
-            }
-        }
-        var content = {
+        var data = {
             "mac": driver.statusMac,
             "friendlyName": driver.configName,
         };
-        xhr.send(JSON.stringify(content));
+        energieip.SendRequest(
+            "POST", url, data, function(response){
+                alert("success");
+            },
+            function(response){
+                alert("Error" + response["message"]);
+            }
+        );
     }
 
     energieip.UpdateLedCfg = function (driver) {
         var url = energieip.weblink + 'config/led';
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE){
-                switch (this.status) {
-                    case 200:
-                        alert("Success");
-                        break;
-                    case 500:
-                        var obj = JSON.parse(xhr.responseText);
-                        alert("Error: "+ obj.message);
-                        break;
-                    default:
-                        alert("Error");
-                        break;
-                }
-            }
-        }
-        var content = {
+        var data = {
             "mac": driver.statusMac,
             "friendlyName": driver.configName,
             "isBleEnabled": driver.configBle,
@@ -58,64 +27,47 @@
             "thresoldHigh": parseInt(driver.configThresholdHigh),
             "thresoldLow": parseInt(driver.configThresholdLow),
         };
-        xhr.send(JSON.stringify(content));
+        energieip.SendRequest(
+            "POST", url, data, function(response){
+                alert("success");
+            },
+            function(response){
+                alert("Error" + response["message"]);
+            }
+        );
     }
 
     energieip.ResetLedCfg = function (driver) {
         var url = energieip.weblink + 'config/led';
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE) {
-                switch (this.status) {
-                    case 200:
-                        alert("Success");
-                        break;
-                    case 500:
-                        var obj = JSON.parse(xhr.responseText);
-                        alert("Error: "+ obj.message);
-                        break;
-                    default:
-                        alert("Error");
-                        break;
-                }
-            }
-        }
-        var content = {
+        var data = {
             "mac": driver.statusMac,
             "isConfigured": false,
         };
-        xhr.send(JSON.stringify(content));
+        energieip.SendRequest(
+            "POST", url, data, function(response){
+                alert("success");
+            },
+            function(response){
+                alert("Error" + response["message"]);
+            }
+        );
     }
 
     energieip.SendLedCmd = function (driver) {
         var url = energieip.weblink + 'command/led';
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE){
-                switch (this.status) {
-                    case 200:
-                        alert("Success");
-                        break;
-                    case 500:
-                        var obj = JSON.parse(xhr.responseText);
-                        alert("Error: "+ obj.message);
-                        break;
-                    default:
-                        alert("Error");
-                        break;
-                }
-            }
-        }
-        var content = {
+        var data = {
             "mac": driver.statusMac,
             "auto": driver.controlAuto,
             "setpoint": parseInt(driver.controlLight),
         };
-        xhr.send(JSON.stringify(content));
+        energieip.SendRequest(
+            "POST", url, data, function(response){
+                alert("success");
+            },
+            function(response){
+                alert("Error" + response["message"]);
+            }
+        );
     }
 
     energieip.Led = class led extends energieip.Driver {
@@ -273,18 +225,20 @@
         }
 
         controlElement(gui){
+            var driver = this;
             var controlDr = gui.addFolder("LED Control");
             controlDr.add(this, "controlLight", 0, 100).name("Light (%)");
             controlDr.add(this, "controlAuto").name("Auto");
-            controlDr.add({"OK":function(){ energieip.SendLedCmd(this); }}, "OK").name("Apply");
+            controlDr.add({"OK":function(){ energieip.SendLedCmd(driver); }}, "OK").name("Apply");
             controlDr.open();
         }
 
 
         configElement(gui){
+            var driver = this;
             var config = gui.addFolder("LED Configuration");
             config.add(this, "configName").name("Name");
-            config.add({"OK":function(){ energieip.UpdateLedNameCfg(this); }}, "OK").name("Apply");
+            config.add({"OK":function(){ energieip.UpdateLedNameCfg(driver); }}, "OK").name("Apply");
             config.open();
         }
     };
@@ -367,19 +321,21 @@
         };
 
         controlElement(gui){
+            var driver = this;
             var controlDr = gui.addFolder("LED Control");
             controlDr.add(this, "controlLight", 0, 100).name("Light (%)");
             controlDr.add(this, "controlAuto").name("Auto");
-            controlDr.add({"OK":function(){ energieip.SendLedCmd(this); }}, "OK").name("Apply");
+            controlDr.add({"OK":function(){ energieip.SendLedCmd(driver); }}, "OK").name("Apply");
             controlDr.add({"reset": function() {
                 if (confirm("Do you want to reset the LED configuration ?")) {
-                    energieip.ResetLedCfg(this);
+                    energieip.ResetLedCfg(driver);
                 }
             }}, "reset").name("Reset");
             controlDr.open();
         }
 
         configElement(gui){
+            var driver = this;
             var config = gui.addFolder("LED Configuration");
             config.add(this, "configName").name("Name");
             config.add(this, "configGroup").name("Group");
@@ -388,11 +344,12 @@
             config.add(this, "configThresholdLow",  0, 100).name("Threshold Low (%)");
             config.add(this, "configThresholdHigh",  0, 100).name("Threshold High (%)");
             config.add(this, "configWatchdog").name("Watchdog");
-            config.add({"OK":function(){ energieip.UpdateLedCfg(this); }}, "OK").name("Apply");
+            config.add({"OK":function(){ energieip.UpdateLedCfg(driver); }}, "OK").name("Apply");
             config.open();
         }
 
         groupConfigParam(gui){
+            var driver = this;
             var controlGr = gui.addFolder("Group Configuration");
             controlGr.add(this, "groupConfigName").name("Name");
             controlGr.add(this, "groupConfigSlopeStartManual").name("Slope Start Manual (s)");
@@ -405,7 +362,8 @@
             controlGr.add(this, "groupConfigRuleBrightness").name("Rule Brightness (Lux)");
             controlGr.add(this, "groupConfigFirstDayOffset").name("1st Day Offset (%)");
             controlGr.add(this, "groupConfigWatchdog").name("Watchdog (s)");
-            controlGr.add({"OK": function(){ energieip.UpdateGroupCfg(this); }}, "OK").name("Apply");
+            controlGr.add({"OK": function(){ console.log(driver);
+                energieip.UpdateGroupCfg(driver); }}, "OK").name("Apply");
             controlGr.open();
         }
     };

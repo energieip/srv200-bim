@@ -1,54 +1,23 @@
 {
     energieip.UpdateSensorNameCfg = function (driver) {
         var url = energieip.weblink + 'config/sensor';
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE) {
-                switch (this.status) {
-                    case 200:
-                        alert("Success");
-                        break;
-                    case 500:
-                        var obj = JSON.parse(xhr.responseText);
-                        alert("Error: " + obj.message);
-                        break;
-                    default:
-                        alert("Error");
-                        break;
-                }
-            }
-        }
-        var content = {
+        var data = {
             "mac": driver.statusMac,
             "friendlyName": driver.configName,
         };
-        xhr.send(JSON.stringify(content));
+        energieip.SendRequest(
+            "POST", url, data, function(response){
+                alert("success");
+            },
+            function(response){
+                alert("Error" + response["message"]);
+            }
+        );
     }
 
     energieip.UpdateSensorCfg = function (driver) {
         var url = energieip.weblink + 'config/sensor';
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE) {
-                switch (this.status) {
-                    case 200:
-                        alert("Success");
-                        break;
-                    case 500:
-                        var obj = JSON.parse(xhr.responseText);
-                        alert("Error: " + obj.message);
-                        break;
-                    default:
-                        alert("Error");
-                        break;
-                }
-            }
-        }
-        var content = {
+        var data = {
             "mac": driver.statusMac,
             "friendlyName": driver.configName,
             "group": parseInt(driver.configGroup),
@@ -58,28 +27,30 @@
             "thresholdPresence": parseInt(driver.configThresholdPresence),
             "temperatureOffset": parseInt(driver.configTemperatureOffset) * 10,
         };
-        xhr.send(JSON.stringify(content));
+        energieip.SendRequest(
+            "POST", url, data, function(response){
+                alert("success");
+            },
+            function(response){
+                alert("Error" + response["message"]);
+            }
+        );
     }
 
     energieip.ResetSensorCfg = function (driver) {
         var url = energieip.weblink + 'config/sensor';
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE) {
-                if (this.status === 200) {
-                    alert("Command successfull");
-                } else {
-                    alert("Command Error");
-                }
-            }
-        }
-        var content = {
+        var data = {
             "mac": driver.statusMac,
             "isConfigured": false,
         };
-        xhr.send(JSON.stringify(content));
+        energieip.SendRequest(
+            "POST", url, data, function(response){
+                alert("success");
+            },
+            function(response){
+                alert("Error" + response["message"]);
+            }
+        );
     }
 
     energieip.Sensor = class sensor extends energieip.Driver {
@@ -272,9 +243,10 @@
         }
 
         configElement(gui){
+            var driver = this;
             var config = gui.addFolder("Sensor Configuration");
             config.add(this, "configName").name("Name");
-            config.add({"OK":function(){ energieip.UpdateSensorNameCfg(this); }}, "OK").name("Apply");
+            config.add({"OK":function(){ energieip.UpdateSensorNameCfg(driver); }}, "OK").name("Apply");
             config.open();
         }
     };
@@ -301,7 +273,6 @@
 
         statusElement(gui){
             var status = super.statusElement(gui);
-            status.add(this, "statusGroup").name("Group").listen();
             status.add(this, "statusError").name("Error Status").listen();
             status.add(this, "label").name("Cable").listen();
             status.add(this, "statusBle").name("BLE").listen();
@@ -354,16 +325,18 @@
         };
 
         controlElement(gui){
+            var driver = this;
             var controlDr = gui.addFolder("Sensor Control");
             controlDr.add({"reset": function(){
                 if (confirm("Do you want to reset the sensor configuration ?")) {
-                    energieip.ResetSensorCfg(this);
+                    energieip.ResetSensorCfg(driver);
                 }
             }}, "reset").name("Reset");
             controlDr.open();
         }
 
         configElement(gui){
+            var driver = this;
             var config = gui.addFolder("Sensor Configuration");
             config.add(this, "configName").name("Name");
             config.add(this, "configGroup").name("Group");
@@ -372,11 +345,12 @@
             config.add(this, "configBrightnessCorrectionFactor").name("Brightness Correction (x)");
             config.add(this, "configTemperatureOffset").name("Temperature Offset (°C)");
             config.add(this, "configThresholdPresence").name("Threshold Presence (s)");
-            config.add({"OK":function(){ energieip.UpdateSensorCfg(this); }}, "OK").name("Apply");
+            config.add({"OK":function(){ energieip.UpdateSensorCfg(driver); }}, "OK").name("Apply");
             config.open();
         }
 
         groupConfigParam(gui){
+            var driver = this;
             var controlGr = gui.addFolder("Group Configuration");
             controlGr.add(this, "groupConfigName").name("Name");
             controlGr.add(this, "groupConfigSlopeStartManual").name("Slope Start Manual (s)");
@@ -389,7 +363,7 @@
             controlGr.add(this, "groupConfigRuleBrightness").name("Rule Brightness (Lux)");
             controlGr.add(this, "groupConfigFirstDayOffset").name("1st Day Offset (%)");
             controlGr.add(this, "groupConfigWatchdog").name("Watchdog (s)");
-            controlGr.add({"OK": function(){ energieip.UpdateGroupCfg(this); }}, "OK").name("Apply");
+            controlGr.add({"OK": function(){ energieip.UpdateGroupCfg(driver); }}, "OK").name("Apply");
             controlGr.open();
         }
     };

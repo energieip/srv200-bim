@@ -1,5 +1,4 @@
 function CreateView(maintenance=false){
-    var groups = {};
     var labels = '';
     var scene = new xeogl.Scene({
         transparent: true
@@ -171,7 +170,7 @@ function CreateView(maintenance=false){
         if (labels != "") {
             labels = labels.substring(0, labels.length - 1);
         }
-        energieip.GetIfcDump(labels, function (ifcDrivers){
+        energieip.GetIfcDump(labels, function (ifcDrivers, groups){
             for (var lbl in model.meshes){
                 var parse = lbl.split(".");
                 parse.splice(0, 0);
@@ -184,17 +183,16 @@ function CreateView(maintenance=false){
                     var ifcModel = ifcDrivers[label];
                     var grStatus = {};
                     var groupID = ifcModel["status"].group || 0;
+                    if (groupID === 0){
+                        groupID = ifcModel["config"].group || 0;
+                    }
                     if (groups.hasOwnProperty(groupID)){
-                        grStatus = groups[groupID];
-                    } else {
-                        energieip.GetGroupStatus(groupID, function (grStatus){
-                            groups[groupID] = grStatus;
-                        });
-                        if (groups.hasOwnProperty(groupID)){
-                            grStatus = groups[groupID];
+                        if (groups[groupID]["status"].group === groupID){
+                            grStatus = groups[groupID]["status"];
+                        } else{
+                            grStatus = groups[groupID]["config"];
                         }
                     }
-
                     var driver = null;
                     var content = {
                         label: label,

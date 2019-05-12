@@ -1,81 +1,52 @@
 {
     energieip.UpdateSwitchNameCfg = function (driver) {
         var url = energieip.weblink + 'config/switch';
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE){
-                switch (this.status) {
-                    case 200:
-                        alert("Success");
-                        break;
-                    case 500:
-                        var obj = JSON.parse(xhr.responseText);
-                        alert("Error: "+ obj.message);
-                        break;
-                    default:
-                        alert("Error");
-                        break;
-                }
-            }
-        }
-        var content = {
+        var data = {
             "mac": driver.statusMac,
             "friendlyName": driver.configName,
         };
-        xhr.send(JSON.stringify(content));
+        energieip.SendRequest(
+            "POST", url, data, function(response){
+                alert("success");
+            },
+            function(response){
+                alert("Error" + response["message"]);
+            }
+        );
     }
 
     energieip.UpdateSwitchCfg = function (driver) {
         var url = energieip.weblink + 'config/switch';
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE) {
-                switch (this.status) {
-                    case 200:
-                        alert("Success");
-                        break;
-                    case 500:
-                        var obj = JSON.parse(xhr.responseText);
-                        alert("Error: "+ obj.message);
-                        break;
-                    default:
-                        alert("Error");
-                        break;
-                }
-            }
-        }
-        var content = {
+        var data = {
             "mac": driver.statusMac,
             "friendlyName": driver.configName,
             "cluster": parseInt(driver.cluster),
             "dumpFrequency": parseInt(driver.configDumpFrequency)
         };
-        xhr.send(JSON.stringify(content));
+        energieip.SendRequest(
+            "POST", url, data, function(response){
+                alert("success");
+            },
+            function(response){
+                alert("Error" + response["message"]);
+            }
+        );
     }
 
     energieip.ResetSwitchCfg = function (driver) {
         var url = energieip.weblink + 'config/switch';
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE) {
-                if (this.status === 200) {
-                    alert("Command successfull");
-                } else {
-                    alert("Command Error");
-                }
-            }
-        }
-        var content = {
+        var data = {
             "mac": driver.statusMac,
             "isConfigured": false,
         };
-        xhr.send(JSON.stringify(content));
+        energieip.SendRequest(
+            "POST", url, data, function(response){
+                alert("success");
+            },
+            function(response){
+                alert("Error" + response["message"]);
+            }
+        );
     }
 
     energieip.Switch = class dswitch extends xeogl.Annotation {
@@ -294,10 +265,11 @@
         }
 
         configElement(gui){
+            var driver = this;
             var configuration = gui.addFolder("Switch Configuration");
             configuration.add(this, "configName").name("Name");
             configuration.add(this, "configDumpFrequency").name("Refresh Frequency (s)");
-            configuration.add({"OK":function(){ energieip.UpdateSwitchCfg(this); }}, "OK").name("Apply");
+            configuration.add({"OK":function(){ energieip.UpdateSwitchCfg(driver); }}, "OK").name("Apply");
             configuration.open();
         }
     };
@@ -364,10 +336,11 @@
         }
 
         controlElement(gui){
+            var driver = this;
             var controlDr = gui.addFolder("Switch Control");
             controlDr.add({"reset": function(){
                 if (confirm("Do you want to reset the switch configuration ?")) {
-                    energieip.ResetSwitchCfg(this);
+                    energieip.ResetSwitchCfg(driver);
                 }
             }}, "reset").name("Reset");
             controlDr.open();

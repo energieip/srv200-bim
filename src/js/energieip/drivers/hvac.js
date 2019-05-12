@@ -1,115 +1,67 @@
 {
     energieip.UpdateHvacNameCfg = function (driver) {
         var url = energieip.weblink + 'config/hvac';
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE){
-                switch (this.status) {
-                    case 200:
-                        alert("Success");
-                        break;
-                    case 500:
-                        var obj = JSON.parse(xhr.responseText);
-                        alert("Error: "+ obj.message);
-                        break;
-                    default:
-                        alert("Error");
-                        break;
-                }
-            }
-        }
-        var content = {
+        var data = {
             "mac": driver.statusMac,
             "friendlyName": driver.configName,
         };
-        xhr.send(JSON.stringify(content));
+        energieip.SendRequest(
+            "POST", url, data, function(response){
+                alert("success");
+            },
+            function(response){
+                alert("Error" + response["message"]);
+            }
+        );
     }
 
     energieip.UpdateHvacCfg = function (driver) {
         var url = energieip.weblink + 'config/hvac';
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE){
-                switch (this.status) {
-                    case 200:
-                        alert("Success");
-                        break;
-                    case 500:
-                        var obj = JSON.parse(xhr.responseText);
-                        alert("Error: "+ obj.message);
-                        break;
-                    default:
-                        alert("Error");
-                        break;
-                }
-            }
-        }
-        var content = {
+        var data = {
             "mac": driver.statusMac,
             "friendlyName": driver.configName,
             "group": parseInt(driver.configGroup),
             "dumpFrequency": parseInt(driver.configDumpFrequency) * 1000,
         };
-        xhr.send(JSON.stringify(content));
+        energieip.SendRequest(
+            "POST", url, data, function(response){
+                alert("success");
+            },
+            function(response){
+                alert("Error" + response["message"]);
+            }
+        );
     }
 
     energieip.ResetHvacCfg = function (driver) {
         var url = energieip.weblink + 'config/hvac';
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE) {
-                switch (this.status) {
-                    case 200:
-                        alert("Success");
-                        break;
-                    case 500:
-                        var obj = JSON.parse(xhr.responseText);
-                        alert("Error: "+ obj.message);
-                        break;
-                    default:
-                        alert("Error");
-                        break;
-                }
-            }
-        }
-        var content = {
+        var data = {
             "mac": driver.statusMac,
             "isConfigured": false,
         };
-        xhr.send(JSON.stringify(content));
+        energieip.SendRequest(
+            "POST", url, data, function(response){
+                alert("success");
+            },
+            function(response){
+                alert("Error" + response["message"]);
+            }
+        );
     }
 
     energieip.SendHvacCmd = function (driver) {
         var url = energieip.weblink + 'command/hvac';
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE){
-                switch (this.status) {
-                    case 200:
-                        alert("Success");
-                        break;
-                    case 500:
-                        var obj = JSON.parse(xhr.responseText);
-                        alert("Error: "+ obj.message);
-                        break;
-                    default:
-                        alert("Error");
-                        break;
-                }
-            }
-        }
-        var content = {
+        var data = {
             "mac": driver.statusMac,
         };
-        xhr.send(JSON.stringify(content));
+        energieip.SendRequest(
+            "POST", url, data, function(response){
+                alert("success");
+            },
+            function(response){
+                alert("Error" + response["message"]);
+            }
+        );
     }
 
     energieip.Hvac = class hvac extends energieip.Driver {
@@ -263,25 +215,28 @@
         };
 
         controlElement(gui){
+            var driver = this;
             var controlDr = gui.addFolder("HVAC Control");
             controlDr.add({"reset": function(){
                 if (confirm("Do you want to reset the HVAC configuration ?")) {
-                    energieip.ResetHvacCfg(this);
+                    energieip.ResetHvacCfg(driver);
                 }
             }}, "reset").name("Reset");
             controlDr.open();
         }
 
         configElement(gui){
+            var driver = this;
             var config = gui.addFolder("HVAC Configuration");
             config.add(this, "configName").name("Name");
             config.add(this, "configGroup").name("Group");
             config.add(this, "configDumpFrequency").name("Refresh Frequency (s)");
-            config.add({"OK":function(){ energieip.UpdateHvacCfg(this); }}, "OK").name("Apply");
+            config.add({"OK":function(){ energieip.UpdateHvacCfg(driver); }}, "OK").name("Apply");
             config.open();
         }
 
         groupConfigParam(gui){
+            var driver = this;
             var controlGr = gui.addFolder("Group Configuration");
             controlGr.add(this, "groupConfigName").name("Name");
             controlGr.add(this, "groupConfigSlopeStartManual").name("Slope Start Manual (s)");
@@ -294,7 +249,7 @@
             controlGr.add(this, "groupConfigRuleBrightness").name("Rule Brightness (Lux)");
             controlGr.add(this, "groupConfigFirstDayOffset").name("1st Day Offset (%)");
             controlGr.add(this, "groupConfigWatchdog").name("Watchdog (s)");
-            controlGr.add({"OK": function(){ energieip.UpdateGroupCfg(this); }}, "OK").name("Apply");
+            controlGr.add({"OK": function(){ energieip.UpdateGroupCfg(driver); }}, "OK").name("Apply");
             controlGr.open();
         }
     };

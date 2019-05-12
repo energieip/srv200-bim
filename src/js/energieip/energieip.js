@@ -20,6 +20,7 @@
 const address = window.location.hostname + ':8888/v1.0/';
 const weblink = 'https://'+address;
 const accessToken = "EiPAccessToken";
+const loginPage = "login.html";
 
 const driver = "driver";
 const ledDriver = "led";
@@ -49,100 +50,83 @@ energieip.Notifications = function (cbkOnMessage) {
 
 }
 
+energieip.SendRequest = function (type, url, data, cbk, err){
+	$.ajax({
+		type: type,
+		url: url,
+		dataType: 'json',
+		cache: false,
+		credentials: 'include',
+		data: JSON.stringify(data),
+		crossDomain: true,
+		xhrFields: {
+			withCredentials: true
+		},
+		statusCode: {
+			200: function (response) {
+				cbk(response);
+			},
+			401: function (response) {
+				window.location.href = energieip.loginPage;
+			},
+			500: function (response) {
+				err(response);
+			}
+		}
+	});
+};
+
 energieip.GetIfcDump = function (labels, cbk) {
-	var Http = new XMLHttpRequest();
 	var url = energieip.weblink + 'dump'
 	if (labels!= ""){ 
 		url += '?labels=' + labels;
 	}
-	Http.open("GET", url, true);
-	Http.send();
-	var drivers = {};
-	Http.onreadystatechange = function() {
-		if (this.readyState === XMLHttpRequest.DONE) {
-			if (this.status === 200) {
-				var obj = JSON.parse(Http.responseText);
-				for (var i  in obj) {
-					for (var elt  in obj[i]){
-						var driver = obj[i][elt];
-						if (driver["ifc"] == null){
-							continue
-						}
-						var label = driver["ifc"].label;
-						drivers[label] = driver;
-					}
+	energieip.SendRequest(
+		"GET", url, {}, function(response){
+			var drivers = {};
+			var groups = {};
+			for (var i  in response) {
+				if (i === "groups"){
+					continue
 				}
-				cbk(drivers);
+				for (var elt  in response[i]){
+					var driver = response[i][elt];
+					if (driver["ifc"] == null){
+						continue
+					}
+					var label = driver["ifc"].label;
+					drivers[label] = driver;
+				}
 			}
-		}
-	}
-}
-
-energieip.GetGroupStatus = function (grID, cbk) {
-	var Http = new XMLHttpRequest();
-	var url = energieip.weblink + 'status/group/' + grID.toString();
-	Http.open("GET", url, true);
-	Http.send();
-	Http.onreadystatechange = function() {
-		if (this.readyState === XMLHttpRequest.DONE) {
-			if (this.status === 200) {
-				var obj = JSON.parse(Http.responseText);
-				cbk(obj);
+			for (var elt in response["groups"]){
+				var grID = response["groups"][elt]["config"].group;
+				groups[grID] = response["groups"][elt];
 			}
-		}
-	}
+			cbk(drivers, groups);
+		},
+		function(response){}
+	);
 }
 
 energieip.UpdateGroupNameCfg = function (driver) {
 	var url = energieip.weblink + 'config/group';
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	xhr.onreadystatechange = function() {
-		if (this.readyState === XMLHttpRequest.DONE) {
-			switch (this.status) {
-				case 200:
-					alert("Success");
-					break;
-				case 500:
-					var obj = JSON.parse(xhr.responseText);
-					alert("Error: "+ obj.message);
-					break;
-				default:
-					alert("Error");
-					break;
-			}
-		}
-	}
-	var content = {
+	var data = {
 		"group": parseInt(driver.statusGroup),
 		"friendlyName": driver.groupConfigName,
 	};
-	xhr.send(JSON.stringify(content));
+	energieip.SendRequest(
+		"POST", url, data, function(response){
+			alert("success");
+		},
+		function(response){
+            alert("Error" + response["message"]);
+		}
+	);
 }
 
 energieip.CreateGroup = function (group) {
 	var url = energieip.weblink + 'setup/group';
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	xhr.onreadystatechange = function() {
-		if (this.readyState === XMLHttpRequest.DONE) {
-			switch (this.status) {
-				case 200:
-					alert("Success");
-					break;
-				case 500:
-					var obj = JSON.parse(xhr.responseText);
-					alert("Error: "+ obj.message);
-					break;
-				default:
-					alert("Error");
-					break;
-			}
-		}
-	}
-	var content = {
+	var data = {
 		"group": parseInt(group.group),
 		"leds": group.leds,
 		"sensors": group.sensors,
@@ -158,31 +142,19 @@ energieip.CreateGroup = function (group) {
 		"rulePresence": parseInt(group.rulePresence),
 		"watchdog": parseInt(group.watchdog),
 	};
-	xhr.send(JSON.stringify(content));
+	energieip.SendRequest(
+		"POST", url, data, function(response){
+			alert("success");
+		},
+		function(response){
+            alert("Error" + response["message"]);
+		}
+	);
 }
 
 energieip.UpdateGroupCfg = function (driver) {
 	var url = energieip.weblink + 'config/group';
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	xhr.onreadystatechange = function() {
-		if (this.readyState === XMLHttpRequest.DONE) {
-			switch (this.status) {
-				case 200:
-					alert("Success");
-					break;
-				case 500:
-					var obj = JSON.parse(xhr.responseText);
-					alert("Error: "+ obj.message);
-					break;
-				default:
-					alert("Error");
-					break;
-			}
-		}
-	}
-	var content = {
+	var data = {
 		"group": parseInt(driver.statusGroup),
 		"friendlyName": driver.groupConfigName,
 		"slopeStartManual": parseInt(driver.groupConfigSlopeStartManual) * 1000,
@@ -196,38 +168,35 @@ energieip.UpdateGroupCfg = function (driver) {
 		"firstDayOffset": parseInt(driver.groupConfigFirstDayOffset),
 		"watchdog": parseInt(driver.groupConfigWatchdog)
 	};
-	xhr.send(JSON.stringify(content));
+
+	energieip.SendRequest(
+		"POST", url, data, function(response){
+			alert("success");
+		},
+		function(response){
+            alert("Error" + response["message"]);
+		}
+	);
 }
 
 energieip.SendGroupCmd = function (driver) {
 	var url = energieip.weblink + 'command/group';
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	xhr.onreadystatechange = function() {
-		if (this.readyState === XMLHttpRequest.DONE){
-			switch (this.status) {
-				case 200:
-					alert("Success");
-					break;
-				case 500:
-					var obj = JSON.parse(xhr.responseText);
-					alert("Error: "+ obj.message);
-					break;
-				default:
-					alert("Error");
-					break;
-			}
-		}
-	}
-	var content = {
+	var data = {
 		"group": parseInt(driver.statusGroup),
 		"auto": driver.groupControlAuto,
 		"setpointLeds": parseInt(driver.groupControlLight),
 		"setpointBlinds": parseInt(driver.groupControlBlinds),
 		"setpointSlats": parseInt(driver.groupControlBlindsSlats)
 	};
-	xhr.send(JSON.stringify(content));
+
+	energieip.SendRequest(
+		"POST", url, data, function(response){
+			alert("success");
+		},
+		function(response){
+            alert("Error" + response["message"]);
+		}
+	);
 }
 
 energieip.ConsumptionsEvent = function (cbkOnMessage) {
@@ -258,6 +227,7 @@ exports.blindDriver = blindDriver;
 exports.sensorDriver = sensorDriver;
 exports.switchDevice = switchDevice;
 exports.accessToken = accessToken;
+exports.loginPage = loginPage;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

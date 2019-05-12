@@ -33,7 +33,6 @@
             this._labelElement = document.createElement('div');
             this._labelElement.className = "xeogl-annotation-mac";
 
-            this.statusGroup = driverObj.driverProperties.status.group||0;
             this.statusMac = driverObj.driverProperties.status.mac||"";
             this.statusName = driverObj.driverProperties.status.friendlyName||"";
             this.statusError = driverObj.driverProperties.status.error||0;
@@ -75,7 +74,6 @@
             this.groupStatusFirstDayOffset = 0;
 
             this.configName = this.statusName;
-            this.configGroup = this.statusGroup.toString() || "0";
             this.configDumpFrequency = this.statusDumpFrequency.toString() || "0";
             this.configBle = this.statusBle;
             
@@ -92,15 +90,15 @@
             }
 
             if (driverObj.groupProperties.hasOwnProperty("friendlyName")) {
-                this.groupStatusName = driverObj.groupProperties.friendlyName;
+                this.groupStatusName = driverObj.groupProperties.friendlyName || "";
             }
 
             if (driverObj.groupProperties.hasOwnProperty("presence")) {
-                this.groupStatusPresence = driverObj.groupProperties.presence;
+                this.groupStatusPresence = driverObj.groupProperties.presence || false;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("windowsOpened")) {
-                this.groupStatusWindowsOpened = driverObj.groupProperties.windowsOpened;
+                this.groupStatusWindowsOpened = driverObj.groupProperties.windowsOpened ||false;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("temperature")) {
@@ -126,6 +124,8 @@
             if (driverObj.groupProperties.hasOwnProperty("group")) {
                 this.groupStatusGroup = driverObj.groupProperties.group;
             }
+            this.statusGroup = this.groupStatusGroup;
+            this.configGroup = this.statusGroup.toString() || "0";
 
             if (driverObj.groupProperties.hasOwnProperty("correctionInterval")) {
                 this.groupStatusCorrectionInterval = driverObj.groupProperties.correctionInterval;
@@ -379,7 +379,9 @@
         }
 
         statusElement(gui){}
-        ifcInfo(gui){}
+        ifcInfo(gui){
+            
+        }
 
         statusGroupInfo(gui){
             var grStatus = gui.addFolder("Group Status");
@@ -397,19 +399,21 @@
         }
 
         groupControlParam(gui){
+            var driver = this;
             var controlGr = gui.addFolder("Group Control");
             controlGr.add(this, "groupControlLight", 0, 100).name("Light (%)");
             controlGr.add(this, "groupControlAuto").name("Auto");
             controlGr.add(this, "groupControlBlinds", { Stop: 0, Up: 1, Down: 2 }).name("Blinds")
             controlGr.add(this, "groupControlBlindsSlats", 0,  180).name("Blinds Slats")
-            controlGr.add({"OK":function(){ energieip.SendGroupCmd(this); }}, "OK").name("Apply");
+            controlGr.add({"OK":function(){ energieip.SendGroupCmd(driver); }}, "OK").name("Apply");
             controlGr.open();
         }
 
         groupConfigParam(gui){
+            var driver = this;
             var controlGr = gui.addFolder("Group Configuration");
             controlGr.add(this, "groupConfigName").name("Name");
-            controlGr.add({"OK": function(){ energieip.UpdateGroupNameCfg(this); }}, "OK").name("Apply");
+            controlGr.add({"OK": function(){ energieip.UpdateGroupNameCfg(driver); }}, "OK").name("Apply");
             controlGr.open();
         }
     };
