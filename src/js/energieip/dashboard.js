@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    if ($.cookie(energieip.accessToken)!= null) {
+    if ($.cookie(energieip.accessToken)) {
         getUserInfo();
     } else {
         window.location.href = 'login.html';

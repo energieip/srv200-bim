@@ -1,5 +1,15 @@
-body {font-family: Arial, Helvetica, sans-serif;}
-
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 40px;
+  overflow: auto;
+}
 
 footer, header {
 	margin: 0;
@@ -14,17 +24,10 @@ footer, header {
 
 footer{
   text-align: center;
-  justify-content: space-between;
   padding: 0 16px;
   bottom: 0em;
   position: absolute;
-}
-
-#bottom {
-  text-align: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  bottom: 0em;
+  justify-content: center;
 }
 
 #header {

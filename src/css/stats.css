@@ -19,8 +19,8 @@ footer, header {
 	border: 0;
 	font-size: 100%;
 	font: inherit;
-    vertical-align: baseline;
-    display: block;
+  vertical-align: baseline;
+  display: block;
 }
 
 
@@ -28,15 +28,11 @@ footer{
   position: absolute;
   bottom: 0em;
   text-align: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   padding: 0 16px;
-}
-
-#bottom {
-  text-align: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  bottom: 0em;
+  justify-content: center;
+  display: flex;
+  position: relative;
 }
 
 header p {
