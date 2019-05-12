@@ -256,103 +256,36 @@ function CreateView(maintenance=false){
 
         energieip.Notifications(function(evt) {
             for (var i  in evt) {
-                for (var led in evt[i].leds){
-                    var elt = evt[i].leds[led];
-                    if (window.drivers.hasOwnProperty(elt.label)) {
-                        if (i === "remove"){
-                            window.drivers[elt.label].removeEvent();
-                        } else {
-                            window.drivers[elt.label].updateEvent(elt.led);
-                        }
-                    } else {
-                        if (maintenance === true){
-                            if (elt.label === ""){
-                                var msg = "Led: " + elt.led.friendlyName + " (IP: " + elt.led.ip + ", MAC: "+ elt.led.mac+ " ) appears but not referenced";
-                                log(msg);
+                for(var eltType in evt[i]){
+                    if (eltType === "groups"){
+                        for (var group in evt[i].groups){
+                            for (var d in window.drivers) {
+                                var gr = evt[i].groups[group];
+                                if (window.drivers[d].statusGroup != gr.group) {
+                                    continue
+                                }
+                                window.drivers[d].updateGroupEvent(gr);
                             }
                         }
+                        continue
                     }
-                }
-
-                for (var sensor in evt[i].sensors){
-                    var elt = evt[i].sensors[sensor];
-                    if (window.drivers.hasOwnProperty(elt.label)) {
-                        if (i === "remove"){
-                            window.drivers[elt.label].removeEvent();
+                    for (var dr in evt[i][eltType]){
+                        var elt = evt[i][eltType][dr];
+                        if (window.drivers.hasOwnProperty(elt.label)) {
+                            if (i === "remove"){
+                                window.drivers[elt.label].removeEvent();
+                            } else {
+                                window.drivers[elt.label].updateEvent(elt.led);
+                            }
                         } else {
-                            window.drivers[elt.label].updateEvent(elt.sensor);
-                        }
-                    } else {
-                        if (maintenance === true){
-                            if (elt.label === ""){
-                                var msg = "Sensor: " + elt.sensor.friendlyName + " (IP: " + elt.sensor.ip + ", MAC: "+ elt.sensor.mac+ " ) appears but not referenced";
-                                log(msg);
+                            if (maintenance === true){
+                                if (elt.label === ""){
+                                    var type = eltType.slice(0, eltType.length-1);
+                                    var msg = type + ": " + elt[type].friendlyName + " (IP: " + elt[type].ip + ", MAC: "+ elt[type].mac+ " ) appears but not referenced";
+                                    log(msg);
+                                }
                             }
                         }
-                    }
-                }
-
-                for (var blind in evt[i].blinds){
-                    var elt = evt[i].blinds[blind];
-                    if (window.drivers.hasOwnProperty(elt.label)) {
-                        if (i === "remove"){
-                            window.drivers[elt.label].removeEvent();
-                        } else {
-                            window.drivers[elt.label].updateEvent(elt.blind);
-                        }
-                    } else {
-                        if (maintenance === true){
-                            if (elt.label === ""){
-                                var msg = "Blind: " + elt.blind.friendlyName + " (IP: " + elt.blind.ip + ", MAC: "+ elt.blind.mac+ " ) appears but not referenced";
-                                log(msg);
-                            }
-                        }
-                    }
-                }
-
-                for (var sw in evt[i].switchs){
-                    var elt = evt[i].switchs[sw];
-                    if (window.drivers.hasOwnProperty(elt.label)) {
-                        if (i === "remove"){
-                            window.drivers[elt.label].removeEvent();
-                        } else {
-                            window.drivers[elt.label].updateEvent(elt.switch);
-                        }
-                    } else {
-                        if (maintenance === true){
-                            if (elt.label === ""){
-                                var msg = "Switch: " + elt.switch.friendlyName + " (IP: " + elt.switch.ip + ", MAC: "+ elt.switch.mac+ " ) appears but not referenced";
-                                log(msg);
-                            }
-                        }
-                    }
-                }
-
-                for (var hv in evt[i].hvacs){
-                    var elt = evt[i].hvacs[hv];
-                    if (window.drivers.hasOwnProperty(elt.label)) {
-                        if (i === "remove"){
-                            window.drivers[elt.label].removeEvent();
-                        } else {
-                            window.drivers[elt.label].updateEvent(elt.hvac);
-                        }
-                    } else {
-                        if (maintenance === true){
-                            if (elt.label === ""){
-                                var msg = "Hvac: " + elt.switch.friendlyName + " (IP: " + elt.switch.ip + ", MAC: "+ elt.switch.mac+ " ) appears but not referenced";
-                                log(msg);
-                            }
-                        }
-                    }
-                }
-
-                for (var group in evt[i].groups){
-                    for (var d in window.drivers) {
-                        var gr = evt[i].groups[group];
-                        if (window.drivers[d].statusGroup != gr.group) {
-                            continue
-                        }
-                        window.drivers[d].updateGroupEvent(gr);
                     }
                 }
             }
