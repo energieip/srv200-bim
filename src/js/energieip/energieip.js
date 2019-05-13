@@ -37,14 +37,15 @@ energieip.Notifications = function (cbkOnMessage) {
 		var event = JSON.parse(evt.data);
 		cbkOnMessage(event);
 	};
+	ws.onopen = function (event) { console.log("/!\\ Connexion serveur"+ event); }
 
-	ws.onclose = function() {
-		console.log("connection close; reconnect");
+	ws.onclose = function(evt) {
+		console.log("connection close; reconnect" + evt);
 		energieip.Notifications(cbkOnMessage);
 	};
 
-	ws.onerror = function() {
-		console.log("connection on erreur; reconnect");
+	ws.onerror = function(event) {
+		console.log("connection on erreur; reconnect :"+ event);
 		energieip.Notifications(cbkOnMessage);
 	};
 
@@ -207,15 +208,17 @@ energieip.ConsumptionsEvent = function (cbkOnMessage) {
 		cbkOnMessage(event);
 	};
 
-	ws.onclose = function() {
-		console.log("connection close; reconnect");
+	ws.onopen = function (event) { console.log("/!\\ Connexion serveur"+ event); }
+
+	ws.onclose = function(evt) {
+		console.log("connection close; reconnect" + evt);
 		energieip.ConsumptionsEvent(cbkOnMessage);
 	};
 
-	ws.onerror = function() {
-		console.log("connection on erreur ");
+	ws.onerror = function(event) {
+		console.log("connection on erreur; reconnect :"+ event);
+		energieip.ConsumptionsEvent(cbkOnMessage);
 	};
-
 }
 
 exports.address = address;
