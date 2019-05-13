@@ -18,7 +18,6 @@ $("#loginForm").submit(function( event ) {
         dataType: 'json',
         cache: false,
         credentials: 'include',
-        dataType: 'json',
         crossDomain: true,
         xhrFields: {
             withCredentials: true
@@ -32,7 +31,7 @@ $("#loginForm").submit(function( event ) {
                alert('500');
             },
             401: function (response) {
-               alert('401');
+               alert('Invalid Username/Password');
             }
         }
 	});
