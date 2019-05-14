@@ -19,8 +19,8 @@ function getUserInfo() {
        },
         statusCode: {
             200: function (response) {
-                var priviledges = response["priviledges"];
-                displayDashboard(priviledges);
+                var priviledge = response["priviledge"];
+                displayDashboard(priviledge);
             },
             401: function (response) {
                 window.location.href = 'login.html';
@@ -29,7 +29,7 @@ function getUserInfo() {
     });
 };
 
-function displayDashboard(priviledges) {
+function displayDashboard(priviledge) {
     logout = document.createElement("input");
     logout.type = "image";
     logout.title = "Logout";
@@ -44,7 +44,7 @@ function displayDashboard(priviledges) {
     placeHolder.appendChild(logout);
 
     
-    if (priviledges.includes('admin')){
+    if (['admin', 'maintainer'].includes(priviledge)){
         maintenance = document.createElement("input");
         maintenance.type = "image";
         maintenance.title = "Maintenance";
