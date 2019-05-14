@@ -1,3 +1,9 @@
+energieip-srv200-webui (1.0) UNRELEASED; urgency=medium
+
+  * Refresh UI
+
+ -- Amandine Drebes <amandine@energie-ip.com>  Tue, 14 May 2019 18:19:24 +0000
+
 energieip-srv200-webui (0.1-1) UNRELEASED; urgency=medium
 
   * Initial release.

@@ -6,7 +6,7 @@ body {
     background-color: black;
     text-decoration: none;
     word-spacing: normal;
-    text-align: left;
+    /* text-align: left; */
     letter-spacing: 0;
     -webkit-font-smoothing: antialiased;
     overflow-y: hidden;
