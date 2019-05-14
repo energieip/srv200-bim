@@ -17,8 +17,8 @@ footer, header {
 	border: 0;
 	font-size: 100%;
 	font: inherit;
-    vertical-align: baseline;
-    display: block;
+  vertical-align: baseline;
+  display: block;
 }
 
 
@@ -28,6 +28,7 @@ footer{
   bottom: 0em;
   position: absolute;
   justify-content: center;
+  width: 100%;
 }
 
 #header {

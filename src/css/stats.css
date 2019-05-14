@@ -25,14 +25,12 @@ footer, header {
 
 
 footer{
-  position: absolute;
-  bottom: 0em;
   text-align: center;
-  /* justify-content: space-between; */
   padding: 0 16px;
+  bottom: 0em;
+  position: absolute;
   justify-content: center;
-  display: flex;
-  position: relative;
+  width: 100%;
 }
 
 header p {

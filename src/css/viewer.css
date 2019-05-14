@@ -24,11 +24,12 @@ footer, header {
 }
 
 footer{
-    position: absolute;
-    bottom: 0em;
     text-align: center;
-    justify-content: center;
     padding: 0 16px;
+    bottom: 0em;
+    position: absolute;
+    justify-content: center;
+    width: 100%;
 }
 
 #header {
