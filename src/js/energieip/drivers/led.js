@@ -1,20 +1,4 @@
 {
-    energieip.UpdateLedNameCfg = function (driver) {
-        var url = energieip.weblink + 'config/led';
-        var data = {
-            "mac": driver.statusMac,
-            "friendlyName": driver.configName,
-        };
-        energieip.SendRequest(
-            "POST", url, data, function(response){
-                alert("success");
-            },
-            function(response){
-                alert("Error" + response["message"]);
-            }
-        );
-    }
-
     energieip.UpdateLedCfg = function (driver) {
         var url = energieip.weblink + 'config/led';
         var data = {
@@ -235,11 +219,11 @@
 
 
         configElement(gui){
-            var driver = this;
-            var config = gui.addFolder("LED Configuration");
-            config.add(this, "configName").name("Name");
-            config.add({"OK":function(){ energieip.UpdateLedNameCfg(driver); }}, "OK").name("Apply");
-            config.open();
+            if (gui != null){
+                document.getElementById('dat-gui-container').removeChild(gui.domElement);
+                gui.destroy();
+                window.gui = null;
+            }
         }
     };
 

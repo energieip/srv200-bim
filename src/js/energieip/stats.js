@@ -59,7 +59,7 @@ $(document).ready(function() {
     if ($.cookie(energieip.accessToken)!= null) {
         CreateLeds();
     } else {
-        window.location.href = 'login.html';
+        window.location.href = energieip.loginPage;
     }
 });
 

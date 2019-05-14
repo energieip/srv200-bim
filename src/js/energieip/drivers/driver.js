@@ -410,11 +410,11 @@
         }
 
         groupConfigParam(gui){
-            var driver = this;
-            var controlGr = gui.addFolder("Group Configuration");
-            controlGr.add(this, "groupConfigName").name("Name");
-            controlGr.add({"OK": function(){ energieip.UpdateGroupNameCfg(driver); }}, "OK").name("Apply");
-            controlGr.open();
+            if (gui != null){
+                document.getElementById('dat-gui-container').removeChild(gui.domElement);
+                gui.destroy();
+                window.gui = null;
+            }
         }
     };
 }

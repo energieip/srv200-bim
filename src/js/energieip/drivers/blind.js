@@ -1,20 +1,4 @@
 {
-    energieip.UpdateBlindNameCfg = function (driver) {
-        var url = energieip.weblink + 'config/blind';
-        var data = {
-            "mac": driver.statusMac,
-            "friendlyName": driver.configName,
-        };
-        energieip.SendRequest(
-            "POST", url, data, function(response){
-                alert("success");
-            },
-            function(response){
-                alert("Error" + response["message"]);
-            }
-        );
-    }
-
     energieip.UpdateBlindCfg = function (driver) {
         var url = energieip.weblink + 'config/blind';
         var data = {
@@ -192,15 +176,6 @@
             controlDr.add(this, "controlSlat2", 0,  180 ).name("Action Slat 2");
             controlDr.add({"OK":function(){ energieip.SendBlindCmd(driver); }}, "OK").name("Apply");
             controlDr.open();
-        }
-
-
-        configElement(gui){
-            var driver = this;
-            var config = gui.addFolder("Driver Configuration");
-            config.add(this, "configName").name("Name");
-            config.add({"OK":function(){ energieip.UpdateBlindNameCfg(driver); }}, "OK").name("Apply");
-            config.open();
         }
     };
 

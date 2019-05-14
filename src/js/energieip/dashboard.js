@@ -2,7 +2,7 @@ $(document).ready(function() {
     if ($.cookie(energieip.accessToken)) {
         getUserInfo();
     } else {
-        window.location.href = 'login.html';
+        window.location.href = energieip.loginPage;
     }
 });
 
@@ -23,7 +23,7 @@ function getUserInfo() {
                 displayDashboard(priviledge);
             },
             401: function (response) {
-                window.location.href = 'login.html';
+                window.location.href = energieip.loginPage;
             }
         },
     });

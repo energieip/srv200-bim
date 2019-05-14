@@ -65,30 +65,10 @@ controlGr.onclick = function () {
 };
 placeHolder.appendChild(controlGr);
 
-configElt = document.createElement("input");
-configElt.type = "image";
-configElt.title = "Configuration";
-configElt.src = "images/wheel.png";
-configElt.alt = "Configuration";
-configElt.onclick = function () {
-    Display("configuration");
-};
-placeHolder.appendChild(configElt);
-
-configGr = document.createElement("input");
-configGr.type = "image";
-configGr.title = "Group Configuration";
-configGr.src = "images/wheel-group.png";
-configGr.alt = "Group Configuration";
-configGr.onclick = function () {
-    Display("configurationGroup");
-};
-placeHolder.appendChild(configGr);
-
 $(document).ready(function() {
     if ($.cookie(energieip.accessToken)!= null) {
         CreateView(false);
     } else {
-        window.location.href = 'login.html';
+        window.location.href = energieip.loginPage;
     }
 });

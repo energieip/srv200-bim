@@ -1,20 +1,4 @@
 {
-    energieip.UpdateHvacNameCfg = function (driver) {
-        var url = energieip.weblink + 'config/hvac';
-        var data = {
-            "mac": driver.statusMac,
-            "friendlyName": driver.configName,
-        };
-        energieip.SendRequest(
-            "POST", url, data, function(response){
-                alert("success");
-            },
-            function(response){
-                alert("Error" + response["message"]);
-            }
-        );
-    }
-
     energieip.UpdateHvacCfg = function (driver) {
         var url = energieip.weblink + 'config/hvac';
         var data = {
@@ -147,10 +131,11 @@
         }
 
         configElement(gui){
-            var config = gui.addFolder("Driver Configuration");
-            config.add(this, "configName").name("Name");
-            config.add({"OK":function(){ energieip.UpdateHvacNameCfg(this); }}, "OK").name("Apply");
-            config.open();
+            if (gui != null){
+                document.getElementById('dat-gui-container').removeChild(gui.domElement);
+                gui.destroy();
+                window.gui = null;
+            }
         }
     };
 

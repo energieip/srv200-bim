@@ -109,22 +109,6 @@ energieip.GetIfcDump = function (labels, cbk) {
 	);
 }
 
-energieip.UpdateGroupNameCfg = function (driver) {
-	var url = energieip.weblink + 'config/group';
-	var data = {
-		"group": parseInt(driver.statusGroup),
-		"friendlyName": driver.groupConfigName,
-	};
-	energieip.SendRequest(
-		"POST", url, data, function(response){
-			alert("success");
-		},
-		function(response){
-            alert("Error" + response["message"]);
-		}
-	);
-}
-
 energieip.CreateGroup = function (group) {
 	var url = energieip.weblink + 'setup/group';
 	var data = {

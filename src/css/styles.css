@@ -202,7 +202,7 @@ body {
 
 #dat-gui-container {
     position: absolute;
-    top: 120px;
+    top: 95px;
     /* top:0; */
     right: 0;
     z-index: 100001;
