@@ -271,16 +271,16 @@ function CreateView(maintenance=false){
                     }
                     for (var dr in evt[i][eltType]){
                         var elt = evt[i][eltType][dr];
+                        type = eltType.slice(0, -1);
                         if (window.drivers.hasOwnProperty(elt.label)) {
                             if (i === "remove"){
                                 window.drivers[elt.label].removeEvent();
                             } else {
-                                window.drivers[elt.label].updateEvent(elt.led);
+                                window.drivers[elt.label].updateEvent(elt[type]);
                             }
                         } else {
                             if (maintenance === true){
                                 if (elt.label === ""){
-                                    var type = eltType.slice(0, eltType.length-1);
                                     var msg = type + ": " + elt[type].friendlyName + " (IP: " + elt[type].ip + ", MAC: "+ elt[type].mac+ " ) appears but not referenced";
                                     log(msg);
                                 }
