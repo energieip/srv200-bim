@@ -1,4 +1,1 @@
 #!/bin/bash
-
-a2ensite 001-serverui
-systemctl reload apache2

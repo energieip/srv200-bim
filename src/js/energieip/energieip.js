@@ -17,8 +17,7 @@
  @author EnergieIP / https://www.energie-ip.com/
  */
 
-const address = window.location.hostname + ':8888/v1.0/';
-const weblink = 'https://'+address;
+const weblink =  '/v1.0/';
 const accessToken = "EiPAccessToken";
 const loginPage = "login.html";
 
@@ -30,7 +29,8 @@ const sensorDriver = "sensor";
 const switchDevice = "switch";
 
 energieip.Notifications = function (cbkOnMessage) {
-	var ws = new WebSocket("wss://" + address + "events");
+	var url = window.location.origin.replace("https", "wss");
+	var ws = new WebSocket(url + energieip.weblink + "events");
 	console.log("Connect ws ", ws);
 
 	ws.onmessage = function (evt) {
@@ -185,7 +185,8 @@ energieip.SendGroupCmd = function (driver) {
 }
 
 energieip.ConsumptionsEvent = function (cbkOnMessage) {
-	var ws = new WebSocket("wss://" + address + "events/consumption");
+	var url = window.location.origin.replace("https", "wss");
+	var ws = new WebSocket(url + energieip.weblink + "events/consumption");
 
 	ws.onmessage = function (evt) {
 		var event = JSON.parse(evt.data);
@@ -205,7 +206,6 @@ energieip.ConsumptionsEvent = function (cbkOnMessage) {
 	};
 }
 
-exports.address = address;
 exports.weblink = weblink;
 exports.driver = driver;
 exports.ledDriver = ledDriver;
