@@ -1,5 +1,17 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+
+#leftSide {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 30px;
+  top: 0;
+  overflow: auto; /* Enable scroll if needed */
+  padding-top: 0px;
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
 }
 
 /* Full-width input fields */
@@ -58,10 +70,10 @@ input[type=text], input[type=password] {
   .modal {
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    right: 0;
+    right: 30px;
     top: 0;
     overflow: auto; /* Enable scroll if needed */
-    padding-top: 60px;
+    padding-top: 0px;
     background-color: #fefefe;
     margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
     border: 1px solid #888;
