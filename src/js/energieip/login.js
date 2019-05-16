@@ -16,7 +16,6 @@ $("#loginForm").submit(function( event ) {
 		url: energieip.weblink + "user/login",
         cache: false,
         dataType: 'json',
-        cache: false,
         credentials: 'include',
         crossDomain: true,
         xhrFields: {
