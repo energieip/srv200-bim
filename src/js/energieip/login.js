@@ -20,7 +20,7 @@ $("#loginForm").submit(function( event ) {
         crossDomain: true,
         xhrFields: {
             withCredentials: true
-       },
+        },
 		data: JSON.stringify(data),
         statusCode: {
             200: function (response) {
