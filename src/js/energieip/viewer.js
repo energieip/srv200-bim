@@ -128,20 +128,18 @@ function CreateView(maintenance=false){
     //---------------------------------------------------
     var model = new xeogl.GLTFModel({
         id: "map",
-        src: "maps/N8B_R3_mockup_V8_furnitures4.gltf",
+        src: "maps/maps.gltf",
         objectTree: true,
         //scale: [.6, .6, .6],
-        scale: [2, 2, 2],
+        scale: [4, 4, 4],
         handleNode: (function() {
             return function (nodeInfo, actions) {
-                // console.log("=== " , nodeInfo);
                 if (nodeInfo.name && nodeInfo.mesh !== undefined) {
                     var parse = nodeInfo.name.split("_");
-                    parse.splice(0, 2);
+                    parse.splice(0, 1);
                     var label = parse.join("_");
                     var count = (label.match(/_/g)||[]).length;
-                    if (count > 1){
-                        // console.log("=== label", label);
+                    if (count >= 1){
                         labels += label + ",";
                         actions.createObject = {
                             id: label,
@@ -159,7 +157,7 @@ function CreateView(maintenance=false){
     // Camera
     //-----------------------------------------------------------------------------------------------------
 
-    camera.eye = [100, 50.6997528076172, -40.179931640625];
+    camera.eye = [-20.21798706054688, 50.6997528076172, 60.179931640625];
     // camera.look = [20,0,0];
     camera.up = [0,1,0];
 
