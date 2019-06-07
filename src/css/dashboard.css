@@ -93,10 +93,12 @@ footer{
         color: inherit;
     }
 
-  /* Set a style for all buttons */
-  button {
-    /* padding: 14px 20px; */
-    /* margin: 8px 0; */
+   /* Set a style for all buttons */
+   button {
+    background-color: #6CC24A;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
     border: none;
     cursor: pointer;
     width: 100%;
