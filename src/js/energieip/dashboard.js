@@ -73,7 +73,10 @@ function displayDashboard(priviledge) {
            modal.style.display='block'
         });
 
-        $("#upload").click(function() {
+        $("#uploadForm").submit(function( event ) {
+            // Stop form from submitting normally
+            event.preventDefault();
+
             var fd = new FormData();
             var files = $('#file')[0].files[0];
             fd.append('file',files);
@@ -94,6 +97,7 @@ function displayDashboard(priviledge) {
                 statusCode: {
                     200: function (response) {
                         alert('file uploaded');
+                        modal.style.display = "none";
                     },
                     401: function (response) {
                         window.location.href = energieip.loginPage;

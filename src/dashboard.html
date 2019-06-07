@@ -26,21 +26,19 @@
 
         	<div id="id01" class="modal">
 	
-            <form id="uploadForm" class="modal-content animate" method="post">
+            <form id="uploadForm" class="modal-content animate" method="post" enctype="multipart/form-data">
                 <div class="imgcontainer">
                 <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
                 <img src="images/logo_e.png" alt="Avatar" class="avatar">
                 </div>
 
                 <div class="container">
-                    <form method='post' action='' enctype="multipart/form-data">
-                        Select file : <input type='file' name='file' id='file' class='form-control' ><br>
-                        <input type='button' class='btn btn-info' value='Upload' id='upload'>
-                    </form>
+                    Select file : <input type='file' name='file' id='file' class='form-control' ><br>
                 </div>
 
                 <div class="container" style="background-color:#f1f1f1">
-                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                    <button type="submit">Upload</button>
                 </div>
             </form>
             </div>
