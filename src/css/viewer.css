@@ -100,8 +100,17 @@ footer{
     font-size: 0.9em;
 }
 
-    #footer .copyright a {
-        color: inherit;
-    }
+#footer .copyright a {
+    color: inherit;
+}
 
- 
+canvas {
+    display: inline-block;
+    /* margin: 0; */
+    /* box-shadow: 2px 2px 2px black; */
+    top: 100px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    /* border: 1px white solid; */
+}

@@ -1,13 +1,15 @@
-function CreateView(maintenance=false){
+function CreateView(map){
     var labels = '';
-    var scene = new xeogl.Scene({
+
+    window.scene = new xeogl.Scene({
+        canvas: "myCanvas",
         transparent: true
     });
 
-    xeogl.setDefaultScene(scene);
+    xeogl.setDefaultScene(window.scene);
 
-    var camera = scene.camera;
-    var input = scene.input;
+    var camera = window.scene.camera;
+    var input = window.scene.input;
 
     var buf = [];
 
@@ -36,10 +38,10 @@ function CreateView(maintenance=false){
         var sensors = [];
         var blinds = [];
         var hvacs = [];
-        for (var label in model.meshes){
+        for (var label in window.model.meshes){
             if (window.drivers.hasOwnProperty(label)){
                 var d = window.drivers[label];
-                if (model.meshes[label].selected === true) {
+                if (window.model.meshes[label].selected === true) {
                     switch (d.deviceType){
                         case energieip.ledDriver:
                             leds.push(d.statusMac);
@@ -110,7 +112,7 @@ function CreateView(maintenance=false){
             var driver = window.drivers[label];
             var selected = driver.id === this.id;
             if (selected) {
-                if (maintenance == true && window.multipleSelection > 1) {
+                if (window.mode == true && window.multipleSelection > 1) {
                     continue
                 }
                 if (window.gui != null){
@@ -126,12 +128,13 @@ function CreateView(maintenance=false){
     //---------------------------------------------------
     // Load the model
     //---------------------------------------------------
-    var model = new xeogl.GLTFModel({
+
+    window.model = new xeogl.GLTFModel({
         id: "map",
-        src: "maps/maps.gltf",
+        src: map["filepath"],
         objectTree: true,
-        //scale: [.6, .6, .6],
-        scale: [4, 4, 4],
+        // scale: [.6, .6, .6],
+        scale: [6, 6, 6],
         handleNode: (function() {
             return function (nodeInfo, actions) {
                 if (nodeInfo.name && nodeInfo.mesh !== undefined) {
@@ -150,26 +153,25 @@ function CreateView(maintenance=false){
             };
         })()
     });
-    model.ghosted = false;
-
+    window.model.ghosted = false;
 
     //-----------------------------------------------------------------------------------------------------
     // Camera
     //-----------------------------------------------------------------------------------------------------
 
-    camera.eye = [-20.21798706054688, 50.6997528076172, 60.179931640625];
+    camera.eye = [100, 50.6997528076172, -40.179931640625];
     // camera.look = [20,0,0];
     camera.up = [0,1,0];
 
-    model.on("loaded", function () {
-        scene.on("tick", function () { // Slowly orbit the camera
+    window.model.on("loaded", function () {
+        window.scene.on("tick", function () { // Slowly orbit the camera
 
         });
         if (labels != "") {
             labels = labels.substring(0, labels.length - 1);
         }
         energieip.GetIfcDump(labels, function (ifcDrivers, groups){
-            for (var lbl in model.meshes){
+            for (var lbl in window.model.meshes){
                 var parse = lbl.split(".");
                 parse.splice(0, 0);
                 var label = parse[0];
@@ -177,7 +179,7 @@ function CreateView(maintenance=false){
                     continue
                 }
                 if (ifcDrivers.hasOwnProperty(label)){
-                    var mesh = model.meshes[lbl];
+                    var mesh = window.model.meshes[lbl];
                     var ifcModel = ifcDrivers[label];
                     var grStatus = {};
                     var groupID = ifcModel["status"].group || 0;
@@ -206,35 +208,35 @@ function CreateView(maintenance=false){
                     };
                     switch (ifcModel["ifc"].deviceType) {
                         case energieip.sensorDriver:
-                            if (maintenance === true) {
+                            if (window.mode === true) {
                                 var driver = new energieip.SensorMaintenance(content);
                             } else {
                                 var driver = new energieip.SensorSupervision(content);
                             }
                             break;
                         case energieip.ledDriver:
-                            if (maintenance === true) {
+                            if (window.mode === true) {
                                 var driver = new energieip.LedMaintenance(content);
                             } else {
                                 var driver = new energieip.LedSupervision(content);
                             }
                             break;
                         case energieip.blindDriver:
-                            if (maintenance === true) {
+                            if (window.mode === true) {
                                 var driver = new energieip.BlindMaintenance(content);
                             } else {
                                 var driver = new energieip.BlindSupervision(content);
                             }
                             break;
                         case energieip.hvacDriver:
-                            if (maintenance === true) {
+                            if (window.mode === true) {
                                 var driver = new energieip.HvacMaintenance(content);
                             } else {
                                 var driver = new energieip.HvacSupervision(content);
                             }
                             break;
                         case energieip.switchDevice:
-                            if (maintenance === true) {
+                            if (window.mode === true) {
                                 var driver = new energieip.SwitchMaintenance(content);
                             } else {
                                 var driver = new energieip.SwitchSupervision(content);
@@ -277,7 +279,7 @@ function CreateView(maintenance=false){
                                 window.drivers[elt.label].updateEvent(elt[type]);
                             }
                         } else {
-                            if (maintenance === true){
+                            if (window.mode === true){
                                 if (elt.label === ""){
                                     var msg = type + ": " + elt[type].friendlyName + " (IP: " + elt[type].ip + ", MAC: "+ elt[type].mac+ " ) appears but not referenced";
                                     log(msg);
@@ -339,7 +341,7 @@ function CreateView(maintenance=false){
                 } else {
                     window.multipleSelection -= 1;
                 }
-                if (window.multipleSelection > 1 && maintenance === true){
+                if (window.multipleSelection > 1 && window.mode === true){
                     repartitionning();
                 }
             } else {
@@ -349,20 +351,81 @@ function CreateView(maintenance=false){
     });
 
     cameraControl.on("pickedNothing", function (hit) {
-        cameraFlight.flyTo(model);
+        cameraFlight.flyTo(window.model);
     });
 }
 
-function Init(){
+function Init(maintenance){
     window.multipleSelection = 0;
     window.drivers = {};
     window.gui = null;
+    window.index = 0;
+    window.maps = {};
+    window.scene = null;
+    window.model = null;
+    window.mode = maintenance;
+    $.ajax({
+        dataType: "json",
+        url: 'maps/maps.json',
+        async: false,
+        success: function(data) {
+            window.maps = data;
+        }
+    });
 }
+
+function SwapMap(prev, next){
+    var previous = window.index;
+    if ((prev == null) && (next == null)) {
+        return;
+    }
+    if (prev != null) {
+        window.index -= 1;
+        if (window.index < 0){
+            window.index = Object.keys(window.maps).length -1;
+        }
+    } else {
+        window.index += 1;
+        if (window.index >= Object.keys(window.maps).length) {
+            window.index = 0;
+        }
+    }
+
+    if (previous == window.index){
+        //no change same map
+        return;
+    }
+   
+    window.multipleSelection = 0;
+    if (window.gui != null){
+        window.gui.destroy();
+        window.gui = null;
+    }
+
+    for (var lbl in window.drivers){
+        window.drivers[lbl].pinShown = false;
+        window.drivers[lbl].labelShown = false;
+        window.drivers[lbl].destroy();
+        window.drivers[lbl] = null;
+    }
+    window.model.clear();
+    window.model.destroy();
+    window.scene.clear();
+    
+    // window.scene.destroy();
+    // window.scene = null;
+
+    // var canvas = document.getElementById("myCanvas");
+    // canvas.parentNode.removeChild(canvas);
+    window.drivers = {};
+    CreateView(window.maps[window.index.toString()]);
+}
+
 
 function CreateGui(){
     if (window.gui != null){
         document.getElementById('dat-gui-container').removeChild(window.gui.domElement);
-        window.gui.destroy();  
+        window.gui.destroy();
     }
     window.gui = new dat.GUI({autoPlace: false, top: 0, width: 400});
     document.getElementById('dat-gui-container').appendChild(window.gui.domElement);
