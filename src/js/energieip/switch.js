@@ -87,7 +87,7 @@
             this.statusMac = driverObj.driverProperties.status.mac;
             this.statusName = driverObj.driverProperties.status.friendlyName;
             this.statusError = driverObj.driverProperties.status.error||0;
-            this.statusCluster = driverObj.driverProperties.status.cluster;
+            this.statusCluster = driverObj.driverProperties.status.cluster||0;
             this.label = driverObj.driverProperties.ifc.label;
             this._labelElement.innerHTML = "Cable: " + this.label;
             this.statusIp = driverObj.driverProperties.status.ip;
@@ -227,7 +227,7 @@
             this.statusDumpFrequency = driverObj.dumpFrequency;
 
             this.statusCluster = driverObj.cluster;
-            this.glyph = "";
+            this.glyph = this.statusCluster;
         }
 
         destroy() {
