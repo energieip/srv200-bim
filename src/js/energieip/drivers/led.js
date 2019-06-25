@@ -3,6 +3,7 @@
         var url = energieip.weblink + 'config/led';
         var data = {
             "mac": driver.statusMac,
+            "label": driver.label,
             "friendlyName": driver.configName,
             "isBleEnabled": driver.configBle,
             "group": parseInt(driver.configGroup),

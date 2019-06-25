@@ -3,6 +3,7 @@
         var url = energieip.weblink + 'config/hvac';
         var data = {
             "mac": driver.statusMac,
+            "label": driver.label,
             "friendlyName": driver.configName,
             "group": parseInt(driver.configGroup),
             "dumpFrequency": parseInt(driver.configDumpFrequency) * 1000,

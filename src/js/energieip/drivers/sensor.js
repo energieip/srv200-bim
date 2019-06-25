@@ -3,6 +3,7 @@
         var url = energieip.weblink + 'config/sensor';
         var data = {
             "mac": driver.statusMac,
+            "label": driver.label,
             "friendlyName": driver.configName,
             "group": parseInt(driver.configGroup),
             "isBleEnabled": driver.configBle,
