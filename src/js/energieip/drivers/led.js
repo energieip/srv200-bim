@@ -269,7 +269,7 @@
             status.add(this, "statusEnergy").name("Cumulative Energy (Wh)").listen();
             status.add(this, "statusLinePower").name("Line Power (W)").listen();
             status.add(this, "statusDuration").name("Light Duration (s)").listen();
-            status.add(this, "statusPMax", 0, 100).name("PMax (w)").listen();
+            status.add(this, "statusPMax", 0, 100).name("PMax (W)").listen();
             status.add(this, "statusVoltageInput").name("Voltage Input (V)").listen();
             status.add(this, "statusSoftwareVersion").name("Software Version").listen();
             status.add(this, "statusHardwareVersion").name("Hardware Version").listen();
