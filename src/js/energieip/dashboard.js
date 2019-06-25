@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    window.buttons = [];
+    setBusy(true);
     if ($.cookie(energieip.accessToken)) {
         getUserInfo();
     } else {
@@ -21,14 +23,31 @@ function CreateButton(name, img, elt, pos, action){
         placeHolder = document.getElementById(elt);
     }
     placeHolder.appendChild(btn);
+    window.buttons.push(btn);
 }
 
 var modal = document.getElementById('id01');
+var spinner = document.getElementById('spinner');
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
+    }
+}
+
+function setBusy(value) {
+    for (var i = 0; i < window.buttons.length; i++) {
+        if (value === true) {
+            window.buttons[i].style.display = 'none';
+        } else {
+            window.buttons[i].style.display = 'block';
+        }
+    }
+    if (value === true) {
+        spinner.style.display = 'block';
+    } else {
+        spinner.style.display = 'none';
     }
 }
 
@@ -47,6 +66,7 @@ function getUserInfo() {
             200: function (response) {
                 var priviledge = response["priviledge"];
                 displayDashboard(priviledge);
+                setBusy(false);
             },
             401: function (response) {
                 window.location.href = energieip.loginPage;
@@ -54,6 +74,46 @@ function getUserInfo() {
         },
     });
 };
+
+function pollDownload(){
+    $.ajax({
+        type: "GET",
+        url: energieip.weblink + "map/upload/status",
+        cache: false,
+        credentials: 'include',
+        dataType: 'json',
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+       },
+        statusCode: {
+            200: function (response) {
+                switch (response["status"]){
+                    case "running":
+                        setTimeout(pollDownload, 2000);
+                        break;
+                    case "none":
+                        break;
+                    case "success":
+                        setBusy(false);
+                        alert("File successfuly uploaded")
+                        break;
+                    case "failure":
+                        setBusy(false);
+                        alert("Error during file post-analysis")
+                        break;
+                }
+            },
+            401: function (response) {
+                window.location.href = energieip.loginPage;
+            },
+            500: function(response){
+                alert('file not uploaded');
+                setBusy(false);
+            }
+        },
+    });
+}
 
 function displayDashboard(priviledge) {
     CreateButton("Logout", "images/logout.png", "top", "right", function () {
@@ -74,6 +134,8 @@ function displayDashboard(priviledge) {
         });
 
         $("#uploadForm").submit(function( event ) {
+            modal.style.display = "none";
+            setBusy(true);
             // Stop form from submitting normally
             event.preventDefault();
 
@@ -96,14 +158,14 @@ function displayDashboard(priviledge) {
                },
                 statusCode: {
                     200: function (response) {
-                        alert('file uploaded');
-                        modal.style.display = "none";
+                        pollDownload();
                     },
                     401: function (response) {
                         window.location.href = energieip.loginPage;
                     },
                     500: function(response){
                         alert('file not uploaded');
+                        setBusy(false);
                     }
                 },
             });
