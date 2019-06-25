@@ -182,30 +182,39 @@ function CreateView(map){
                     var mesh = window.model.meshes[lbl];
                     var ifcModel = ifcDrivers[label];
                     var grStatus = {};
-                    var groupID = ifcModel["status"].group || 0;
-                    if (groupID === 0){
-                        groupID = ifcModel["config"].group || 0;
-                    }
-                    if (groups.hasOwnProperty(groupID)){
-                        if (groups[groupID]["status"].group === groupID){
-                            grStatus = groups[groupID]["status"];
-                        } else{
-                            grStatus = groups[groupID]["config"];
-                        }
-                    }
+        
                     var driver = null;
                     var content = {
                         label: label,
                         mesh: mesh,
                         occludable: false,
-                        glyph: groupID.toString(),
                         title: "",
                         desc: "",
                         driverProperties: ifcModel,
-                        groupProperties: grStatus,
                         pinShown: true,
                         labelShown: false
                     };
+                    if (ifcModel["ifc"].deviceType === energieip.switchDevice){
+                        var cluster = ifcModel["status"].cluster || 0;
+                        if (cluster === 0){
+                            cluster = ifcModel["config"].cluster || 0;
+                        }
+                        content.glyph = cluster.toString();
+                    } else {
+                        var groupID = ifcModel["status"].group || 0;
+                        if (groupID === 0){
+                            groupID = ifcModel["config"].group || 0;
+                        }
+                        if (groups.hasOwnProperty(groupID)){
+                            if (groups[groupID]["status"].group === groupID){
+                                grStatus = groups[groupID]["status"];
+                            } else{
+                                grStatus = groups[groupID]["config"];
+                            }
+                        }
+                        content.glyph = groupID.toString();
+                        content.groupProperties = grStatus;
+                    }
                     switch (ifcModel["ifc"].deviceType) {
                         case energieip.sensorDriver:
                             if (window.mode === true) {
