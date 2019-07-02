@@ -138,16 +138,26 @@ function CreateView(map){
         handleNode: (function() {
             return function (nodeInfo, actions) {
                 if (nodeInfo.name && nodeInfo.mesh !== undefined) {
-                    var parse = nodeInfo.name.split("_");
-                    parse.splice(0, 1);
-                    var label = parse.join("_");
-                    var count = (label.match(/_/g)||[]).length;
-                    if (count >= 1){
-                        labels += label + ",";
-                        actions.createObject = {
-                            id: label,
-                        };
+                    var label = nodeInfo.name;
+                    if (label.indexOf("mobilier") !== -1 || label.indexOf("MOBILIER") !== -1) {
+                        return true
                     }
+                    if (label.indexOf("MUR") !== -1) {
+                        return true
+                    }
+                    if (label.indexOf("DALLE") !== -1) {
+                        return true
+                    }
+                    if (label.indexOf("POTEAU") !== -1) {
+                        return true
+                    }
+                    if (label.indexOf("FENETRE") !== -1) {
+                        return true
+                    }
+                    labels += label + ",";
+                    actions.createObject = {
+                        id: label,
+                    };
                 }
                 return true;
             };

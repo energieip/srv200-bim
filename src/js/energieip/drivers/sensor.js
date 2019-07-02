@@ -250,6 +250,7 @@
             this.ifcModelName = driverObj.driverProperties.ifc.modelName;
             this.ifcUrl = driverObj.driverProperties.ifc.url;
             this.ifcVendor = driverObj.driverProperties.ifc.vendor;
+            this.ifcProductionYear = driverObj.driverProperties.ifc.productionYear;
         }
 
         updateEvent(driverObj) {
@@ -288,6 +289,7 @@
             ifc.add(this, "ifcModelName").name("Model Name");
             ifc.add(this, "ifcUrl").name("URL");
             ifc.add(this, "ifcVendor").name("Vendor Name");
+            ifc.add(this, "ifcProductionYear").name("Production Year");
             ifc.open();
         }
 
