@@ -26,6 +26,7 @@ const ledDriver = "led";
 const hvacDriver = "hvac";
 const blindDriver = "blind";
 const sensorDriver = "sensor";
+const wagoDevice = "wago";
 const switchDevice = "switch";
 
 energieip.Notifications = function (cbkOnMessage) {
@@ -213,6 +214,7 @@ exports.hvacDriver = hvacDriver;
 exports.blindDriver = blindDriver;
 exports.sensorDriver = sensorDriver;
 exports.switchDevice = switchDevice;
+exports.wagoDevice = wagoDevice;
 exports.accessToken = accessToken;
 exports.loginPage = loginPage;
 

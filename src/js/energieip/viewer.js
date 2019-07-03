@@ -204,7 +204,7 @@ function CreateView(map){
                         pinShown: true,
                         labelShown: false
                     };
-                    if (ifcModel["ifc"].deviceType === energieip.switchDevice){
+                    if ((ifcModel["ifc"].deviceType === energieip.switchDevice) || (ifcModel["ifc"].deviceType === energieip.wagoDevice)){
                         var cluster = ifcModel["status"].cluster || 0;
                         if (cluster === 0){
                             cluster = ifcModel["config"].cluster || 0;
@@ -259,6 +259,13 @@ function CreateView(map){
                                 var driver = new energieip.SwitchMaintenance(content);
                             } else {
                                 var driver = new energieip.SwitchSupervision(content);
+                            }
+                            break;
+                        case energieip.wagoDevice:
+                            if (window.mode === true) {
+                                var driver = new energieip.WagoMaintenance(content);
+                            } else {
+                                var driver = new energieip.WagoSupervision(content);
                             }
                             break;
                         default:
