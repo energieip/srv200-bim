@@ -75,7 +75,7 @@ function getUserInfo() {
     });
 };
 
-function pollDownload(){
+function pollUpload(){
     $.ajax({
         type: "GET",
         url: energieip.weblink + "map/upload/status",
@@ -90,7 +90,7 @@ function pollDownload(){
             200: function (response) {
                 switch (response["status"]){
                     case "running":
-                        setTimeout(pollDownload, 2000);
+                        setTimeout(pollUpload, 2000);
                         break;
                     case "none":
                         break;
@@ -125,12 +125,16 @@ function displayDashboard(priviledge) {
             window.location.href = 'maintenance.html';
         });
 
-        CreateButton("Statistics", "images/graph.jpg", "dash", null, function () {
+        CreateButton("Statistics", "images/graph.jpg", "dash", "left", function () {
             window.location.href = 'statistics.html';
         });
 
-        CreateButton("Upload", "images/upload.png", "dash", null, function () {
+        CreateButton("Upload", "images/upload.png", "dash",  "left", function () {
            modal.style.display='block'
+        });
+
+        CreateButton("InstallStatus", "images/download_xlsx.png", "dash",  "left", function () {
+            window.location.href = energieip.weblink + "install/status";
         });
 
         $("#uploadForm").submit(function( event ) {
@@ -158,7 +162,7 @@ function displayDashboard(priviledge) {
                },
                 statusCode: {
                     200: function (response) {
-                        pollDownload();
+                        pollUpload();
                     },
                     401: function (response) {
                         window.location.href = energieip.loginPage;
