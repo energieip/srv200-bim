@@ -133,8 +133,12 @@ function displayDashboard(priviledge) {
            modal.style.display='block'
         });
 
-        CreateButton("InstallStatus", "images/download_xlsx.png", "dash",  "left", function () {
+        CreateButton("Installation Status", "images/download_xlsx.png", "dash",  "left", function () {
             window.location.href = energieip.weblink + "install/status";
+        });
+
+        CreateButton("Installation Status", "images/download-pdf.png", "dash",  "left", function () {
+            window.location.href = energieip.weblink + "install/stickers";
         });
 
         $("#uploadForm").submit(function( event ) {
