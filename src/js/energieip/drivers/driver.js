@@ -47,10 +47,16 @@
             this.statusIBeaconTxPower = driverObj.driverProperties.status.iBeaconTxPower || "";
             this.statusIsConfigured = driverObj.driverProperties.status.isConfigured||false;
             this.statusSoftwareVersion = driverObj.driverProperties.status.softwareVersion||0;
-            this.statusHardwareVersion = driverObj.driverProperties.status.hardwareVersion||0;
+            this.statusHardwareVersion = 0;
+            if (driverObj.driverProperties.status.hasOwnProperty("hardwareVersion")) {
+                this.statusHardwareVersion = driverObj.driverProperties.status.hardwareVersion||0;
+            }
             this.statusSwitchMac = driverObj.driverProperties.status.switchMac ||"";
             this.statusDumpFrequency = driverObj.driverProperties.status.dumpFrequency / 1000;
-            this.statusVoltageInput = driverObj.driverProperties.status.voltageInput || 0;
+            this.statusVoltageInput = 0;
+            if (driverObj.driverProperties.status.hasOwnProperty("voltageInput")) {
+                this.statusVoltageInput = driverObj.driverProperties.status.voltageInput || 0;
+            }
             this.groupStatusLightFirstDay = 0;
             this.groupStatusLight = 0;
             this.groupStatusName = "";
@@ -316,10 +322,14 @@
             this.statusIBeaconTxPower = driverObj.iBeaconTxPower || "";
             this.statusIsConfigured = driverObj.isConfigured;
             this.statusSoftwareVersion = driverObj.softwareVersion;
-            this.statusHardwareVersion = driverObj.hardwareVersion;
+            if (driverObj.hasOwnProperty("hardwareVersion")) {
+                this.statusHardwareVersion = driverObj.hardwareVersion;
+            }
             this.statusSwitchMac = driverObj.switchMac;
             this.statusDumpFrequency = driverObj.dumpFrequency / 1000;
-            this.statusVoltageInput = driverObj.voltageInput;
+            if (driverObj.hasOwnProperty("voltageInput")) {
+                this.statusVoltageInput = driverObj.voltageInput;
+            }
             this.glyph = this.statusGroup;
         }
 
