@@ -411,11 +411,75 @@
         groupControlParam(gui){
             var driver = this;
             var controlGr = gui.addFolder("Group Control");
-            controlGr.add(this, "groupControlLight", 0, 100).name("Light (%)");
-            controlGr.add(this, "groupControlAuto").name("Auto");
-            controlGr.add(this, "groupControlBlinds", { Stop: 0, Up: 1, Down: 2 }).name("Blinds")
-            controlGr.add(this, "groupControlBlindsSlats", 0,  180).name("Blinds Slats")
-            controlGr.add({"OK":function(){ energieip.SendGroupCmd(driver); }}, "OK").name("Apply");
+            var light = controlGr.add(this, "groupControlLight", 0, 100).name("Light (%)");
+            light.onFinishChange(function (value) {
+                var url = energieip.weblink + 'command/group';
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "setpointLeds": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var auto = controlGr.add(this, "groupControlAuto").name("Auto");
+            auto.onFinishChange(function (value) {
+                var url = energieip.weblink + 'command/group';
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "auto": value
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var blds = controlGr.add(this, "groupControlBlinds", { Stop: 0, Up: 1, Down: 2 }).name("Blinds");
+            blds.onFinishChange(function (value) {
+                var url = energieip.weblink + 'command/group';
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "setpointBlinds": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var slats = controlGr.add(this, "groupControlBlindsSlats", 0,  180).step(30).name("Blinds Slats");
+            slats.onFinishChange(function (value) {
+                var url = energieip.weblink + 'command/group';
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "setpointSlats": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
             controlGr.open();
         }
 

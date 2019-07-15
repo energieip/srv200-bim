@@ -61,7 +61,7 @@ function getUserInfo() {
         crossDomain: true,
         xhrFields: {
             withCredentials: true
-       },
+        },
         statusCode: {
             200: function (response) {
                 var priviledge = response["priviledge"];
@@ -85,7 +85,7 @@ function pollUpload(){
         crossDomain: true,
         xhrFields: {
             withCredentials: true
-       },
+        },
         statusCode: {
             200: function (response) {
                 switch (response["status"]){

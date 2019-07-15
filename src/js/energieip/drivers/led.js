@@ -177,10 +177,10 @@
 
         statusElement(gui){
             var status = gui.addFolder("LED Status");
-            status.add(this, "statusName").name("Name").listen();
-            status.add(this, "statusLight", 0, 100).name("Light (%)").listen();
-            status.add(this, "statusAuto").name("Auto").listen();
-            status.add(this, "statusGroup").name("Group").listen();
+            status.add(this, "statusName").name("Name");
+            status.add(this, "statusLight", 0, 100).name("Light (%)");
+            status.add(this, "statusAuto").name("Auto");
+            status.add(this, "statusGroup").name("Group");
             return status;
         }
     };
