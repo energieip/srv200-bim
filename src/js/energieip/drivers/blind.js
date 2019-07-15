@@ -37,25 +37,6 @@
         );
     }
 
-    energieip.SendBlindCmd = function (driver) {
-        var url = energieip.weblink + 'command/blind';
-        var data = {
-            "mac": driver.statusMac,
-            "blind1": parseInt(driver.controlBlind1),
-            "blind2": parseInt(driver.controlBlind2),
-            "slat1": parseInt(driver.controlSlat1),
-            "slat2": parseInt(driver.controlSlat2),
-        };
-        energieip.SendRequest(
-            "POST", url, data, function(response){
-                alert("success");
-            },
-            function(response){
-                alert("Error" + response["message"]);
-            }
-        );
-    }
-
     energieip.Blind = class blind extends energieip.Driver {
         get type() {
             return "energieip.Blind";
@@ -171,11 +152,74 @@
         controlElement(gui){
             var driver = this;
             var controlDr = gui.addFolder("Driver Control");
-            controlDr.add(this, "controlBlind1", { Stop: 0, Up: 1, Down: 2 } ).name("Action Blind 1");
-            controlDr.add(this, "controlBlind2", { Stop: 0, Up: 1, Down: 2 } ).name("Action Blind 2");
-            controlDr.add(this, "controlSlat1", 0,  180 ).name("Action Slat 1");
-            controlDr.add(this, "controlSlat2", 0,  180 ).name("Action Slat 2");
-            controlDr.add({"OK":function(){ energieip.SendBlindCmd(driver); }}, "OK").name("Apply");
+            var bld1 = controlDr.add(this, "controlBlind1", { Stop: 0, Up: 1, Down: 2 } ).name("Action Blind 1");
+            bld1.onFinishChange(function (value) {
+                var url = energieip.weblink + 'config/blind';
+                var data = {
+                    "mac": driver.statusMac,
+                    "blind1": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var bld2 = controlDr.add(this, "controlBlind2", { Stop: 0, Up: 1, Down: 2 } ).name("Action Blind 2");
+            bld2.onFinishChange(function (value) {
+                var url = energieip.weblink + 'config/blind';
+                var data = {
+                    "mac": driver.statusMac,
+                    "blind2": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var slat1 = controlDr.add(this, "controlSlat1", 0,  180 ).step(30).name("Action Slat 1");
+            slat1.onFinishChange(function (value) {
+                var url = energieip.weblink + 'config/blind';
+                var data = {
+                    "mac": driver.statusMac,
+                    "slat1": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var slat2 = controlDr.add(this, "controlSlat2", 0,  180 ).step(30).name("Action Slat 2");
+            slat2.onFinishChange(function (value) {
+                var url = energieip.weblink + 'config/blind';
+                var data = {
+                    "mac": driver.statusMac,
+                    "slat2": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
             controlDr.open();
         }
     };
@@ -252,16 +296,79 @@
         controlElement(gui){
             var driver = this;
             var controlDr = gui.addFolder("Blind Control");
-            controlDr.add(this, "controlBlind1", { Stop: 0, Up: 1, Down: 2 } ).name("Action Blind 1");
-            controlDr.add(this, "controlBlind2", { Stop: 0, Up: 1, Down: 2 } ).name("Action Blind 2");
-            controlDr.add(this, "controlSlat1", 0,  180 ).name("Action Slat 1");
-            controlDr.add(this, "controlSlat2", 0,  180 ).name("Action Slat 2");
+            var bld1 = controlDr.add(this, "controlBlind1", { Stop: 0, Up: 1, Down: 2 } ).name("Action Blind 1");
+            bld1.onFinishChange(function (value) {
+                var url = energieip.weblink + 'config/blind';
+                var data = {
+                    "mac": driver.statusMac,
+                    "blind1": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var bld2 = controlDr.add(this, "controlBlind2", { Stop: 0, Up: 1, Down: 2 } ).name("Action Blind 2");
+            bld2.onFinishChange(function (value) {
+                var url = energieip.weblink + 'config/blind';
+                var data = {
+                    "mac": driver.statusMac,
+                    "blind2": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var slat1 = controlDr.add(this, "controlSlat1", 0,  180 ).step(30).name("Action Slat 1");
+            slat1.onFinishChange(function (value) {
+                var url = energieip.weblink + 'config/blind';
+                var data = {
+                    "mac": driver.statusMac,
+                    "slat1": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var slat2 = controlDr.add(this, "controlSlat2", 0,  180 ).step(30).name("Action Slat 2");
+            slat2.onFinishChange(function (value) {
+                var url = energieip.weblink + 'config/blind';
+                var data = {
+                    "mac": driver.statusMac,
+                    "slat2": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
             controlDr.add({"reset": function() {
                 if (confirm("Do you want to reset the driver configuration ?")) {
                     energieip.ResetBlindCfg(driver);
                 }
             }}, "reset").name("Reset");
-            controlDr.add({"OK":function(){ energieip.SendBlindCmd(driver); }}, "OK").name("Apply");
             controlDr.open();
         }
 
