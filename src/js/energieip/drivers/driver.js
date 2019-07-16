@@ -80,7 +80,7 @@
             this.groupStatusFirstDayOffset = 0;
 
             this.configName = this.statusName;
-            this.configDumpFrequency = this.statusDumpFrequency.toString() || "0";
+            this.configDumpFrequency = this.statusDumpFrequency.toString() || "1";
             this.configBle = this.statusBle;
             
             if (driverObj.groupProperties.hasOwnProperty("firstDayOffset")) {

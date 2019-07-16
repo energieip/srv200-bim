@@ -375,14 +375,86 @@
         configElement(gui){
             var driver = this;
             var config = gui.addFolder("Blind Configuration");
-            config.add(this, "configName").name("Name");
-            config.add(this, "configGroup").name("Group");
-            config.add(this, "configBle").name("BLE");
-            config.add(this, "configDumpFrequency").name("Refresh Frequency (s)");
-            config.add({"OK":function(){ energieip.UpdateBlindCfg(driver); }}, "OK").name("Apply");
+            var name = config.add(this, "configName").name("Name");
+            name.onFinishChange(function (value) {
+                if (value.toString() != driver.statusName.toString()){
+                    var url = energieip.weblink + 'config/blind';
+                    var data = {
+                        "mac": driver.statusMac,
+                        "label": driver.label,
+                        "friendlyName": value,
+                    };
+
+                    energieip.SendRequest(
+                        "POST", url, data, function(response){
+                            alert("success");
+                        },
+                        function(response){
+                            alert("Error" + response["message"]);
+                        }
+                    );
+                }
+            });
+            var gr = config.add(this, "configGroup").name("Group");
+            gr.onFinishChange(function (value) {
+                if (driver.statusGroup.toString() !== value.toString()){
+                    var url = energieip.weblink + 'config/blind';
+                    var data = {
+                        "mac": driver.statusMac,
+                        "label": driver.label,
+                        "group": parseInt(value),
+                    };
+
+                    energieip.SendRequest(
+                        "POST", url, data, function(response){
+                            alert("success");
+                        },
+                        function(response){
+                            alert("Error" + response["message"]);
+                        }
+                    );
+                }
+            });
+            var ble = config.add(this, "configBle").name("BLE");
+            ble.onFinishChange(function (value) {
+                var url = energieip.weblink + 'config/blind';
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "isBleEnabled": value,
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var ref = config.add(this, "configDumpFrequency", 1).name("Refresh Frequency (s)");
+            ref.onFinishChange(function (value) {
+                if (driver.statusDumpFrequency.toString() !== (parseInt(value) * 1000).toString()){
+                    var url = energieip.weblink + 'config/blind';
+                    var data = {
+                        "mac": driver.statusMac,
+                        "label": driver.label,
+                        "dumpFrequency": parseInt(value) * 1000,
+                    };
+
+                    energieip.SendRequest(
+                        "POST", url, data, function(response){
+                            alert("success");
+                        },
+                        function(response){
+                            alert("Error" + response["message"]);
+                        }
+                    );
+                }
+            });
             config.open();
         }
-
 
         groupConfigParam(gui){
             var driver = this;
