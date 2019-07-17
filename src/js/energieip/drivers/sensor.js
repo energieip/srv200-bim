@@ -85,6 +85,12 @@
             this.configThresholdPresence = this.statusThresholdPresence;
             this.configTemperatureOffset = this.statusTemperatureOffset;
 
+            this.controlBleMode = "remote";
+            this.controlBleUUID = "";
+            this.controlBleTxPower = "0";
+            this.controlBleMajor = "0";
+            this.controlBleMinor = "0";
+
             if (this.statusIp === "") {
                 this._spot.className = this.not_available_color;
             } else {

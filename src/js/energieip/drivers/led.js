@@ -1,49 +1,9 @@
 {
-    energieip.UpdateLedCfg = function (driver) {
-        var url = energieip.weblink + 'config/led';
-        var data = {
-            "mac": driver.statusMac,
-            "label": driver.label,
-            "friendlyName": driver.configName,
-            "isBleEnabled": driver.configBle,
-            "group": parseInt(driver.configGroup),
-            "watchdog": parseInt(driver.configWatchdog),
-            "dumpFrequency": parseInt(driver.configDumpFrequency) * 1000,
-            "thresoldHigh": parseInt(driver.configThresholdHigh),
-            "thresoldLow": parseInt(driver.configThresholdLow),
-        };
-        energieip.SendRequest(
-            "POST", url, data, function(response){
-                alert("success");
-            },
-            function(response){
-                alert("Error" + response["message"]);
-            }
-        );
-    }
-
     energieip.ResetLedCfg = function (driver) {
         var url = energieip.weblink + 'config/led';
         var data = {
             "mac": driver.statusMac,
             "isConfigured": false,
-        };
-        energieip.SendRequest(
-            "POST", url, data, function(response){
-                alert("success");
-            },
-            function(response){
-                alert("Error" + response["message"]);
-            }
-        );
-    }
-
-    energieip.SendLedCmd = function (driver) {
-        var url = energieip.weblink + 'command/led';
-        var data = {
-            "mac": driver.statusMac,
-            "auto": driver.controlAuto,
-            "setpoint": parseInt(driver.controlLight),
         };
         energieip.SendRequest(
             "POST", url, data, function(response){
@@ -94,6 +54,12 @@
             this.configWatchdog = this.statusWatchdog.toString() || "0";
             this.configThresholdLow = this.statusThresholdLow;
             this.configThresholdHigh = this.statusThresholdHigh;
+
+            this.controlBleMode = "remote";
+            this.controlBleUUID = "";
+            this.controlBleTxPower = "0";
+            this.controlBleMajor = "0";
+            this.controlBleMinor = "0";
 
             this.controlLight = 0;
             this.controlAuto = false;
@@ -212,9 +178,41 @@
         controlElement(gui){
             var driver = this;
             var controlDr = gui.addFolder("LED Control");
-            controlDr.add(this, "controlLight", 0, 100).name("Light (%)");
-            controlDr.add(this, "controlAuto").name("Auto");
-            controlDr.add({"OK":function(){ energieip.SendLedCmd(driver); }}, "OK").name("Apply");
+            var url = energieip.weblink + 'command/led';
+            var light = controlDr.add(this, "controlLight", 0, 100).name("Light (%)");
+            light.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "setpoint": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var auto = controlDr.add(this, "controlAuto").name("Auto");
+            auto.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "auto": value
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
             controlDr.open();
         }
 
@@ -310,9 +308,41 @@
         controlElement(gui){
             var driver = this;
             var controlDr = gui.addFolder("LED Control");
-            controlDr.add(this, "controlLight", 0, 100).name("Light (%)");
-            controlDr.add(this, "controlAuto").name("Auto");
-            controlDr.add({"OK":function(){ energieip.SendLedCmd(driver); }}, "OK").name("Apply");
+            var url = energieip.weblink + 'command/led';
+            var light = controlDr.add(this, "controlLight", 0, 100).name("Light (%)");
+            light.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "setpoint": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var auto = controlDr.add(this, "controlAuto").name("Auto");
+            auto.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "auto": value
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
             controlDr.add({"reset": function() {
                 if (confirm("Do you want to reset the LED configuration ?")) {
                     energieip.ResetLedCfg(driver);
@@ -323,15 +353,216 @@
 
         configElement(gui){
             var driver = this;
+            var url = energieip.weblink + 'config/led';
             var config = gui.addFolder("LED Configuration");
-            config.add(this, "configName").name("Name");
-            config.add(this, "configGroup").name("Group");
-            config.add(this, "configBle").name("BLE");
-            config.add(this, "configDumpFrequency").name("Refresh Frequency (s)");
-            config.add(this, "configThresholdLow",  0, 100).name("Threshold Low (%)");
-            config.add(this, "configThresholdHigh",  0, 100).name("Threshold High (%)");
-            config.add(this, "configWatchdog").name("Watchdog");
-            config.add({"OK":function(){ energieip.UpdateLedCfg(driver); }}, "OK").name("Apply");
+            var name = config.add(this, "configName").name("Name");
+            name.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "friendlyName": value
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var gr = config.add(this, "configGroup").name("Group");
+            gr.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "group": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var ble = config.add(this, "configBle").name("BLE");
+            ble.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "isBleEnabled": value,
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            
+            var bleMode = config.add(this, "controlBleMode",  ['remote', 'ptm', 'iBeacon']).name("BLE Mode");
+            bleMode.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "bleMode": value
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var bleUUID = config.add(this, "controlBleUUID").name("iBeacon UUID");
+            bleUUID.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "iBeaconUUID": value.toString()
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var bleMajor = config.add(this, "controlBleMajor").name("iBeacon Major");
+            bleMajor.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "iBeaconMajor": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var bleMinor = config.add(this, "controlBleMinor").name("iBeacon Minor");
+            bleMinor.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "iBeaconMinor": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var bleTxPower = config.add(this, "controlBleTxPower").name("iBeacon Tx Power");
+            bleTxPower.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "iBeaconTxPower": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var ref = config.add(this, "configDumpFrequency", 1).name("Refresh Frequency (s)");
+            ref.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "dumpFrequency": parseInt(value) * 1000,
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var tlow = config.add(this, "configThresholdLow",  0, 100).name("Threshold Low (%)");
+            tlow.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "thresoldLow": parseInt(value),
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var thigh = config.add(this, "configThresholdHigh",  0, 100).name("Threshold High (%)");
+            thigh.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "thresoldHigh": parseInt(value),
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var watchdog = config.add(this, "configWatchdog").name("Watchdog");
+            watchdog.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "watchdog": parseInt(value),
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
             config.open();
         }
 
