@@ -1,23 +1,4 @@
 {
-    energieip.UpdateHvacCfg = function (driver) {
-        var url = energieip.weblink + 'config/hvac';
-        var data = {
-            "mac": driver.statusMac,
-            "label": driver.label,
-            "friendlyName": driver.configName,
-            "group": parseInt(driver.configGroup),
-            "dumpFrequency": parseInt(driver.configDumpFrequency) * 1000,
-        };
-        energieip.SendRequest(
-            "POST", url, data, function(response){
-                alert("success");
-            },
-            function(response){
-                alert("Error" + response["message"]);
-            }
-        );
-    }
-
     energieip.ResetHvacCfg = function (driver) {
         var url = energieip.weblink + 'config/hvac';
         var data = {
@@ -203,7 +184,9 @@
         };
 
         controlElement(gui){
+            var url = energieip.weblink + 'config/hvac';
             var driver = this;
+            //TODO offset temp
             var controlDr = gui.addFolder("HVAC Control");
             controlDr.add({"reset": function(){
                 if (confirm("Do you want to reset the HVAC configuration ?")) {
@@ -214,12 +197,62 @@
         }
 
         configElement(gui){
+            var url = energieip.weblink + 'config/hvac';
             var driver = this;
             var config = gui.addFolder("HVAC Configuration");
-            config.add(this, "configName").name("Name");
-            config.add(this, "configGroup").name("Group");
-            config.add(this, "configDumpFrequency").name("Refresh Frequency (s)");
-            config.add({"OK":function(){ energieip.UpdateHvacCfg(driver); }}, "OK").name("Apply");
+            var name = config.add(this, "configName").name("Name");
+            name.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "friendlyName": value,
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var gr = config.add(this, "configGroup").name("Group");
+            gr.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "group": parseInt(value),
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var ref = config.add(this, "configDumpFrequency", 1).name("Refresh Frequency (s)");
+            ref.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "dumpFrequency": parseInt(value) * 1000,
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
             config.open();
         }
 

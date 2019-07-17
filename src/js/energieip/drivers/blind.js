@@ -283,10 +283,10 @@
 
         controlElement(gui){
             var driver = this;
+            var url = energieip.weblink + 'config/blind';
             var controlDr = gui.addFolder("Blind Control");
             var bld1 = controlDr.add(this, "controlBlind1", { Stop: 0, Up: 1, Down: 2 } ).name("Action Blind 1");
             bld1.onFinishChange(function (value) {
-                var url = energieip.weblink + 'config/blind';
                 var data = {
                     "mac": driver.statusMac,
                     "label": driver.label,
@@ -304,7 +304,6 @@
             });
             var bld2 = controlDr.add(this, "controlBlind2", { Stop: 0, Up: 1, Down: 2 } ).name("Action Blind 2");
             bld2.onFinishChange(function (value) {
-                var url = energieip.weblink + 'config/blind';
                 var data = {
                     "mac": driver.statusMac,
                     "label": driver.label,
@@ -322,7 +321,6 @@
             });
             var slat1 = controlDr.add(this, "controlSlat1", 0,  180 ).step(30).name("Action Slat 1");
             slat1.onFinishChange(function (value) {
-                var url = energieip.weblink + 'config/blind';
                 var data = {
                     "mac": driver.statusMac,
                     "label": driver.label,
@@ -340,7 +338,6 @@
             });
             var slat2 = controlDr.add(this, "controlSlat2", 0,  180 ).step(30).name("Action Slat 2");
             slat2.onFinishChange(function (value) {
-                var url = energieip.weblink + 'config/blind';
                 var data = {
                     "mac": driver.statusMac,
                     "label": driver.label,
