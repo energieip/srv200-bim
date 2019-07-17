@@ -1,27 +1,4 @@
 {
-    energieip.UpdateSensorCfg = function (driver) {
-        var url = energieip.weblink + 'config/sensor';
-        var data = {
-            "mac": driver.statusMac,
-            "label": driver.label,
-            "friendlyName": driver.configName,
-            "group": parseInt(driver.configGroup),
-            "isBleEnabled": driver.configBle,
-            "dumpFrequency": parseInt(driver.configDumpFrequency) * 1000,
-            "brightnessCorrectionFactor": parseInt(driver.configBrightnessCorrectionFactor),
-            "thresholdPresence": parseInt(driver.configThresholdPresence),
-            "temperatureOffset": parseInt(driver.configTemperatureOffset) * 10,
-        };
-        energieip.SendRequest(
-            "POST", url, data, function(response){
-                alert("success");
-            },
-            function(response){
-                alert("Error" + response["message"]);
-            }
-        );
-    }
-
     energieip.ResetSensorCfg = function (driver) {
         var url = energieip.weblink + 'config/sensor';
         var data = {
@@ -330,15 +307,216 @@
 
         configElement(gui){
             var driver = this;
+            var url = energieip.weblink + 'config/sensor';
             var config = gui.addFolder("Sensor Configuration");
-            config.add(this, "configName").name("Name");
-            config.add(this, "configGroup").name("Group");
-            config.add(this, "configBle").name("BLE");
-            config.add(this, "configDumpFrequency").name("Refresh Frequency (s)");
-            config.add(this, "configBrightnessCorrectionFactor").name("Brightness Correction (x)");
-            config.add(this, "configTemperatureOffset").name("Temperature Offset (°C)");
-            config.add(this, "configThresholdPresence").name("Threshold Presence (s)");
-            config.add({"OK":function(){ energieip.UpdateSensorCfg(driver); }}, "OK").name("Apply");
+            var name = config.add(this, "configName").name("Name");
+            name.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "friendlyName": value,
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var gr = config.add(this, "configGroup").name("Group");
+            gr.onFinishChange(function (value) {
+                if (driver.statusGroup.toString() !== value.toString()){
+                    var data = {
+                        "mac": driver.statusMac,
+                        "label": driver.label,
+                        "group": parseInt(value),
+                    };
+
+                    energieip.SendRequest(
+                        "POST", url, data, function(response){
+                            alert("success");
+                        },
+                        function(response){
+                            alert("Error" + response["message"]);
+                        }
+                    );
+                }
+            });
+            var ble = config.add(this, "configBle").name("BLE");
+            ble.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "isBleEnabled": value,
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            
+            var bleMode = config.add(this, "controlBleMode",  ['remote', 'ptm', 'iBeacon']).name("BLE Mode");
+            bleMode.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "bleMode": value
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var bleUUID = config.add(this, "controlBleUUID").name("iBeacon UUID");
+            bleUUID.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "iBeaconUUID": value.toString()
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var bleMajor = config.add(this, "controlBleMajor").name("iBeacon Major");
+            bleMajor.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "iBeaconMajor": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var bleMinor = config.add(this, "controlBleMinor").name("iBeacon Minor");
+            bleMinor.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "iBeaconMinor": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var bleTxPower = config.add(this, "controlBleTxPower").name("iBeacon Tx Power");
+            bleTxPower.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "iBeaconTxPower": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var ref = config.add(this, "configDumpFrequency", 1).name("Refresh Frequency (s)");
+            ref.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "dumpFrequency": parseInt(value) * 1000,
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var corr = config.add(this, "configBrightnessCorrectionFactor").name("Brightness Correction (x)");
+            corr.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "brightnessCorrectionFactor": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var off = config.add(this, "configTemperatureOffset").name("Temperature Offset (°C)");
+            off.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "thresholdPresence": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var pres = config.add(this, "configThresholdPresence").name("Threshold Presence (s)");
+            pres.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "temperatureOffset": parseInt(value) * 10,
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
             config.open();
         }
 
