@@ -1,25 +1,4 @@
 {
-    energieip.UpdateBlindCfg = function (driver) {
-        var url = energieip.weblink + 'config/blind';
-        var data = {
-            "mac": driver.statusMac,
-            "label": driver.label,
-            "friendlyName": driver.configName,
-            "isBleEnabled": driver.configBle,
-            "group": parseInt(driver.configGroup),
-            "watchdog": parseInt(driver.configWatchdog),
-            "dumpFrequency": parseInt(driver.configDumpFrequency) * 1000,
-        };
-        energieip.SendRequest(
-            "POST", url, data, function(response){
-                alert("success");
-            },
-            function(response){
-                alert("Error" + response["message"]);
-            }
-        );
-    }
-
     energieip.ResetBlindCfg = function (driver) {
         var url = energieip.weblink + 'config/blind';
         var data = {
@@ -70,6 +49,11 @@
             this.controlBlind2 = 0;
             this.controlSlat1 = 0;
             this.controlSlat2 = 0;
+            this.controlBleMode = "remote";
+            this.controlBleUUID = "";
+            this.controlBleTxPower = "0";
+            this.controlBleMajor = "0";
+            this.controlBleMinor = "0";
 
             if (this.statusIp === "") {
                 this._spot.className = this.not_available_color;
@@ -157,6 +141,7 @@
                 var url = energieip.weblink + 'config/blind';
                 var data = {
                     "mac": driver.statusMac,
+                    "label": driver.label,
                     "blind1": parseInt(value)
                 };
 
@@ -174,6 +159,7 @@
                 var url = energieip.weblink + 'config/blind';
                 var data = {
                     "mac": driver.statusMac,
+                    "label": driver.label,
                     "blind2": parseInt(value)
                 };
 
@@ -191,6 +177,7 @@
                 var url = energieip.weblink + 'config/blind';
                 var data = {
                     "mac": driver.statusMac,
+                    "label": driver.label,
                     "slat1": parseInt(value)
                 };
 
@@ -208,6 +195,7 @@
                 var url = energieip.weblink + 'config/blind';
                 var data = {
                     "mac": driver.statusMac,
+                    "label": driver.label,
                     "slat2": parseInt(value)
                 };
 
@@ -301,6 +289,7 @@
                 var url = energieip.weblink + 'config/blind';
                 var data = {
                     "mac": driver.statusMac,
+                    "label": driver.label,
                     "blind1": parseInt(value)
                 };
 
@@ -318,6 +307,7 @@
                 var url = energieip.weblink + 'config/blind';
                 var data = {
                     "mac": driver.statusMac,
+                    "label": driver.label,
                     "blind2": parseInt(value)
                 };
 
@@ -335,6 +325,7 @@
                 var url = energieip.weblink + 'config/blind';
                 var data = {
                     "mac": driver.statusMac,
+                    "label": driver.label,
                     "slat1": parseInt(value)
                 };
 
@@ -352,6 +343,7 @@
                 var url = energieip.weblink + 'config/blind';
                 var data = {
                     "mac": driver.statusMac,
+                    "label": driver.label,
                     "slat2": parseInt(value)
                 };
 
@@ -373,12 +365,12 @@
         }
 
         configElement(gui){
+            var url = energieip.weblink + 'config/blind';
             var driver = this;
             var config = gui.addFolder("Blind Configuration");
             var name = config.add(this, "configName").name("Name");
             name.onFinishChange(function (value) {
                 if (value.toString() != driver.statusName.toString()){
-                    var url = energieip.weblink + 'config/blind';
                     var data = {
                         "mac": driver.statusMac,
                         "label": driver.label,
@@ -398,7 +390,6 @@
             var gr = config.add(this, "configGroup").name("Group");
             gr.onFinishChange(function (value) {
                 if (driver.statusGroup.toString() !== value.toString()){
-                    var url = energieip.weblink + 'config/blind';
                     var data = {
                         "mac": driver.statusMac,
                         "label": driver.label,
@@ -417,7 +408,6 @@
             });
             var ble = config.add(this, "configBle").name("BLE");
             ble.onFinishChange(function (value) {
-                var url = energieip.weblink + 'config/blind';
                 var data = {
                     "mac": driver.statusMac,
                     "label": driver.label,
@@ -433,10 +423,95 @@
                     }
                 );
             });
+            
+            var bleMode = config.add(this, "controlBleMode",  ['remote', 'ptm', 'iBeacon']).name("BLE Mode");
+            bleMode.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "bleMode": value
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var bleUUID = config.add(this, "controlBleUUID").name("iBeacon UUID");
+            bleUUID.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "iBeaconUUID": value.toString()
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var bleMajor = config.add(this, "controlBleMajor").name("iBeacon Major");
+            bleMajor.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "iBeaconMajor": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var bleMinor = config.add(this, "controlBleMinor").name("iBeacon Minor");
+            bleMinor.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "iBeaconMinor": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var bleTxPower = config.add(this, "controlBleTxPower").name("iBeacon Tx Power");
+            bleTxPower.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "iBeaconTxPower": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
             var ref = config.add(this, "configDumpFrequency", 1).name("Refresh Frequency (s)");
             ref.onFinishChange(function (value) {
                 if (driver.statusDumpFrequency.toString() !== (parseInt(value) * 1000).toString()){
-                    var url = energieip.weblink + 'config/blind';
                     var data = {
                         "mac": driver.statusMac,
                         "label": driver.label,
