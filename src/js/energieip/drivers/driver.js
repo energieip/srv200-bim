@@ -483,7 +483,7 @@
             temp.onFinishChange(function (value) {
                 var data = {
                     "group": parseInt(driver.statusGroup),
-                    "setpointTemperature": value
+                    "setpointTempOffset": value
                 };
 
                 energieip.SendRequest(
