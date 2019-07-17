@@ -194,6 +194,7 @@
             this.groupConfigRuleBrightness = this.groupStatusRuleBrightness.toString();
             this.groupConfigRulePresence = this.groupStatusRulePresence.toString();
             this.groupConfigWatchdog = this.groupStatusWatchdog.toString();
+            this.groupControlTemp = 0;
         }
 
         get deviceType() {
@@ -466,6 +467,23 @@
                 var data = {
                     "group": parseInt(driver.statusGroup),
                     "setpointSlats": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var temp = controlGr.add(this, "groupControlTemp", -2,  2).step(1).name("Temperature Shift (°C)");
+            temp.onFinishChange(function (value) {
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "setpointTemperature": value
                 };
 
                 energieip.SendRequest(
