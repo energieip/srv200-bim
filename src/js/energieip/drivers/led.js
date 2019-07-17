@@ -337,20 +337,192 @@
 
         groupConfigParam(gui){
             var driver = this;
+            var url = energieip.weblink + 'config/group';
             var controlGr = gui.addFolder("Group Configuration");
-            controlGr.add(this, "groupConfigName").name("Name");
-            controlGr.add(this, "groupConfigSlopeStartManual").name("Slope Start Manual (s)");
-            controlGr.add(this, "groupConfigSlopeStopManual").name("Slope Stop Manual (s)");
-            controlGr.add(this, "groupConfigSlopeStartAuto").name("Slope Start Auto (s)");
-            controlGr.add(this, "groupConfigSlopeStopAuto").name("Slope Stop Auto (s)");
-            controlGr.add(this, "groupConfigCorrectionInterval").name("Correction Interval (s)");
-            controlGr.add(this, "groupConfigSensorRule", ["average", "min", "max"]).name("Sensor Rule");
-            controlGr.add(this, "groupConfigRulePresence").name("Rule Presence (s)");
-            controlGr.add(this, "groupConfigRuleBrightness").name("Rule Brightness (Lux)");
-            controlGr.add(this, "groupConfigFirstDayOffset").name("1st Day Offset (%)");
-            controlGr.add(this, "groupConfigWatchdog").name("Watchdog (s)");
-            controlGr.add({"OK": function(){ console.log(driver);
-                energieip.UpdateGroupCfg(driver); }}, "OK").name("Apply");
+            var name = controlGr.add(this, "groupConfigName").name("Name");
+            name.onFinishChange(function (value) {
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "friendlyName": value
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var startManual = controlGr.add(this, "groupConfigSlopeStartManual").name("Slope Start Manual (s)");
+            startManual.onFinishChange(function (value) {
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "slopeStartManual": parseInt(value) * 1000
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var stopManual = controlGr.add(this, "groupConfigSlopeStopManual").name("Slope Stop Manual (s)");
+            stopManual.onFinishChange(function (value) {
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "slopeStopManual": parseInt(value) * 1000
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var startAuto = controlGr.add(this, "groupConfigSlopeStartAuto").name("Slope Start Auto (s)");
+            startAuto.onFinishChange(function (value) {
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "slopeStartAuto": parseInt(value) * 1000
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var stopAuto = controlGr.add(this, "groupConfigSlopeStopAuto").name("Slope Stop Auto (s)");
+            stopAuto.onFinishChange(function (value) {
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "slopeStopAuto": parseInt(value) * 1000
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            
+            var interval = controlGr.add(this, "groupConfigCorrectionInterval").name("Correction Interval (s)");
+            interval.onFinishChange(function (value) {
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "correctionInterval": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var rule = controlGr.add(this, "groupConfigSensorRule", ["average", "min", "max"]).name("Sensor Rule");
+            rule.onFinishChange(function (value) {
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "sensorRule": value.toString()
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var pres = controlGr.add(this, "groupConfigRulePresence").name("Rule Presence (s)");
+            pres.onFinishChange(function (value) {
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "rulePresence": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            
+            var bright = controlGr.add(this, "groupConfigRuleBrightness").name("Rule Brightness (Lux)");
+            bright.onFinishChange(function (value) {
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "ruleBrightness": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var offset = controlGr.add(this, "groupConfigFirstDayOffset").name("1st Day Offset (%)");
+            offset.onFinishChange(function (value) {
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "firstDayOffset": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var watchdog = controlGr.add(this, "groupConfigWatchdog").name("Watchdog (s)");
+            watchdog.onFinishChange(function (value) {
+                var data = {
+                    "group": parseInt(driver.statusGroup),
+                    "watchdog": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
             controlGr.open();
         }
     };

@@ -184,16 +184,16 @@
             this.groupControlBlinds = 0;
             this.groupControlBlindsSlats = 0;
             this.groupConfigName = this.groupStatusName;
-            this.groupConfigFirstDayOffset = 0;
-            this.groupConfigSlopeStartManual = this.groupStatusSlopeStartManual;
-            this.groupConfigSlopeStopManual = this.groupStatusSlopeStopManual;
-            this.groupConfigSlopeStartAuto = this.groupStatusSlopeStartAuto;
-            this.groupConfigSlopeStopAuto = this.groupStatusSlopeStopAuto;
-            this.groupConfigCorrectionInterval = this.groupStatusCorrectionInterval;
-            this.groupConfigSensorRule = this.groupStatusSensorRule;
-            this.groupConfigRuleBrightness = this.groupStatusRuleBrightness;
-            this.groupConfigRulePresence = this.groupStatusRulePresence;
-            this.groupConfigWatchdog = this.groupStatusWatchdog;
+            this.groupConfigFirstDayOffset = "0";
+            this.groupConfigSlopeStartManual = this.groupStatusSlopeStartManual.toString();
+            this.groupConfigSlopeStopManual = this.groupStatusSlopeStopManual.toString();
+            this.groupConfigSlopeStartAuto = this.groupStatusSlopeStartAuto.toString();
+            this.groupConfigSlopeStopAuto = this.groupStatusSlopeStopAuto.toString();
+            this.groupConfigCorrectionInterval = this.groupStatusCorrectionInterval.toString();
+            this.groupConfigSensorRule = this.groupStatusSensorRule.toString();
+            this.groupConfigRuleBrightness = this.groupStatusRuleBrightness.toString();
+            this.groupConfigRulePresence = this.groupStatusRulePresence.toString();
+            this.groupConfigWatchdog = this.groupStatusWatchdog.toString();
         }
 
         get deviceType() {
@@ -410,10 +410,10 @@
 
         groupControlParam(gui){
             var driver = this;
+            var url = energieip.weblink + 'command/group';
             var controlGr = gui.addFolder("Group Control");
             var light = controlGr.add(this, "groupControlLight", 0, 100).name("Light (%)");
             light.onFinishChange(function (value) {
-                var url = energieip.weblink + 'command/group';
                 var data = {
                     "group": parseInt(driver.statusGroup),
                     "setpointLeds": parseInt(value)
@@ -430,7 +430,6 @@
             });
             var auto = controlGr.add(this, "groupControlAuto").name("Auto");
             auto.onFinishChange(function (value) {
-                var url = energieip.weblink + 'command/group';
                 var data = {
                     "group": parseInt(driver.statusGroup),
                     "auto": value
@@ -447,7 +446,6 @@
             });
             var blds = controlGr.add(this, "groupControlBlinds", { Stop: 0, Up: 1, Down: 2 }).name("Blinds");
             blds.onFinishChange(function (value) {
-                var url = energieip.weblink + 'command/group';
                 var data = {
                     "group": parseInt(driver.statusGroup),
                     "setpointBlinds": parseInt(value)
@@ -465,7 +463,6 @@
 
             var slats = controlGr.add(this, "groupControlBlindsSlats", 0,  180).step(30).name("Blinds Slats");
             slats.onFinishChange(function (value) {
-                var url = energieip.weblink + 'command/group';
                 var data = {
                     "group": parseInt(driver.statusGroup),
                     "setpointSlats": parseInt(value)
