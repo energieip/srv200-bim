@@ -479,11 +479,11 @@
                 );
             });
 
-            var temp = controlGr.add(this, "groupControlTemp", -2,  2).step(1).name("Temperature Shift (°C)");
+            var temp = controlGr.add(this, "groupControlTemp", -1.5,  1.5).step(0.5).name("Temperature Shift (°C)");
             temp.onFinishChange(function (value) {
                 var data = {
                     "group": parseInt(driver.statusGroup),
-                    "setpointTempOffset": value
+                    "setpointTempOffset": parseFloat(value) *10
                 };
 
                 energieip.SendRequest(

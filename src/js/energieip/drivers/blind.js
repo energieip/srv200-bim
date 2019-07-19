@@ -503,7 +503,7 @@
                     }
                 );
             });
-            var ref = config.add(this, "configDumpFrequency", 1).name("Refresh Frequency (s)");
+            var ref = config.add(this, "configDumpFrequency", 1, 600).name("Refresh Frequency (s)");
             ref.onFinishChange(function (value) {
                 if (driver.statusDumpFrequency.toString() !== (parseInt(value) * 1000).toString()){
                     var data = {
