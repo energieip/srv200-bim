@@ -15,21 +15,6 @@
         );
     }
 
-    energieip.SendHvacCmd = function (driver) {
-        var url = energieip.weblink + 'command/hvac';
-        var data = {
-            "mac": driver.statusMac,
-        };
-        energieip.SendRequest(
-            "POST", url, data, function(response){
-                alert("success");
-            },
-            function(response){
-                alert("Error" + response["message"]);
-            }
-        );
-    }
-
     energieip.Hvac = class hvac extends energieip.Driver {
         get type() {
             return "energieip.Hvac";
@@ -46,6 +31,7 @@
 
             this._setpointElement = document.createElement('div');
             this._setpointElement.className = "xeogl-annotation-group";
+            this.controlTemp = 0;
 
             this._label.appendChild(this._groupElement);
             
@@ -184,10 +170,26 @@
         };
 
         controlElement(gui){
-            var url = energieip.weblink + 'config/hvac';
+            var url = energieip.weblink + 'command/hvac';
             var driver = this;
-            //TODO offset temp
             var controlDr = gui.addFolder("HVAC Control");
+            var temp = controlDr.add(this, "controlTemp", -1.5,  1.5).step(0.5).name("Temperature Shift (°C)");
+            temp.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "shiftTemp": parseFloat(value) *10
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
             controlDr.add({"reset": function(){
                 if (confirm("Do you want to reset the HVAC configuration ?")) {
                     energieip.ResetHvacCfg(driver);
