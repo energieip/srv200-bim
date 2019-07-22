@@ -41,6 +41,7 @@
             this.statusDevicePower = driverObj.driverProperties.status.devicePower || 0;
             this.statusPMax = driverObj.driverProperties.status.pMax || 0;
             this.statusDaisyChained = driverObj.driverProperties.status.daisyChainEnabled || false;
+            this.statusFirstDay = driverObj.driverProperties.status.firstDay || false;
             this.statusDaisyChainedPos = driverObj.driverProperties.status.daisyChainPos || 0;
             this.statusThresholdLow = driverObj.driverProperties.status.thresholdLow || 0;
             this.statusThresholdHigh = driverObj.driverProperties.status.thresholdHigh || 100;
@@ -63,6 +64,7 @@
 
             this.controlLight = 0;
             this.controlAuto = false;
+            this.configFirstDay = false;
 
             if (this.statusIp === "") {
                 this._spot.className = this.not_available_color;
@@ -111,6 +113,7 @@
             this.statusDevicePower = driverObj.devicePower || 0;
             this.statusPMax = driverObj.pMax || 0;
             this.statusDaisyChained = driverObj.daisyChainEnabled || false;
+            this.statusFirstDay = driverObj.firstDay || false;
             this.statusDaisyChainedPos = driverObj.daisyChainPos || 0;
             this.statusThresholdHigh = driverObj.thresholdHigh || 100;
             this.statusThresholdLow = driverObj.thresholdLow || 0;
@@ -130,6 +133,7 @@
             this.statusDevicePower = 0;
             this.statusPMax = 0;
             this.statusDaisyChained = false;
+            this.statusFirstDay = false;
             this.statusDaisyChainedPos = 0;
             this.statusThresholdHigh = 100;
             this.statusThresholdLow = 0;
@@ -251,6 +255,7 @@
             var status = super.statusElement(gui);
             status.add(this, "statusError").name("Error Status").listen();
             status.add(this, "label").name("Cable").listen();
+            status.add(this, "statusFirstDay").name("First Day").listen();
             status.add(this, "statusBle").name("BLE").listen();
             status.add(this, "statusBleMode").name("BLE Mode").listen();
             status.add(this, "statusIBeaconUUID").name("iBeacon UUID").listen();
@@ -379,6 +384,24 @@
                     "mac": driver.statusMac,
                     "label": driver.label,
                     "group": parseInt(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var firstDay = config.add(this, "configFirstDay").name("First Day");
+            firstDay.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "firstDay": value
                 };
 
                 energieip.SendRequest(
