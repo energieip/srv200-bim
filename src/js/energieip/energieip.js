@@ -21,13 +21,13 @@ const weblink =  '/v1.0/';
 const accessToken = "EiPAccessToken";
 const loginPage = "login.html";
 
-const driver = "driver";
-const ledDriver = "led";
-const hvacDriver = "hvac";
-const blindDriver = "blind";
-const sensorDriver = "sensor";
-const wagoDevice = "wago";
-const switchDevice = "switch";
+const driver = "DRIVER";
+const ledDriver = "LED";
+const hvacDriver = "HVAC";
+const blindDriver = "BLIND";
+const sensorDriver = "SENSOR";
+const wagoDevice = "WAGO";
+const switchDevice = "SWITCH";
 
 energieip.Notifications = function (cbkOnMessage) {
 	var url = window.location.origin.replace("https", "wss");
