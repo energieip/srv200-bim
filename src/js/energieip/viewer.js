@@ -38,6 +38,7 @@ function CreateView(map){
         var sensors = [];
         var blinds = [];
         var hvacs = [];
+        var nanos = [];
         for (var label in window.model.meshes){
             if (window.drivers.hasOwnProperty(label)){
                 var d = window.drivers[label];
@@ -55,6 +56,9 @@ function CreateView(map){
                         case energieip.hvacDriver:
                             hvacs.push(d.statusMac);
                             break;
+                        case energieip.nanoDriver:
+                            nanos.push(d.statusMac);
+                            break;
                     }
                 }
             }
@@ -69,6 +73,7 @@ function CreateView(map){
                 this.group = 0;
                 this.sensors = sensors;
                 this.leds = leds;
+                this.nanos = nanos;
                 this.blinds = blinds;
                 this.hvacs = hvacs;
                 this.slopeStartManual = 10;
@@ -266,6 +271,13 @@ function CreateView(map){
                                 var driver = new energieip.WagoMaintenance(content);
                             } else {
                                 var driver = new energieip.WagoSupervision(content);
+                            }
+                            break;
+                        case energieip.nanoDriver:
+                            if (window.mode === true) {
+                                var driver = new energieip.NanosenseMaintenance(content);
+                            } else {
+                                var driver = new energieip.NanosenseSupervision(content);
                             }
                             break;
                         default:

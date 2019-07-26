@@ -27,6 +27,7 @@ const hvacDriver = "HVAC";
 const blindDriver = "BLIND";
 const sensorDriver = "SENSOR";
 const wagoDevice = "WAGO";
+const nanoDriver = "NANOSENSE";
 const switchDevice = "SWITCH";
 
 energieip.Notifications = function (cbkOnMessage) {
@@ -117,6 +118,7 @@ energieip.CreateGroup = function (group) {
 		"leds": group.leds,
 		"sensors": group.sensors,
 		"hvacs": group.hvacs,
+		"nanossenses": group.nanos,
 		"friendlyName": group.name,
 		"slopeStartManual": parseInt(group.slopeStartManual) * 1000,
 		"slopeStopManual": parseInt(group.slopeStopManual) * 1000,
@@ -165,26 +167,6 @@ energieip.UpdateGroupCfg = function (driver) {
 	);
 }
 
-energieip.SendGroupCmd = function (driver) {
-	var url = energieip.weblink + 'command/group';
-	var data = {
-		"group": parseInt(driver.statusGroup),
-		"auto": driver.groupControlAuto,
-		"setpointLeds": parseInt(driver.groupControlLight),
-		"setpointBlinds": parseInt(driver.groupControlBlinds),
-		"setpointSlats": parseInt(driver.groupControlBlindsSlats)
-	};
-
-	energieip.SendRequest(
-		"POST", url, data, function(response){
-			alert("success");
-		},
-		function(response){
-            alert("Error" + response["message"]);
-		}
-	);
-}
-
 energieip.ConsumptionsEvent = function (cbkOnMessage) {
 	var url = window.location.origin.replace("https", "wss");
 	var ws = new WebSocket(url + energieip.weblink + "events/consumption");
@@ -211,6 +193,7 @@ exports.weblink = weblink;
 exports.driver = driver;
 exports.ledDriver = ledDriver;
 exports.hvacDriver = hvacDriver;
+exports.nanoDriver = nanoDriver;
 exports.blindDriver = blindDriver;
 exports.sensorDriver = sensorDriver;
 exports.switchDevice = switchDevice;

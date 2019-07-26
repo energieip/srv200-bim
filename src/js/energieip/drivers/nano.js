@@ -1,23 +1,7 @@
 {
-    energieip.ResetSensorCfg = function (driver) {
-        var url = energieip.weblink + 'config/sensor';
-        var data = {
-            "mac": driver.statusMac,
-            "isConfigured": false,
-        };
-        energieip.SendRequest(
-            "POST", url, data, function(response){
-                alert("success");
-            },
-            function(response){
-                alert("Error" + response["message"]);
-            }
-        );
-    }
-
-    energieip.Sensor = class sensor extends energieip.Driver {
+    energieip.Nanosense = class nano extends energieip.Driver {
         get type() {
-            return "energieip.Sensor";
+            return "energieip.Nanosense";
         }
 
         init(driverObj) {
@@ -26,55 +10,31 @@
 
             this._spot.className = this.default_color;
 
-            this.deviceType = energieip.sensorDriver;
+            this.deviceType = energieip.nanoDriver;
             this._typeElement.innerHTML = "Driver: " + this.deviceType;
 
             this._temperatureElement = document.createElement('div');
             this._temperatureElement.className = "xeogl-annotation-group";
             this._label.appendChild(this._temperatureElement);
 
-            this._presenceElement = document.createElement('div');
-            this._presenceElement.className = "xeogl-annotation-group";
-            this._label.appendChild(this._presenceElement);
+            this._hygrometryElement = document.createElement('div');
+            this._hygrometryElement.className = "xeogl-annotation-group";
+            this._label.appendChild(this._hygrometryElement);
 
-            this._humidityElement = document.createElement('div');
-            this._humidityElement.className = "xeogl-annotation-group";
-            this._label.appendChild(this._humidityElement);
+            this._co2Element = document.createElement('div');
+            this._co2Element.className = "xeogl-annotation-group";
+            this._label.appendChild(this._co2Element);
 
-            this._brightnessElement = document.createElement('div');
-            this._brightnessElement.className = "xeogl-annotation-group";
-            this._label.appendChild(this._brightnessElement);
+            this._covElement = document.createElement('div');
+            this._covElement.className = "xeogl-annotation-group";
+            this._label.appendChild(this._covElement);
             this._label.appendChild(this._groupElement);
 
             this.statusTemperature = driverObj.driverProperties.status.temperature / 10; //value in 1/10 °C
-            this.statusBrightness = driverObj.driverProperties.status.brightness;
-            this.statusPresence = driverObj.driverProperties.status.presence;
-            this.statusHumidity = driverObj.driverProperties.status.humidity / 10;
-
-            this.statusBrightnessCorrectionFactor = driverObj.driverProperties.status.brightnessCorrectionFactor;
-            this.statusBrightnessRaw = driverObj.driverProperties.status.brightnessRaw;
-            this.statusTemperatureOffset = driverObj.driverProperties.status.temperatureOffset / 10; //value in 1/10 °C
-            this.statusTemperatureRaw = driverObj.driverProperties.status.temperatureRaw / 10; //value in 1/10 °C
-            this.statusThresholdPresence = driverObj.driverProperties.status.thresholdPresence;
-            this.statusLastMovement = driverObj.driverProperties.status.lastMovement;
-
-            this.configBrightnessCorrectionFactor = this.statusBrightnessCorrectionFactor;
-            this.configThresholdPresence = this.statusThresholdPresence;
-            this.configTemperatureOffset = this.statusTemperatureOffset;
-
-            this.controlBleMode = "remote";
-            this.controlBleUUID = "";
-            this.controlBleTxPower = "0";
-            this.controlBleMajor = "0";
-            this.controlBleMinor = "0";
-
-            if (this.statusIp === "") {
-                this._spot.className = this.not_available_color;
-            } else {
-                if (this.statusError != 0) {
-                    this._spot.className = this.error_color;
-                }
-            }
+            this.statusHygrometry = driverObj.driverProperties.status.hygrometry / 10; //value in 1/10 %
+            this.statusCO2 = driverObj.driverProperties.status.co2 / 10;
+            this.statusCOV = driverObj.driverProperties.status.cov / 10;
+            this.statusCluster = driverObj.driverProperties.status.cluster||0;
 
             var update = function () {
                 requestAnimationFrame(update);
@@ -95,91 +55,116 @@
             return this._status_temperature;
         }
 
-        set statusBrightness(val) {
-            if (this._status_brightness === val) {
+        set statusHygrometry(val) {
+            if (this._status_hygrometry === val) {
                 return;
             }
-            this._status_brightness = val;
-            this._brightnessElement.innerHTML = "Brightness: " + this._status_brightness + " Lux";
-            this.fire("brightness", this);
+            this._status_hygrometry = val;
+            this._hygrometryElement.innerHTML = "Hygrometry: " + this._status_hygrometry + " %";
+            this.fire("hygrometry", this);
         }
 
-        get statusBrightness() {
-            return this._status_brightness;
+        get statusHygrometry() {
+            return this._status_hygrometry;
         }
 
-        set statusPresence(val) {
-            if (this._status_presence === val) {
+        set statusCO2(val) {
+            if (this._status_co2 === val) {
                 return;
             }
-            this._status_presence = val;
-            this._presenceElement.innerHTML = "Presence: " + this._status_presence;
-            this.fire("presence", this);
+            this._status_co2 = val;
+            this._co2Element.innerHTML = "CO2: " + this._status_co2 + " ppm";
+            this.fire("co2", this);
         }
 
-        get statusPresence() {
-            return this._status_presence;
+        get statusCO2() {
+            return this._status_co2;
         }
 
-        /**
-         * @param {any} val
-         */
-        set statusHumidity(val) {
-            if (this._status_humidity === val) {
+        set statusCOV(val) {
+            if (this._status_cov === val) {
                 return;
             }
-            this._status_humidity = val;
-            this._humidityElement.innerHTML = "Humidity: " + this._status_humidity + "%";
-            this.fire("humidity", this);
+            this._status_cov = val;
+            this._covElement.innerHTML = "COV: " + this._status_cov + " ppm";
+            this.fire("cov", this);
         }
 
-        get statusHumidity() {
-            return this._status_humidity;
+        get statusCOV() {
+            return this._status_co2;
         }
+
+        set statusIp(val) {
+            if (this._status_ip === val) {
+                return;
+            }
+            this._status_ip = val || "";
+            return;
+            if (this._status_ip === "") {
+                this._spot.className = this.not_available_color;
+            } else {
+                this._spot.className = this.default_color;
+            }
+            this._ipElement.innerHTML = "IP: " +  this._status_ip;
+            this.fire("ip", this);
+        }
+
+        get statusIp() {
+            return this._status_ip;
+        }
+
+        set statusIsConfigured(val) {
+            val = true;
+            if (this._status_isConfigured === val) {
+                return;
+            }
+            this._status_isConfigured = val || false;
+            if (this._status_isConfigured === false) {
+                this._spot.className = this.not_available_color;
+            } else {
+                this._spot.className = this.default_color;
+            }
+            this.fire("isConfigured", this);
+        }
+
+        get statusIsConfigured() {
+            return this._status_isConfigured;
+        }
+
 
         updateEvent(driverObj) {
             super.updateEvent(driverObj);
             this.statusTemperature = driverObj.temperature / 10; //value in 1/10 °C
-            this.statusBrightness = driverObj.brightness;
-            this.statusPresence = driverObj.presence;
-            this.statusHumidity = driverObj.humidity / 10;
-            this.statusBrightnessCorrectionFactor = driverObj.brightnessCorrectionFactor;
-            this.statusBrightnessRaw = driverObj.brightnessRaw;
-            this.statusTemperatureOffset = driverObj.temperatureOffset / 10; //value in 1/10 °C
-            this.statusTemperatureRaw = driverObj.temperatureRaw / 10; //value in 1/10 °C
-            this.statusThresholdPresence = driverObj.thresholdPresence;
-            this.statusLastMovement = driverObj.lastMovement;
+            this.statusHygrometry = driverObj.hygrometry / 10; //value in 1/10 %
+            this.statusCO2 = driverObj.co2 / 10; //value in 1/10 ppm
+            this.statusCOV = driverObj.cov / 10; //value in 1/10 ppm
+            this.statusCluster = driverObj.cluster;
         }
 
         removeEvent() {
             super.removeEvent();
-            this.statusTemperature = 0;
-            this.statusBrightness = 0;
-            this.statusPresence = false;
-            this.statusHumidity = 0;
-            this.statusBrightnessCorrectionFactor = 0;
-            this.statusBrightnessRaw = 0;
-            this.statusTemperatureOffset = 0;
-            this.statusTemperatureRaw = 0;
-            this.statusThresholdPresence = 0;
-            this.statusLastMovement = 0;
+            this.statusTemperature = 0; //value in 1/10 °C
+            this.statusHygrometry = 0; //value in 1/10 %
+            this.statusCO2 = 0; //value in 1/10 ppm
+            this.statusCOV = 0; //value in 1/10 ppm
+            this.statusCluster = 0;
         }
 
         statusElement(gui){
-            var status = gui.addFolder("Sensor Status");
+            var status = gui.addFolder("Nanosense Status");
             status.add(this, "statusName").name("Name").listen();
             status.add(this, "statusTemperature").name("Temperature (°C)").listen();
-            status.add(this, "statusBrightness").name("Brightness (Lux)").listen();
-            status.add(this, "statusPresence").name("Presence").listen();
-            status.add(this, "statusHumidity", 0, 100).name("Humidity (%)").listen();
+            status.add(this, "statusCOV").name("COV (ppm)").listen();
+            status.add(this, "statusCO2").name("co2 (ppm)").listen();
+            status.add(this, "statusHygrometry", 0, 100).name("Hygrometry (%)").listen();
             status.add(this, "statusGroup").name("Group").listen();
             return status;
         }
     };
 
-    energieip.SensorSupervision = class sensorSupervision extends energieip.Sensor {
+    energieip.NanosenseSupervision = class nanoSupervision extends energieip.Nanosense {
         get type() {
-            return "energieip.Sensor";
+            return "energieip.Nanosense";
         }
 
         init(driverObj) {
@@ -219,9 +204,9 @@
         }
     };
 
-    energieip.SensorMaintenance = class sensorMaintenance extends energieip.Sensor {
+    energieip.NanosenseMaintenance = class nanoMaintenance extends energieip.Nanosense {
         get type() {
-            return "energieip.Sensor";
+            return "energieip.Nanosense";
         }
 
         init(driverObj) {
@@ -244,31 +229,15 @@
             var status = super.statusElement(gui);
             status.add(this, "statusError").name("Error Status").listen();
             status.add(this, "label").name("Cable").listen();
-            status.add(this, "statusBle").name("BLE").listen();
-            status.add(this, "statusBleMode").name("BLE Mode").listen();
-            status.add(this, "statusIBeaconUUID").name("iBeacon UUID").listen();
-            status.add(this, "statusIBeaconMajor").name("iBeacon Major").listen();
-            status.add(this, "statusIBeaconMinor").name("iBeacon Minor").listen();
-            status.add(this, "statusIBeaconTxPower").name("iBeacon Tx Power").listen();
-            status.add(this, "statusIsConfigured").name("Ready").listen();
             status.add(this, "statusIp").name("IP").listen();
+            status.add(this, "statusCluster").name("Cluster").listen();
             status.add(this, "statusMac").name("Mac address").listen();
-            status.add(this, "statusBrightnessCorrectionFactor").name("Brightness Correction (x)").listen();
-            status.add(this, "statusBrightnessRaw").name("Brightness Raw (Lux)").listen();
-            status.add(this, "statusTemperatureOffset").name("Temperature Offset (°C)").listen();
-            status.add(this, "statusTemperatureRaw").name("Temperature Raw (°C)").listen();
-            status.add(this, "statusThresholdPresence").name("Threshold Presence (s)").listen();
-            status.add(this, "statusLastMovement").name("Last Movement (s)").listen();
-            status.add(this, "statusVoltageInput").name("Voltage Input (V)").listen();
-            status.add(this, "statusSoftwareVersion").name("Software Version").listen();
-            status.add(this, "statusHardwareVersion").name("Hardware Version").listen();
-            status.add(this, "statusSwitchMac").name("Switch Mac address").listen();
             status.add(this, "statusDumpFrequency").name("Refresh Frequency (s)").listen();
             status.open();
         }
 
         ifcInfo(gui){
-            var ifc = gui.addFolder("Sensor Information");
+            var ifc = gui.addFolder("Nanosense Information");
             ifc.add(this, "ifcModelName").name("Model Name");
             ifc.add(this, "ifcUrl").name("URL");
             ifc.add(this, "ifcVendor").name("Vendor Name");
@@ -297,20 +266,17 @@
         };
 
         controlElement(gui){
-            var driver = this;
-            var controlDr = gui.addFolder("Sensor Control");
-            controlDr.add({"reset": function(){
-                if (confirm("Do you want to reset the sensor configuration ?")) {
-                    energieip.ResetSensorCfg(driver);
-                }
-            }}, "reset").name("Reset");
-            controlDr.open();
+            if (gui != null){
+                document.getElementById('dat-gui-container').removeChild(gui.domElement);
+                gui.destroy();
+                window.gui = null;
+            }
         }
 
         configElement(gui){
             var driver = this;
-            var url = energieip.weblink + 'config/sensor';
-            var config = gui.addFolder("Sensor Configuration");
+            var url = energieip.weblink + 'config/nano';
+            var config = gui.addFolder("Nanosense Configuration");
             var name = config.add(this, "configName").name("Name");
             name.onFinishChange(function (value) {
                 var data = {
@@ -347,178 +313,7 @@
                     );
                 }
             });
-            var ble = config.add(this, "configBle").name("BLE");
-            ble.onFinishChange(function (value) {
-                var data = {
-                    "mac": driver.statusMac,
-                    "label": driver.label,
-                    "isBleEnabled": value,
-                };
-
-                energieip.SendRequest(
-                    "POST", url, data, function(response){
-                        alert("success");
-                    },
-                    function(response){
-                        alert("Error" + response["message"]);
-                    }
-                );
-            });
-            
-            var bleMode = config.add(this, "controlBleMode",  ['remote', 'ptm', 'iBeacon']).name("BLE Mode");
-            bleMode.onFinishChange(function (value) {
-                var data = {
-                    "mac": driver.statusMac,
-                    "label": driver.label,
-                    "bleMode": value
-                };
-
-                energieip.SendRequest(
-                    "POST", url, data, function(response){
-                        alert("success");
-                    },
-                    function(response){
-                        alert("Error" + response["message"]);
-                    }
-                );
-            });
-            var bleUUID = config.add(this, "controlBleUUID").name("iBeacon UUID");
-            bleUUID.onFinishChange(function (value) {
-                var data = {
-                    "mac": driver.statusMac,
-                    "label": driver.label,
-                    "iBeaconUUID": value.toString()
-                };
-
-                energieip.SendRequest(
-                    "POST", url, data, function(response){
-                        alert("success");
-                    },
-                    function(response){
-                        alert("Error" + response["message"]);
-                    }
-                );
-            });
-            var bleMajor = config.add(this, "controlBleMajor").name("iBeacon Major");
-            bleMajor.onFinishChange(function (value) {
-                var data = {
-                    "mac": driver.statusMac,
-                    "label": driver.label,
-                    "iBeaconMajor": parseInt(value)
-                };
-
-                energieip.SendRequest(
-                    "POST", url, data, function(response){
-                        alert("success");
-                    },
-                    function(response){
-                        alert("Error" + response["message"]);
-                    }
-                );
-            });
-            var bleMinor = config.add(this, "controlBleMinor").name("iBeacon Minor");
-            bleMinor.onFinishChange(function (value) {
-                var data = {
-                    "mac": driver.statusMac,
-                    "label": driver.label,
-                    "iBeaconMinor": parseInt(value)
-                };
-
-                energieip.SendRequest(
-                    "POST", url, data, function(response){
-                        alert("success");
-                    },
-                    function(response){
-                        alert("Error" + response["message"]);
-                    }
-                );
-            });
-            var bleTxPower = config.add(this, "controlBleTxPower").name("iBeacon Tx Power");
-            bleTxPower.onFinishChange(function (value) {
-                var data = {
-                    "mac": driver.statusMac,
-                    "label": driver.label,
-                    "iBeaconTxPower": parseInt(value)
-                };
-
-                energieip.SendRequest(
-                    "POST", url, data, function(response){
-                        alert("success");
-                    },
-                    function(response){
-                        alert("Error" + response["message"]);
-                    }
-                );
-            });
-            var ref = config.add(this, "configDumpFrequency", 1).name("Refresh Frequency (s)");
-            ref.onFinishChange(function (value) {
-                var data = {
-                    "mac": driver.statusMac,
-                    "label": driver.label,
-                    "dumpFrequency": parseInt(value) * 1000,
-                };
-
-                energieip.SendRequest(
-                    "POST", url, data, function(response){
-                        alert("success");
-                    },
-                    function(response){
-                        alert("Error" + response["message"]);
-                    }
-                );
-            });
-            var corr = config.add(this, "configBrightnessCorrectionFactor").name("Brightness Correction (x)");
-            corr.onFinishChange(function (value) {
-                var data = {
-                    "mac": driver.statusMac,
-                    "label": driver.label,
-                    "brightnessCorrectionFactor": parseInt(value)
-                };
-
-                energieip.SendRequest(
-                    "POST", url, data, function(response){
-                        alert("success");
-                    },
-                    function(response){
-                        alert("Error" + response["message"]);
-                    }
-                );
-            });
-            var off = config.add(this, "configTemperatureOffset").name("Temperature Offset (°C)");
-            off.onFinishChange(function (value) {
-                var data = {
-                    "mac": driver.statusMac,
-                    "label": driver.label,
-                    "thresholdPresence": parseInt(value)
-                };
-
-                energieip.SendRequest(
-                    "POST", url, data, function(response){
-                        alert("success");
-                    },
-                    function(response){
-                        alert("Error" + response["message"]);
-                    }
-                );
-            });
-
-            var pres = config.add(this, "configThresholdPresence").name("Threshold Presence (s)");
-            pres.onFinishChange(function (value) {
-                var data = {
-                    "mac": driver.statusMac,
-                    "label": driver.label,
-                    "temperatureOffset": parseInt(value) * 10,
-                };
-
-                energieip.SendRequest(
-                    "POST", url, data, function(response){
-                        alert("success");
-                    },
-                    function(response){
-                        alert("Error" + response["message"]);
-                    }
-                );
-            });
+           
             config.open();
         }
 

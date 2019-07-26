@@ -64,10 +64,14 @@
             this.groupStatusWindowsOpened = false;
             this.groupStatusBrightness = 0;
             this.groupStatusTemperature = 0;
-            this.groupStatusHumidity = 0;
+            this.groupStatusHygrometry = 0;
+            this.groupStatusCO2 = 0;
+            this.groupStatusCOV = 0;
             this.groupStatusAuto = false;
             this.groupStatusError = 0;
             this.groupStatusGroup = 0;
+            this.groupStatusCeilingTemperature = 0;
+            this.groupStatusCeilingHumidity = 0;
             this.groupStatusCorrectionInterval = 0;
             this.groupStatusSensorRule = "average";
             this.groupStatusSlopeStartManual = 0;
@@ -111,8 +115,20 @@
                 this.groupStatusTemperature = driverObj.groupProperties.temperature/10;
             }
 
-            if (driverObj.groupProperties.hasOwnProperty("humidity")) {
-                this.groupStatusHumidity = driverObj.groupProperties.humidity/10;
+            if (driverObj.groupProperties.hasOwnProperty("hygrometry")) {
+                this.groupStatusHygrometry = driverObj.groupProperties.hygrometry/10;
+            }
+            if (driverObj.groupProperties.hasOwnProperty("co2")) {
+                this.groupStatusCO2 = driverObj.groupProperties.co2/10;
+            }
+            if (driverObj.groupProperties.hasOwnProperty("cov")) {
+                this.groupStatusCOV = driverObj.groupProperties.cov/10;
+            }
+            if (driverObj.groupProperties.hasOwnProperty("ceilingTemperature")) {
+                this.groupStatusCeilingTemperature = driverObj.groupProperties.ceilingTemperature/10;
+            }
+            if (driverObj.groupProperties.hasOwnProperty("ceilingHumidity")) {
+                this.groupStatusCeilingHumidity = driverObj.groupProperties.ceilingHumidity/10;
             }
 
             if (driverObj.groupProperties.hasOwnProperty("brightness")) {
@@ -360,8 +376,12 @@
             this.groupStatusName = grObj.friendlyName;
             this.groupStatusPresence = grObj.presence;
             this.groupStatusTemperature = grObj.temperature/10;
+            this.groupStatusCeilingTemperature = grObj.ceilingTemperature/10;
+            this.groupStatusCeilingHumidity = grObj.ceilingHumidity/10;
             this.groupStatusBrightness = grObj.brightness;
-            this.groupStatusHumidity = grObj.humidity/10;
+            this.groupStatusHygrometry = grObj.hygrometry/10;
+            this.groupStatusCO2 = grObj.co2/10;
+            this.groupStatusCOV = grObj.cov/10;
             this.groupStatusWindowsOpened = grObj.windowsOpened;
             this.groupStatusAuto = grObj.auto;
             this.groupStatusError = grObj.error;
@@ -402,8 +422,10 @@
             grStatus.add(this, "groupStatusLightFirstDay", 0, 100).name("1st Days Light (%)").listen();
             grStatus.add(this, "groupStatusPresence").name("Detection").listen();
             grStatus.add(this, "groupStatusWindowsOpened").name("Windows Opened").listen();
-            grStatus.add(this, "groupStatusHumidity").name("Humidity (%)").listen();
+            grStatus.add(this, "groupStatusHygrometry").name("Hygrometry (%)").listen();
             grStatus.add(this, "groupStatusTemperature").name("Temperature (°C)").listen();
+            grStatus.add(this, "groupStatusCO2").name("CO2 (ppm)").listen();
+            grStatus.add(this, "groupStatusCOV").name("COV (ppm)").listen();
             grStatus.add(this, "groupStatusBrightness").name("Brigthness (Lux)").listen();
             grStatus.add(this, "groupStatusAuto").name("Auto").listen();
             return grStatus

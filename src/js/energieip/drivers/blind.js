@@ -262,6 +262,8 @@
 
         statusGroupInfo(gui){
             var status = super.statusGroupInfo(gui);
+            status.add(this, "groupStatusCeilingTemperature").name("Ceiling Temperature (°C)").listen();
+            status.add(this, "groupStatusCeilingHumidity").name("Ceiling Hygrometry (%)").listen();
             status.add(this, "groupStatusError").name("Error Status").listen();
             status.add(this, "groupStatusCorrectionInterval").name("Correction Interval (s)").listen();
             status.add(this, "groupStatusSensorRule").name("Sensor Rule").listen();

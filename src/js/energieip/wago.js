@@ -315,6 +315,7 @@
             status.add(this, "label").name("Cable").listen();
             status.add(this, "statusIp").name("IP").listen();
             status.add(this, "statusMac").name("Mac address").listen();
+            status.add(this, "statusCluster").name("Cluster").listen();
             status.add(this, "statusSoftwareVersion").name("Software Version").listen();
             status.open();
         }
