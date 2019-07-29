@@ -35,21 +35,21 @@
 
             this.statusLinePower = driverObj.driverProperties.status.linePower || 0;
             this.statusCoolOutput = driverObj.driverProperties.status.coolOutput1 || 0;
-            this.statusEffectiveSetpoint = driverObj.driverProperties.status.effectSetPoint1 / 10.0 || 0;
+            this.statusEffectiveSetpoint = parseFloat(driverObj.driverProperties.status.effectSetPoint1 / 10.0 || 0).toFixed(1);
             this.statusHeatCool = driverObj.driverProperties.status.heatCool1 || 0;
             this.statusHeatOutput = driverObj.driverProperties.status.heatOutput1 || 0;
             this.statusHoldOff = driverObj.driverProperties.status.holdOff1 || 0;
             this.statusOccManCmd = driverObj.driverProperties.status.occManCmd1 || 0;
-            this.statusSetpointOccCool = driverObj.driverProperties.status.setpointOccupiedCool1 / 10.0 || 0;
-            this.statusSetpointOccHeat = driverObj.driverProperties.status.setpointOccupiedHeat1 / 10.0 || 0;
-            this.statusSetpointStdbyCool = driverObj.driverProperties.status.setpointStandbyCool1 / 10.0 || 0;
-            this.statusSetpointStdbyHeat = driverObj.driverProperties.status.setpointStandbyHeat1 / 10.0 || 0;
-            this.statusSetpointUnoccCool = driverObj.driverProperties.status.setpointUnoccupiedCool1 / 10.0 || 0;
-            this.statusSetpointUnoccHeat = driverObj.driverProperties.status.setpointUnoccupiedHeat1 / 10.0 || 0;
-            this.statusSpaceCO2 = driverObj.driverProperties.status.spaceCO2 / 10.0 || 0;
-            this.statusSpaceCOV = driverObj.driverProperties.status.spaceCOV / 10.0 || 0;
-            this.statusSpaceTemp = driverObj.driverProperties.status.spaceTemp1 / 10.0 || 0;
-            this.statusTemperatureSelect = driverObj.driverProperties.status.temperatureSelect / 10.0 || 0;
+            this.statusSetpointOccCool = parseFloat(driverObj.driverProperties.status.setpointOccupiedCool1 / 10.0 || 0).toFixed(1);
+            this.statusSetpointOccHeat = parseFloat(driverObj.driverProperties.status.setpointOccupiedHeat1 / 10.0 || 0).toFixed(1);
+            this.statusSetpointStdbyCool = parseFloat(driverObj.driverProperties.status.setpointStandbyCool1 / 10.0 || 0).toFixed(1);
+            this.statusSetpointStdbyHeat = parseFloat(driverObj.driverProperties.status.setpointStandbyHeat1 / 10.0 || 0).toFixed(1);
+            this.statusSetpointUnoccCool = parseFloat(driverObj.driverProperties.status.setpointUnoccupiedCool1 / 10.0 || 0).toFixed(1);
+            this.statusSetpointUnoccHeat = parseFloat(driverObj.driverProperties.status.setpointUnoccupiedHeat1 / 10.0 || 0).toFixed(1);
+            this.statusSpaceCO2 = parseFloat(driverObj.driverProperties.status.spaceCO2 / 10.0 || 0).toFixed(1);
+            this.statusSpaceCOV = parseFloat(driverObj.driverProperties.status.spaceCOV / 10.0 || 0).toFixed(1);
+            this.statusSpaceTemp = parseFloat(driverObj.driverProperties.status.spaceTemp1 / 10.0 || 0).toFixed(1);
+            this.statusTemperatureSelect = parseFloat(driverObj.driverProperties.status.temperatureSelect / 10.0 || 0).toFixed(1);
             this.statusOADamper = driverObj.driverProperties.status.oaDamper || 0;
 
             this._label.appendChild(this._groupElement);
@@ -94,21 +94,21 @@
             super.updateEvent(driverObj);
             this.statusLinePower = driverObj.linePower;
             this.statusCoolOutput = driverObj.coolOutput1;
-            this.statusEffectiveSetpoint = driverObj.effectSetPoint1 / 10.0;
+            this.statusEffectiveSetpoint = parseFloat(driverObj.effectSetPoint1 / 10.0).toFixed(1);
             this.statusHeatCool = driverObj.heatCool1;
             this.statusHeatOutput = driverObj.heatOutput1;
             this.statusHoldOff = driverObj.holdOff1;
             this.statusOccManCmd = driverObj.occManCmd1;
-            this.statusSetpointOccCool = driverObj.setpointOccupiedCool1 / 10.0;
-            this.statusSetpointOccHeat = driverObj.setpointOccupiedHeat1 / 10.0;
-            this.statusSetpointStdbyCool = driverObj.setpointStandbyCool1 / 10.0;
-            this.statusSetpointStdbyHeat = driverObj.setpointStandbyHeat1 / 10.0;
-            this.statusSetpointUnoccCool = driverObj.setpointUnoccupiedCool1 / 10.0;
-            this.statusSetpointUnoccHeat = driverObj.setpointUnoccupiedHeat1 / 10.0;
-            this.statusSpaceCO2 = driverObj.spaceCO2 / 10.0;
-            this.statusSpaceCOV = driverObj.spaceCOV / 10.0;
-            this.statusSpaceTemp = driverObj.spaceTemp1 / 10.0;
-            this.statusTemperatureSelect = driverObj.temperatureSelect / 10.0;
+            this.statusSetpointOccCool = parseFloat(driverObj.setpointOccupiedCool1 / 10.0).toFixed(1);
+            this.statusSetpointOccHeat = parseFloat(driverObj.setpointOccupiedHeat1 / 10.0).toFixed(1);
+            this.statusSetpointStdbyCool = parseFloat(driverObj.setpointStandbyCool1 / 10.0).toFixed(1);
+            this.statusSetpointStdbyHeat = parseFloat(driverObj.setpointStandbyHeat1 / 10.0).toFixed(1);
+            this.statusSetpointUnoccCool = parseFloat(driverObj.setpointUnoccupiedCool1 / 10.0).toFixed(1);
+            this.statusSetpointUnoccHeat = parseFloat(driverObj.setpointUnoccupiedHeat1 / 10.0).toFixed(1);
+            this.statusSpaceCO2 = parseFloat(driverObj.spaceCO2 / 10.0).toFixed(1);
+            this.statusSpaceCOV = parseFloat(driverObj.spaceCOV / 10.0).toFixed(1);
+            this.statusSpaceTemp = parseFloat(driverObj.spaceTemp1 / 10.0).toFixed(1);
+            this.statusTemperatureSelect = parseFloat(driverObj.temperatureSelect / 10.0).toFixed(1);
             this.statusOADamper = driverObj.oaDamper;
         }
 
@@ -119,7 +119,7 @@
             status.add(this, "statusEffectiveSetpoint").name("Effective Setpoint (°C)").listen();
             status.add(this, "statusHeatCool").name("Regulation Mode").listen();
             status.add(this, "statusHoldOff").name("Open Window").listen();
-            status.add(this, "statusTemperatureSelect").name("Selected Temperature (in °C)").listen();
+            status.add(this, "statusTemperatureSelect").name("Selected Temperature (°C)").listen();
             return status;
         }
     };
@@ -202,9 +202,9 @@
             status.add(this, "statusSetpointUnoccHeat").name("Setpoint Unocc. Heat").listen();
             status.add(this, "statusSetpointStdbyHeat").name("Setpoint Standby Heat").listen();
             status.add(this, "statusSetpointStdbyCool").name("Setpoint Standby Cool").listen();
-            status.add(this, "statusSpaceCO2").name("Space CO2 (in ppm)").listen();
-            status.add(this, "statusSpaceCOV").name("Space COV (in ppm)").listen();
-            status.add(this, "statusSpaceTemp").name("Space Temperature (in °C)").listen();
+            status.add(this, "statusSpaceCO2").name("Space CO2 (ppm)").listen();
+            status.add(this, "statusSpaceCOV").name("Space COV (ppm)").listen();
+            status.add(this, "statusSpaceTemp").name("Space Temperature (°C)").listen();
             status.add(this, "statusLinePower").name("Line Power (w)").listen();
             status.add(this, "statusSoftwareVersion").name("Software Version").listen();
             status.add(this, "statusSwitchMac").name("Switch Mac address").listen();
