@@ -275,7 +275,7 @@
 
         configElement(gui){
             var driver = this;
-            var url = energieip.weblink + 'config/nano';
+            var url = energieip.weblink + 'config/nanosense';
             var config = gui.addFolder("Nanosense Configuration");
             var name = config.add(this, "configName").name("Name");
             name.onFinishChange(function (value) {
