@@ -1,38 +1,4 @@
 {
-    energieip.UpdateSwitchNameCfg = function (driver) {
-        var url = energieip.weblink + 'config/switch';
-        var data = {
-            "mac": driver.statusMac,
-            "friendlyName": driver.configName,
-        };
-        energieip.SendRequest(
-            "POST", url, data, function(response){
-                alert("success");
-            },
-            function(response){
-                alert("Error" + response["message"]);
-            }
-        );
-    }
-
-    energieip.UpdateSwitchCfg = function (driver) {
-        var url = energieip.weblink + 'config/switch';
-        var data = {
-            "mac": driver.statusMac,
-            "friendlyName": driver.configName,
-            "cluster": parseInt(driver.cluster),
-            "dumpFrequency": parseInt(driver.configDumpFrequency)
-        };
-        energieip.SendRequest(
-            "POST", url, data, function(response){
-                alert("success");
-            },
-            function(response){
-                alert("Error" + response["message"]);
-            }
-        );
-    }
-
     energieip.ResetSwitchCfg = function (driver) {
         var url = energieip.weblink + 'config/switch';
         var data = {
@@ -91,6 +57,24 @@
             this.label = driverObj.driverProperties.ifc.label;
             this._labelElement.innerHTML = "Cable: " + this.label;
             this.statusIp = driverObj.driverProperties.status.ip;
+            this.statusProfil = driverObj.driverProperties.status.profil || "none";
+            this.statusBaes = driverObj.driverProperties.status.stateBaes|| 0;
+            this.statusPuls1 = driverObj.driverProperties.status.statePuls1|| 0;
+            this.statusPuls2 = driverObj.driverProperties.status.statePuls2|| 0;
+            this.statusPuls3 = driverObj.driverProperties.status.statePuls3|| 0;
+            this.statusPuls4 = driverObj.driverProperties.status.statePuls4|| 0;
+            this.statusPuls5 = driverObj.driverProperties.status.statePuls5|| 0;
+
+            this.statusLedsPower = driverObj.driverProperties.status.ledsPower|| 0;
+            this.statusBlindsPower = driverObj.driverProperties.status.blindsPower|| 0;
+            this.statusHvacsPower = driverObj.driverProperties.status.hvacsPower|| 0;
+            this.statusTotalPower = driverObj.driverProperties.status.totalPower|| 0;
+
+            this.statusLedsEnergy = driverObj.driverProperties.status.ledsEnergy|| 0;
+            this.statusBlindsEnergy = driverObj.driverProperties.status.blindsEnergy|| 0;
+            this.statusHvacsEnergy = driverObj.driverProperties.status.hvacsEnergy|| 0;
+            this.statusTotalEnergy = driverObj.driverProperties.status.totalEnergy|| 0;
+
             this.statusIsConfigured = driverObj.driverProperties.status.isConfigured;
             this.statusSoftwareVersion = driverObj.driverProperties.status.softwareVersion|| 0;
             this.statusHardwareVersion = driverObj.driverProperties.status.hardwareVersion ||0;
@@ -225,6 +209,23 @@
             this.statusSoftwareVersion = driverObj.softwareVersion;
             this.statusHardwareVersion = driverObj.hardwareVersion;
             this.statusDumpFrequency = driverObj.dumpFrequency;
+            this.statusProfil = driverObj.profil;
+            this.statusBaes = driverObj.stateBaes;
+            this.statusPuls1 = driverObj.statePuls1;
+            this.statusPuls2 = driverObj.statePuls2;
+            this.statusPuls3 = driverObj.statePuls3;
+            this.statusPuls4 = driverObj.statePuls4;
+            this.statusPuls5 = driverObj.statePuls5;
+
+            this.statusLedsPower = driverObj.ledsPower;
+            this.statusBlindsPower = driverObj.blindsPower;
+            this.statusHvacsPower = driverObj.hvacsPower;
+            this.statusTotalPower = driverObj.totalPower;
+
+            this.statusLedsEnergy = driverObj.ledsEnergy;
+            this.statusBlindsEnergy = driverObj.blindsEnergy;
+            this.statusHvacsEnergy = driverObj.hvacsEnergy;
+            this.statusTotalEnergy = driverObj.totalEnergy;
 
             this.statusCluster = driverObj.cluster;
             this.glyph = this.statusCluster;
@@ -266,10 +267,42 @@
 
         configElement(gui){
             var driver = this;
+            var url = energieip.weblink + 'config/switch';
             var configuration = gui.addFolder("Switch Configuration");
-            configuration.add(this, "configName").name("Name");
-            configuration.add(this, "configDumpFrequency").name("Refresh Frequency (s)");
-            configuration.add({"OK":function(){ energieip.UpdateSwitchCfg(driver); }}, "OK").name("Apply");
+            var name = configuration.add(this, "configName").name("Name");
+            name.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "friendlyName": value
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var freq = configuration.add(this, "configDumpFrequency").name("Refresh Frequency (s)");
+            freq.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "dumpFrequency": parseInt(value)*1000
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
             configuration.open();
         }
     };
@@ -318,12 +351,26 @@
 
         statusElement(gui){
             var status = super.statusElement(gui);
+            status.add(this, "statusProfil").name("Profil").listen();
+            status.add(this, "statusBaes").name("BAES").listen();
+            status.add(this, "statusPuls1").name("Puls 1").listen();
+            status.add(this, "statusPuls2").name("Puls 2").listen();
+            status.add(this, "statusPuls3").name("Puls 3").listen();
+            status.add(this, "statusPuls4").name("Puls 4").listen();
+            status.add(this, "statusPuls5").name("Puls 5+").listen();
+            status.add(this, "statusPuls5").name("Puls 5+").listen();
+            status.add(this, "statusLedsPower").name("LEDs Power (w)").listen();
+            status.add(this, "statusBlindsPower").name("Blinds Power (w)").listen();
+            status.add(this, "statusHvacsPower").name("HVACs Power (w)").listen();
+            status.add(this, "statusTotalPower").name("Total Power (w)").listen();
+            status.add(this, "statusLedsEnergy").name("LEDs Energy (wh)").listen();
+            status.add(this, "statusBlindsEnergy").name("Blinds Energy (wh)").listen();
+            status.add(this, "statusHvacsEnergy").name("HVACs Energy (wh)").listen();
+            status.add(this, "statusTotalEnergy").name("Total Energy (wh)").listen();
             status.add(this, "statusError").name("Error Status").listen();
             status.add(this, "label").name("Cable").listen();
             status.add(this, "statusIp").name("IP").listen();
             status.add(this, "statusMac").name("Mac address").listen();
-            status.add(this, "statusSoftwareVersion").name("Software Version").listen();
-            status.add(this, "statusHardwareVersion").name("Hardware Version").listen();
             status.add(this, "statusDumpFrequency").name("Refresh Frequency (s)").listen();
             status.open();
         }
