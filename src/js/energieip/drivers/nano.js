@@ -30,10 +30,10 @@
             this._label.appendChild(this._covElement);
             this._label.appendChild(this._groupElement);
 
-            this.statusTemperature = driverObj.driverProperties.status.temperature / 10; //value in 1/10 °C
-            this.statusHygrometry = driverObj.driverProperties.status.hygrometry / 10; //value in 1/10 %
-            this.statusCO2 = driverObj.driverProperties.status.co2 / 10;
-            this.statusCOV = driverObj.driverProperties.status.cov / 10;
+            this.statusTemperature = parseFloat(driverObj.driverProperties.status.temperature / 10).toFixed(1); //value in 1/10 °C
+            this.statusHygrometry = parseFloat(driverObj.driverProperties.status.hygrometry / 10).toFixed(1); //value in 1/10 %
+            this.statusCO2 = parseFloat(driverObj.driverProperties.status.co2 / 10).toFixed(1);
+            this.statusCOV = parseFloat(driverObj.driverProperties.status.cov / 10).toFixed(1);
             this.statusCluster = driverObj.driverProperties.status.cluster||0;
 
             var update = function () {
@@ -94,25 +94,6 @@
             return this._status_co2;
         }
 
-        set statusIp(val) {
-            if (this._status_ip === val) {
-                return;
-            }
-            this._status_ip = val || "";
-            return;
-            if (this._status_ip === "") {
-                this._spot.className = this.not_available_color;
-            } else {
-                this._spot.className = this.default_color;
-            }
-            this._ipElement.innerHTML = "IP: " +  this._status_ip;
-            this.fire("ip", this);
-        }
-
-        get statusIp() {
-            return this._status_ip;
-        }
-
         set statusIsConfigured(val) {
             val = true;
             if (this._status_isConfigured === val) {
@@ -131,13 +112,12 @@
             return this._status_isConfigured;
         }
 
-
         updateEvent(driverObj) {
             super.updateEvent(driverObj);
-            this.statusTemperature = driverObj.temperature / 10; //value in 1/10 °C
-            this.statusHygrometry = driverObj.hygrometry / 10; //value in 1/10 %
-            this.statusCO2 = driverObj.co2 / 10; //value in 1/10 ppm
-            this.statusCOV = driverObj.cov / 10; //value in 1/10 ppm
+            this.statusTemperature = parseFloat(driverObj.temperature / 10).toFixed(1); //value in 1/10 °C
+            this.statusHygrometry = parseFloat(driverObj.hygrometry / 10).toFixed(1); //value in 1/10 %
+            this.statusCO2 = parseFloat(driverObj.co2 / 10).toFixed(1); //value in 1/10 ppm
+            this.statusCOV = parseFloat(driverObj.cov / 10).toFixed(1); //value in 1/10 ppm
             this.statusCluster = driverObj.cluster;
         }
 
@@ -155,7 +135,7 @@
             status.add(this, "statusName").name("Name").listen();
             status.add(this, "statusTemperature").name("Temperature (°C)").listen();
             status.add(this, "statusCOV").name("COV (ppm)").listen();
-            status.add(this, "statusCO2").name("co2 (ppm)").listen();
+            status.add(this, "statusCO2").name("CO2 (ppm)").listen();
             status.add(this, "statusHygrometry", 0, 100).name("Hygrometry (%)").listen();
             status.add(this, "statusGroup").name("Group").listen();
             return status;
