@@ -32,6 +32,7 @@
             this._setpointElement = document.createElement('div');
             this._setpointElement.className = "xeogl-annotation-group";
             this.controlTemp = 0;
+            this.configHeatCool = 0;
 
             this.statusLinePower = driverObj.driverProperties.status.linePower || 0;
             this.statusCoolOutput = driverObj.driverProperties.status.coolOutput1 || 0;
@@ -149,11 +150,27 @@
         }
 
         controlElement(gui){
-            if (gui != null){
-                document.getElementById('dat-gui-container').removeChild(gui.domElement);
-                gui.destroy();
-                window.gui = null;
-            }
+            var url = energieip.weblink + 'command/hvac';
+            var driver = this;
+            var controlDr = gui.addFolder("HVAC Control");
+            var temp = controlDr.add(this, "controlTemp", -1.5,  1.5).step(0.5).name("Temperature Shift (°C)");
+            temp.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "shiftTemp": parseFloat(value) *10
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            controlDr.open();
         }
 
         configElement(gui){
@@ -280,6 +297,24 @@
                     "mac": driver.statusMac,
                     "label": driver.label,
                     "friendlyName": value,
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+
+            var heatCool = config.add(this, "configHeatCool", { Heat: 1, Cool: 3, Off: 6 }).name("Regulation mode");
+            heatCool.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "heatCool": parseInt(value),
                 };
 
                 energieip.SendRequest(
