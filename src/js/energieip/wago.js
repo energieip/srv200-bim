@@ -93,6 +93,11 @@
             this.statusIsConfigured = driverObj.driverProperties.status.isConfigured;
             this.statusSoftwareVersion = driverObj.driverProperties.status.softwareVersion|| 0;
 
+            this.statusProg = {}
+            for (var i in driverObj.driverProperties.status.cronJobs){
+                this.statusProg[driverObj.driverProperties.status.cronJobs[i].action] = driverObj.driverProperties.status.cronJobs[i].status;
+            }
+
             this.configName = this.statusName;
             this.configCluster = this.statusCluster;
 
@@ -221,6 +226,10 @@
             this.statusSoftwareVersion = driverObj.softwareVersion;
 
             this.statusCluster = driverObj.cluster;
+            this.statusProg = {}
+            for (var i in driverObj.cronJobs){
+                this.statusProg[driverObj.cronJobs[i].action] = driverObj.cronJobs[i].status;
+            }
             this.glyph = this.statusCluster;
         }
 
@@ -311,6 +320,9 @@
 
         statusElement(gui){
             var status = super.statusElement(gui);
+            for (var k in this.statusProg){
+                status.add(this.statusProg, k).name(k).listen();
+            }
             status.add(this, "statusError").name("Error Status").listen();
             status.add(this, "label").name("Cable").listen();
             status.add(this, "statusIp").name("IP").listen();
