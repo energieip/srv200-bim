@@ -11,26 +11,19 @@ function CreateView(map){
     var camera = window.scene.camera;
     var input = window.scene.input;
 
-    var buf = [];
+    var buf = {};
 
     // Logs text to the page
-    function log(event, params) {
-
-        var txt = event;
-        if (params) {
-            txt += ": " + JSON.stringify(params)
+    function log(action, mac, params) {
+        if (action  ===  "remove") {
+            if (mac in buf) {
+                delete buf[mac];
+            }
+        } else {
+            buf[mac] = params;
         }
-
-        if (buf.indexOf(txt) >= 0) {
-            return
-        }
-
-        buf.push(txt);
-
-        if (buf.length > 30) {
-            buf.shift();
-        }
-        document.getElementById("log").innerText = buf.join("\n");
+      
+        document.getElementById("log").innerText = Object.values(buf).join("\n");
     }
 
     function repartitionning() {
@@ -320,7 +313,7 @@ function CreateView(map){
                             if (window.mode === true){
                                 if (elt.label === ""){
                                     var msg = type + ": " + elt[type].friendlyName + " (IP: " + elt[type].ip + ", MAC: "+ elt[type].mac+ " ) appears but not referenced";
-                                    log(msg);
+                                    log(i, elt[type].mac, msg);
                                 }
                             }
                         }
