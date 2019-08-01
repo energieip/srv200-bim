@@ -115,6 +115,35 @@ function pollUpload(){
     });
 }
 
+function pollExportDbDownload(){
+    $.ajax({
+        type: "GET",
+        url: energieip.weblink + "maintenance/exportDB",
+        cache: false,
+        crossDomain: true,
+        responseType: "blob",
+        xhrFields: {
+            withCredentials: true
+        },
+        statusCode: {
+            200: function (response, textStatus, request) {
+                window.location.href = energieip.weblink + "maintenance/exportDB";
+                setBusy(false);
+            },
+            201: function (response) {
+                setTimeout(pollExportDbDownload, 2000);
+            },
+            401: function (response) {
+                window.location.href = energieip.loginPage;
+            },
+            500: function(response){
+                alert('file not downloaded');
+                setBusy(false);
+            }
+        },
+    });
+}
+
 function displayDashboard(priviledge) {
     CreateButton("Logout", "images/logout.png", "top", "right", function () {
         window.location.href = 'logout.html';
@@ -137,8 +166,13 @@ function displayDashboard(priviledge) {
             window.location.href = energieip.weblink + "install/status";
         });
 
-        CreateButton("Installation Status", "images/download-pdf.png", "dash",  "left", function () {
+        CreateButton("Cable stickers", "images/download-pdf.png", "dash",  "left", function () {
             window.location.href = energieip.weblink + "install/stickers";
+        });
+
+        CreateButton("Export Database", "images/export-db.jpg", "dash",  "left", function () {
+            setBusy(true);
+            pollExportDbDownload();
         });
 
         $("#uploadForm").submit(function( event ) {
