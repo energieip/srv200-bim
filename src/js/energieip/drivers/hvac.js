@@ -51,6 +51,7 @@
             this.statusSpaceCOV = parseFloat(driverObj.driverProperties.status.spaceCOV / 10.0 || 0).toFixed(1);
             this.statusSpaceTemp = parseFloat(driverObj.driverProperties.status.spaceTemp1 / 10.0 || 0).toFixed(1);
             this.statusTemperatureSelect = parseFloat(driverObj.driverProperties.status.temperatureSelect / 10.0 || 0).toFixed(1);
+            this.statusSpaceHygro = parseFloat(driverObj.driverProperties.status.spaceHygro / 10.0 || 0).toFixed(1);
             this.statusOADamper = driverObj.driverProperties.status.oaDamper || 0;
 
             this._label.appendChild(this._groupElement);
@@ -220,7 +221,8 @@
             status.add(this, "statusSetpointStdbyHeat").name("Setpoint Standby Heat").listen();
             status.add(this, "statusSetpointStdbyCool").name("Setpoint Standby Cool").listen();
             status.add(this, "statusSpaceCO2").name("Space CO2 (ppm)").listen();
-            status.add(this, "statusSpaceCOV").name("Space COV (ppm)").listen();
+            status.add(this, "statusSpaceHygro").name("Space Hygro.").listen();
+            // status.add(this, "statusSpaceCOV").name("Space COV (ppm)").listen();
             status.add(this, "statusSpaceTemp").name("Space Temperature (°C)").listen();
             status.add(this, "statusLinePower").name("Line Power (w)").listen();
             status.add(this, "statusSoftwareVersion").name("Software Version").listen();
