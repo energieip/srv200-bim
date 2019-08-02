@@ -50,6 +50,7 @@
             this.controlSlat1 = 0;
             this.controlSlat2 = 0;
             this.controlBleMode = "remote";
+            this.controlPtmMac = "";
             this.controlBleUUID = "";
             this.controlBleTxPower = "0";
             this.controlBleMajor = "0";
@@ -236,6 +237,7 @@
             status.add(this, "label").name("Cable").listen();
             status.add(this, "statusBle").name("BLE").listen();
             status.add(this, "statusBleMode").name("BLE Mode").listen();
+            status.add(this, "statusPtmMac").name("Switch Power Mac").listen();
             status.add(this, "statusIBeaconUUID").name("iBeacon UUID").listen();
             status.add(this, "statusIBeaconMajor").name("iBeacon Major").listen();
             status.add(this, "statusIBeaconMinor").name("iBeacon Minor").listen();
@@ -426,6 +428,23 @@
                     "mac": driver.statusMac,
                     "label": driver.label,
                     "bleMode": value
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var ptmMac = config.add(this, "controlPtmMac").name("Switch Power Mac");
+            ptmMac.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "ptmMac": value.toString()
                 };
 
                 energieip.SendRequest(

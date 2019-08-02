@@ -41,6 +41,7 @@
             this.statusIp = driverObj.driverProperties.status.ip||"";
             this.statusBle = driverObj.driverProperties.status.isBleEnabled||false;
             this.statusBleMode = driverObj.driverProperties.status.bleMode || "";
+            this.statusPtmMac = driverObj.driverProperties.status.ptmMac || "";
             this.statusIBeaconUUID = driverObj.driverProperties.status.iBeaconUUID || "";
             this.statusIBeaconMajor = driverObj.driverProperties.status.iBeaconMajor || 0;
             this.statusIBeaconMinor = driverObj.driverProperties.status.iBeaconMinor || 0;
@@ -333,6 +334,7 @@
             this.statusError = driverObj.error;
             this.statusBle = driverObj.isBleEnabled;
             this.statusBleMode = driverObj.bleMode || "";
+            this.statusPtmMac = driverObj.ptmMac || "";
             this.statusIBeaconUUID = driverObj.iBeaconUUID || "";
             this.statusIBeaconMajor = driverObj.iBeaconMajor || 0;
             this.statusIBeaconMinor = driverObj.iBeaconMinor || 0;
@@ -358,6 +360,7 @@
             this.statusError = 0;
             this.statusBle = false;
             this.statusBleMode = "";
+            this.statusPtmMac = "";
             this.statusIBeaconUUID = "";
             this.statusIBeaconMajor = 0;
             this.statusIBeaconMinor = 0;
