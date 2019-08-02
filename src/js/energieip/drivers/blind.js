@@ -444,7 +444,7 @@
                 var data = {
                     "mac": driver.statusMac,
                     "label": driver.label,
-                    "ptmMac": value.toString()
+                    "mac_ptm": value.toString()
                 };
 
                 energieip.SendRequest(
