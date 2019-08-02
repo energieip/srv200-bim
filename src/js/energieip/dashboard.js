@@ -27,12 +27,16 @@ function CreateButton(name, img, elt, pos, action){
 }
 
 var modal = document.getElementById('id01');
+var importDBBt = document.getElementById('importDB');
 var spinner = document.getElementById('spinner');
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
+    }
+    if (event.target == importDBBt) {
+        importDBBt.style.display = "none";
     }
 }
 
@@ -115,6 +119,46 @@ function pollUpload(){
     });
 }
 
+function pollImportDB(){
+    $.ajax({
+        type: "GET",
+        url: energieip.weblink + "maintenance/importDB/status",
+        cache: false,
+        credentials: 'include',
+        dataType: 'json',
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+        },
+        statusCode: {
+            200: function (response) {
+                switch (response["status"]){
+                    case "running":
+                        setTimeout(pollImportDB, 2000);
+                        break;
+                    case "none":
+                        break;
+                    case "success":
+                        setBusy(false);
+                        alert("Database successfuly imported")
+                        break;
+                    case "failure":
+                        setBusy(false);
+                        alert("Error during file post-analysis")
+                        break;
+                }
+            },
+            401: function (response) {
+                window.location.href = energieip.loginPage;
+            },
+            500: function(response){
+                alert('file not uploaded');
+                setBusy(false);
+            }
+        },
+    });
+}
+
 function pollExportDbDownload(){
     $.ajax({
         type: "GET",
@@ -175,6 +219,10 @@ function displayDashboard(priviledge) {
             pollExportDbDownload();
         });
 
+        CreateButton("Import Dabatase", "images/import-db.jpg", "dash",  "left", function () {
+            importDBBt.style.display='block'
+         });
+
         $("#uploadForm").submit(function( event ) {
             modal.style.display = "none";
             setBusy(true);
@@ -201,6 +249,44 @@ function displayDashboard(priviledge) {
                 statusCode: {
                     200: function (response) {
                         pollUpload();
+                    },
+                    401: function (response) {
+                        window.location.href = energieip.loginPage;
+                    },
+                    500: function(response){
+                        alert('file not uploaded');
+                        setBusy(false);
+                    }
+                },
+            });
+        });
+
+        $("#importDBForm").submit(function( event ) {
+            importDBBt.style.display = "none";
+            setBusy(true);
+            // Stop form from submitting normally
+            event.preventDefault();
+
+            var fd = new FormData();
+            var files = $('#fileDB')[0].files[0];
+            fd.append('file',files);
+
+            $.ajax({
+                type: "POST",
+                url: energieip.weblink + "maintenance/importDB",
+                cache: false,
+                credentials: 'include',
+                data: fd,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                crossDomain: true,
+                xhrFields: {
+                    withCredentials: true
+               },
+                statusCode: {
+                    200: function (response) {
+                        pollImportDB();
                     },
                     401: function (response) {
                         window.location.href = energieip.loginPage;
