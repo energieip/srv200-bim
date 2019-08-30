@@ -39,6 +39,8 @@ footer{
     display: -ms-flex;
     display: flex;
     border-bottom: solid 5px #6CC24A;   /* line under header */
+    color: black;
+    font-family: "Roboto Slab", serif;
     padding: 1em 0 1em 0;
     position: relative;
 }

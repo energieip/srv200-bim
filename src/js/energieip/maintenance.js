@@ -14,22 +14,37 @@ function CreateButton(name, img, elt, pos, action){
     placeHolder.appendChild(btn);
 }
 
+function CreateText(content, elt, pos){
+    lbl = document.createElement("p");
+    lbl.innerHTML = content;
+    lbl.id = "title";
+    lbl.visibility = "visible";
+    if (pos != null){
+        lbl.style.float = pos;
+    }
+    placeHolder = document.getElementById(elt);
+    placeHolder.appendChild(lbl);
+}
+
 CreateButton("Logout", "images/logout.png", "top", "right", function () {
     window.location.href = 'logout.html';
 });
 
-if (Object.keys(window.maps).length > 1){
-    CreateButton("Previous", "images/prev.png", "top", null, function () {
-        SwapMap(prev=true, null);
-    });
-    CreateButton("Next", "images/next.png", "top", null, function () {
-        SwapMap(null, next=true);
-    });
-}
-
 CreateButton("Dashboard", "images/home.jpeg", "top", "left", function () {
     window.location.href = 'dashboard.html';
 });
+
+if (Object.keys(window.maps).length > 1){
+    CreateButton("Previous", "images/prev.png", "top", "left", function () {
+        SwapMap(prev=true, null);
+    });
+}
+CreateText("", "top", "left");
+if (Object.keys(window.maps).length > 1){
+    CreateButton("Next", "images/next.png", "top", "left", function () {
+        SwapMap(null, next=true);
+    });
+}
 
 CreateButton("Status", "images/magnifier-icon.png", "bottom", null, function () {
     Display("status");

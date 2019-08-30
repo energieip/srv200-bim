@@ -127,6 +127,10 @@ function CreateView(map){
     // Load the model
     //---------------------------------------------------
 
+    var title = document.getElementById("title");
+    if (title != null){
+        title.innerHTML = map["name"];
+    }
     window.model = new xeogl.GLTFModel({
         id: "map",
         src: map["filepath"],
