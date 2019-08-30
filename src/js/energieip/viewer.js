@@ -139,7 +139,7 @@ function CreateView(map){
         //  rotation: [90, 0, 0],
         
         // scale: [2, 2, 2],
-        position: [0, 0, -200],
+        // position: [0, 0, -200],
         handleNode: (function() {
             return function (nodeInfo, actions) {
                 if (nodeInfo.name && nodeInfo.mesh !== undefined) {
@@ -174,9 +174,9 @@ function CreateView(map){
     // Camera
     //-----------------------------------------------------------------------------------------------------
 
-    // camera.eye = [0, 0, 0];
-    // camera.look = [0,0,0];
-    // camera.up = [0,1,0];
+    camera.eye = [0, 0, 125];
+    camera.look = [0, -100, 0];
+    camera.up = [0,1,0];
 
     window.model.on("loaded", function () {
         window.scene.on("tick", function () { // Slowly orbit the camera
@@ -350,6 +350,7 @@ function CreateView(map){
     var cameraControl = new xeogl.CameraControl({
     //        panToPointer: true,
     //        pivoting: true
+            firstPerson: true,
     });
 
     var cameraFlight = new xeogl.CameraFlightAnimation();
