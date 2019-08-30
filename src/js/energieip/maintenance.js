@@ -76,7 +76,17 @@ CreateButton("Ifc", "images/info.png", "bottom", null, function () {
 
 $(document).ready(function() {
     if ($.cookie(energieip.accessToken)!= null) {
-        CreateView(window.maps[window.index.toString()]);
+        var entrance = window.index.toString();
+        if (Object.keys(window.maps).length > 1){
+            for (var storey in window.maps){
+                var map = window.maps[storey];
+                if (map["default"] == true){
+                    entrance = storey;
+                    window.index = parseInt(storey);
+                }
+            }
+        }
+        CreateView(window.maps[entrance]);
     } else {
         window.location.href = energieip.loginPage;
     }
