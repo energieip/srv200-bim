@@ -144,19 +144,68 @@ function CreateView(map){
             return function (nodeInfo, actions) {
                 if (nodeInfo.name && nodeInfo.mesh !== undefined) {
                     var label = nodeInfo.name;
-                    if (label.indexOf("mobilier") !== -1 || label.indexOf("MOBILIER") !== -1) {
+                    var upperLabel = label.toUpperCase();
+                    if (upperLabel.indexOf("MOBILIER") !== -1) {
                         return true
                     }
-                    if (label.indexOf("MUR") !== -1) {
+                    if (upperLabel.indexOf("MUR") !== -1) {
                         return true
                     }
-                    if (label.indexOf("DALLE") !== -1) {
+                    if (upperLabel.indexOf("ARC") !== -1) {
                         return true
                     }
-                    if (label.indexOf("POTEAU") !== -1) {
+                    if (upperLabel.indexOf("ESCALIER") !== -1) {
                         return true
                     }
-                    if (label.indexOf("FENETRE") !== -1) {
+                    if (upperLabel.indexOf("DALLE") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("POTEAU") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("FENETRE") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("PLAFOND") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("PORTE") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("PANNEAU") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("CHASSIS") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("INT") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("COULISSANTE") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("U-FERS") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("HEB") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("EG") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("CTA") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("GROUPE") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("EBA") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("STRUCTURE") !== -1) {
+                        return true
+                    }
+                    if (upperLabel.indexOf("PROFIL") !== -1) {
                         return true
                     }
                     labels += label + ",";
@@ -174,7 +223,7 @@ function CreateView(map){
     // Camera
     //-----------------------------------------------------------------------------------------------------
 
-    camera.eye = [0, 0, 125];
+    camera.eye = [0, 0, 175];
     camera.look = [0, -100, 0];
     camera.up = [0,1,0];
 
