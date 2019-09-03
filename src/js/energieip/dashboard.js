@@ -210,6 +210,10 @@ function displayDashboard(priviledge) {
             window.location.href = energieip.weblink + "install/status";
         });
 
+        CreateButton("Modbus Table", "images/modbus.png", "dash",  "left", function () {
+            window.location.href = energieip.weblink + "install/modbusTable";
+        });
+
         CreateButton("Cable stickers", "images/download-pdf.png", "dash",  "left", function () {
             window.location.href = energieip.weblink + "install/stickers";
         });
