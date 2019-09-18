@@ -205,6 +205,9 @@ function CreateView(map){
                     if (upperLabel.indexOf("STRUCTURE") !== -1) {
                         return true
                     }
+                    if (upperLabel.indexOf("OUTPUT") !== -1) {
+                        return true
+                    }
                     if (upperLabel.indexOf("PROFIL") !== -1) {
                         return true
                     }
