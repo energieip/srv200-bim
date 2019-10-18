@@ -36,6 +36,14 @@
             this.statusCOV = parseFloat(driverObj.driverProperties.status.cov / 10).toFixed(1);
             this.statusCluster = driverObj.driverProperties.status.cluster||0;
 
+            if (this.statusMac === "") {
+                this._spot.className = this.not_available_color;
+            } else {
+                if (this.statusError != 0) {
+                    this._spot.className = this.error_color;
+                }
+            }
+
             var update = function () {
                 requestAnimationFrame(update);
             };
