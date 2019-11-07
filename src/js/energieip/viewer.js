@@ -371,7 +371,7 @@ function CreateView(map){
                         } else {
                             if (window.mode === true){
                                 if (elt.label === ""){
-                                    var msg = type + ": " + elt[type].friendlyName + " (IP: " + elt[type].ip + ", MAC: "+ elt[type].mac+ " ) appears but not referenced";
+                                    var msg = type + " ( MAC: "+ elt[type].mac+ " ) not referenced";
                                     log(i, elt[type].mac, msg);
                                 }
                             }

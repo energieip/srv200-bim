@@ -52,6 +52,7 @@
             this.statusHumidity = driverObj.driverProperties.status.humidity / 10;
 
             this.statusBrightnessCorrectionFactor = driverObj.driverProperties.status.brightnessCorrectionFactor;
+            this.statusBrightnessCorrectionOffset = driverObj.driverProperties.status.brightnessCorrectionOffset;
             this.statusBrightnessRaw = driverObj.driverProperties.status.brightnessRaw;
             this.statusTemperatureOffset = driverObj.driverProperties.status.temperatureOffset / 10; //value in 1/10 °C
             this.statusTemperatureRaw = driverObj.driverProperties.status.temperatureRaw / 10; //value in 1/10 °C
@@ -59,6 +60,7 @@
             this.statusLastMovement = driverObj.driverProperties.status.lastMovement;
 
             this.configBrightnessCorrectionFactor = this.statusBrightnessCorrectionFactor;
+            this.configBrightnessCorrectionOffset = this.statusBrightnessCorrectionOffset;
             this.configThresholdPresence = this.statusThresholdPresence;
             this.configTemperatureOffset = this.statusTemperatureOffset;
 
@@ -145,6 +147,7 @@
             this.statusPresence = driverObj.presence;
             this.statusHumidity = driverObj.humidity / 10;
             this.statusBrightnessCorrectionFactor = driverObj.brightnessCorrectionFactor;
+            this.statusBrightnessCorrectionOffset = driverObj.brightnessCorrectionOffset;
             this.statusBrightnessRaw = driverObj.brightnessRaw;
             this.statusTemperatureOffset = driverObj.temperatureOffset / 10; //value in 1/10 °C
             this.statusTemperatureRaw = driverObj.temperatureRaw / 10; //value in 1/10 °C
@@ -158,7 +161,8 @@
             this.statusBrightness = 0;
             this.statusPresence = false;
             this.statusHumidity = 0;
-            this.statusBrightnessCorrectionFactor = 0;
+            this.statusBrightnessCorrectionFactor = 0.0;
+            this.statusBrightnessCorrectionOffset = 0.0;
             this.statusBrightnessRaw = 0;
             this.statusTemperatureOffset = 0;
             this.statusTemperatureRaw = 0;
@@ -255,7 +259,8 @@
             status.add(this, "statusIsConfigured").name("Ready").listen();
             status.add(this, "statusIp").name("IP").listen();
             status.add(this, "statusMac").name("Mac address").listen();
-            status.add(this, "statusBrightnessCorrectionFactor").name("Brightness Correction (x)").listen();
+            status.add(this, "statusBrightnessCorrectionFactor").name("Brightness Correct. Factor").listen();
+            status.add(this, "statusBrightnessCorrectionOffset").name("Brightness Correct. Offset").listen();
             status.add(this, "statusBrightnessRaw").name("Brightness Raw (Lux)").listen();
             status.add(this, "statusTemperatureOffset").name("Temperature Offset (°C)").listen();
             status.add(this, "statusTemperatureRaw").name("Temperature Raw (°C)").listen();
@@ -486,12 +491,29 @@
                     }
                 );
             });
-            var corr = config.add(this, "configBrightnessCorrectionFactor").name("Brightness Correction (x)");
+            var corr = config.add(this, "configBrightnessCorrectionFactor").name("Brightness Correct. Factor");
             corr.onFinishChange(function (value) {
                 var data = {
                     "mac": driver.statusMac,
                     "label": driver.label,
-                    "brightnessCorrectionFactor": parseInt(value)
+                    "brightnessCorrectionFactor": parseFloat(value)
+                };
+
+                energieip.SendRequest(
+                    "POST", url, data, function(response){
+                        alert("success");
+                    },
+                    function(response){
+                        alert("Error" + response["message"]);
+                    }
+                );
+            });
+            var corrOff = config.add(this, "configBrightnessCorrectionOffset").name("Brightness Correct. Offset");
+            corrOff.onFinishChange(function (value) {
+                var data = {
+                    "mac": driver.statusMac,
+                    "label": driver.label,
+                    "brightnessCorrectionOffset": parseFloat(value)
                 };
 
                 energieip.SendRequest(
