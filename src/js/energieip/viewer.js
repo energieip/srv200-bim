@@ -1,6 +1,11 @@
 function CreateView(map){
     var labels = '';
 
+    if (window.requestDump != null){
+        window.requestDump.abort();
+        window.requestDump = null;
+    }
+
     window.scene = new xeogl.Scene({
         canvas: "myCanvas",
         transparent: true
@@ -236,113 +241,113 @@ function CreateView(map){
         });
         if (labels != "") {
             labels = labels.substring(0, labels.length - 1);
+            window.requestDump = energieip.GetIfcDump(labels, function (ifcDrivers, groups){
+                for (var lbl in window.model.meshes){
+                    var parse = lbl.split(".");
+                    parse.splice(0, 0);
+                    var label = parse[0];
+                    if (window.drivers.hasOwnProperty(label)){
+                        continue
+                    }
+                    if (ifcDrivers.hasOwnProperty(label)){
+                        var mesh = window.model.meshes[lbl];
+                        var ifcModel = ifcDrivers[label];
+                        var grStatus = {};
+            
+                        var driver = null;
+                        var content = {
+                            label: label,
+                            mesh: mesh,
+                            occludable: false,
+                            title: "",
+                            desc: "",
+                            driverProperties: ifcModel,
+                            pinShown: true,
+                            labelShown: false
+                        };
+                        if ((ifcModel["ifc"].deviceType === energieip.switchDevice) || (ifcModel["ifc"].deviceType === energieip.wagoDevice)){
+                            var cluster = ifcModel["status"].cluster || 0;
+                            if (cluster === 0){
+                                cluster = ifcModel["config"].cluster || 0;
+                            }
+                            content.glyph = cluster.toString();
+                        } else {
+                            var groupID = ifcModel["status"].group || 0;
+                            if (groupID === 0){
+                                groupID = ifcModel["config"].group || 0;
+                            }
+                            if (groups.hasOwnProperty(groupID)){
+                                if (groups[groupID]["status"].group === groupID){
+                                    grStatus = groups[groupID]["status"];
+                                } else{
+                                    grStatus = groups[groupID]["config"];
+                                }
+                            }
+                            content.glyph = groupID.toString();
+                            content.groupProperties = grStatus;
+                        }
+                        switch (ifcModel["ifc"].deviceType) {
+                            case energieip.sensorDriver:
+                                if (window.mode === true) {
+                                    var driver = new energieip.SensorMaintenance(content);
+                                } else {
+                                    var driver = new energieip.SensorSupervision(content);
+                                }
+                                break;
+                            case energieip.ledDriver:
+                                if (window.mode === true) {
+                                    var driver = new energieip.LedMaintenance(content);
+                                } else {
+                                    var driver = new energieip.LedSupervision(content);
+                                }
+                                break;
+                            case energieip.blindDriver:
+                                if (window.mode === true) {
+                                    var driver = new energieip.BlindMaintenance(content);
+                                } else {
+                                    var driver = new energieip.BlindSupervision(content);
+                                }
+                                break;
+                            case energieip.hvacDriver:
+                                if (window.mode === true) {
+                                    var driver = new energieip.HvacMaintenance(content);
+                                } else {
+                                    var driver = new energieip.HvacSupervision(content);
+                                }
+                                break;
+                            case energieip.switchDevice:
+                                if (window.mode === true) {
+                                    var driver = new energieip.SwitchMaintenance(content);
+                                } else {
+                                    var driver = new energieip.SwitchSupervision(content);
+                                }
+                                break;
+                            case energieip.wagoDevice:
+                                if (window.mode === true) {
+                                    var driver = new energieip.WagoMaintenance(content);
+                                } else {
+                                    var driver = new energieip.WagoSupervision(content);
+                                }
+                                break;
+                            case energieip.nanoDriver:
+                                if (window.mode === true) {
+                                    var driver = new energieip.NanosenseMaintenance(content);
+                                } else {
+                                    var driver = new energieip.NanosenseSupervision(content);
+                                }
+                                break;
+                            default:
+                                console.log("Received type", ifcModel["ifc"].deviceType);
+                                break;
+                        }
+                        if (driver != null){
+                            driver.on("pinClicked", flyTo);
+                            window.drivers[label] = driver;
+                        }
+                    }
+                }
+            });
         }
-        energieip.GetIfcDump(labels, function (ifcDrivers, groups){
-            for (var lbl in window.model.meshes){
-                var parse = lbl.split(".");
-                parse.splice(0, 0);
-                var label = parse[0];
-                if (window.drivers.hasOwnProperty(label)){
-                    continue
-                }
-                if (ifcDrivers.hasOwnProperty(label)){
-                    var mesh = window.model.meshes[lbl];
-                    var ifcModel = ifcDrivers[label];
-                    var grStatus = {};
-        
-                    var driver = null;
-                    var content = {
-                        label: label,
-                        mesh: mesh,
-                        occludable: false,
-                        title: "",
-                        desc: "",
-                        driverProperties: ifcModel,
-                        pinShown: true,
-                        labelShown: false
-                    };
-                    if ((ifcModel["ifc"].deviceType === energieip.switchDevice) || (ifcModel["ifc"].deviceType === energieip.wagoDevice)){
-                        var cluster = ifcModel["status"].cluster || 0;
-                        if (cluster === 0){
-                            cluster = ifcModel["config"].cluster || 0;
-                        }
-                        content.glyph = cluster.toString();
-                    } else {
-                        var groupID = ifcModel["status"].group || 0;
-                        if (groupID === 0){
-                            groupID = ifcModel["config"].group || 0;
-                        }
-                        if (groups.hasOwnProperty(groupID)){
-                            if (groups[groupID]["status"].group === groupID){
-                                grStatus = groups[groupID]["status"];
-                            } else{
-                                grStatus = groups[groupID]["config"];
-                            }
-                        }
-                        content.glyph = groupID.toString();
-                        content.groupProperties = grStatus;
-                    }
-                    switch (ifcModel["ifc"].deviceType) {
-                        case energieip.sensorDriver:
-                            if (window.mode === true) {
-                                var driver = new energieip.SensorMaintenance(content);
-                            } else {
-                                var driver = new energieip.SensorSupervision(content);
-                            }
-                            break;
-                        case energieip.ledDriver:
-                            if (window.mode === true) {
-                                var driver = new energieip.LedMaintenance(content);
-                            } else {
-                                var driver = new energieip.LedSupervision(content);
-                            }
-                            break;
-                        case energieip.blindDriver:
-                            if (window.mode === true) {
-                                var driver = new energieip.BlindMaintenance(content);
-                            } else {
-                                var driver = new energieip.BlindSupervision(content);
-                            }
-                            break;
-                        case energieip.hvacDriver:
-                            if (window.mode === true) {
-                                var driver = new energieip.HvacMaintenance(content);
-                            } else {
-                                var driver = new energieip.HvacSupervision(content);
-                            }
-                            break;
-                        case energieip.switchDevice:
-                            if (window.mode === true) {
-                                var driver = new energieip.SwitchMaintenance(content);
-                            } else {
-                                var driver = new energieip.SwitchSupervision(content);
-                            }
-                            break;
-                        case energieip.wagoDevice:
-                            if (window.mode === true) {
-                                var driver = new energieip.WagoMaintenance(content);
-                            } else {
-                                var driver = new energieip.WagoSupervision(content);
-                            }
-                            break;
-                        case energieip.nanoDriver:
-                            if (window.mode === true) {
-                                var driver = new energieip.NanosenseMaintenance(content);
-                            } else {
-                                var driver = new energieip.NanosenseSupervision(content);
-                            }
-                            break;
-                        default:
-                            console.log("Received type", ifcModel["ifc"].deviceType);
-                            break;
-                    }
-                    if (driver != null){
-                        driver.on("pinClicked", flyTo);
-                        window.drivers[label] = driver;
-                    }
-                }
-            }
-        });
 
         energieip.Notifications(function(evt) {
             for (var i  in evt) {
@@ -455,6 +460,7 @@ function Init(maintenance){
     window.scene = null;
     window.model = null;
     window.mode = maintenance;
+    window.requestDump = null;
     $.ajax({
         dataType: "json",
         url: 'maps/maps.json',
