@@ -61,6 +61,40 @@
                     </div>
                 </form>
             </div>
+
+            <div id="commissioning" class="modal">
+                <form id="commissioningForm" class="modal-content animate" method="post" enctype="multipart/form-data">
+                    <div class="imgcontainer">
+                    <span onclick="document.getElementById('commissioning').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    <img src="images/logo_e.png" alt="Avatar" class="avatar">
+                    </div>
+
+                    <div class="container">
+                        <label for="label"><b>Label</b></label>
+                        <input type="text" placeholder="Enter cable label" name="label" required>
+
+                        <label for="typeDisplay"><b>Type</b></label>
+                        <select name="type" id="type">
+                            <option value="LED">LED</option>
+                            <option value="SENSOR">SENSOR</option>
+                            <option value="BLIND">BLIND</option>
+                            <option value="HVAC">HVAC</option>
+                            <option value="SWITCH">SWITCH</option>
+                            <option value="WAGO">WAGO</option>
+                        </select>
+
+                        <label for="mac"><b>Mac address</b></label>
+                        <input type="text" placeholder="Enter Driver Mac address" name="mac" required>
+
+                        <button type="submit">Send</button>
+                    </div>
+
+                    <div class="container" style="background-color:#f1f1f1">
+                        <button type="button" onclick="document.getElementById('commissioning').style.display='none'" class="cancelbtn">Cancel</button>
+                        <button type="submit">Import</button>
+                    </div>
+                </form>
+            </div>
         </div>
         
         <footer id="footer">

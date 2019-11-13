@@ -28,6 +28,7 @@ function CreateButton(name, img, elt, pos, action){
 
 var modal = document.getElementById('id01');
 var importDBBt = document.getElementById('importDB');
+var commissioningBt = document.getElementById('commissioning');
 var spinner = document.getElementById('spinner');
 
 // When the user clicks anywhere outside of the modal, close it
@@ -37,6 +38,9 @@ window.onclick = function(event) {
     }
     if (event.target == importDBBt) {
         importDBBt.style.display = "none";
+    }
+    if (event.target == commissioningBt) {
+        commissioningBt.style.display = "none";
     }
 }
 
@@ -227,6 +231,10 @@ function displayDashboard(priviledge) {
             importDBBt.style.display='block'
          });
 
+        CreateButton("Import Dabatase", "images/add.jpg", "dash",  "left", function () {
+            commissioningBt.style.display='block'
+        });
+
         $("#uploadForm").submit(function( event ) {
             modal.style.display = "none";
             setBusy(true);
@@ -297,6 +305,61 @@ function displayDashboard(priviledge) {
                     },
                     500: function(response){
                         alert('file not uploaded');
+                        setBusy(false);
+                    }
+                },
+            });
+        });
+
+        $("#commissioningForm").submit(function( event ) {
+            commissioningBt.style.display = "none";
+            setBusy(true);
+            // Stop form from submitting normally
+            event.preventDefault();
+
+            var $form = $(this);
+            var label = $form.find("input[name='label']").val();
+            var type = $form.find("select[name='type']").val();
+            var mac = $form.find("input[name='mac']").val();
+
+            var regex = /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/;
+            var valid = regex.test(mac);
+            if (valid != true) {
+                alert("Invalid mac address format: "+ mac);
+                setBusy(false);
+                return;
+            }
+
+            var data = {
+                "label": label,
+                "device": type,
+                "fullMac": mac
+            };
+
+            $.ajax({
+                type: "POST",
+                url: energieip.weblink + "commissioning/install",
+                cache: false,
+                credentials: 'include',
+                data: JSON.stringify(data),
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                crossDomain: true,
+                xhrFields: {
+                    withCredentials: true
+               },
+                statusCode: {
+                    200: function (response) {
+                        alert('Success');
+                        setBusy(true);
+                    },
+                    401: function (response) {
+                        window.location.href = energieip.loginPage;
+                    },
+                    500: function(response){
+                        var message = response.responseJSON.message;
+                        alert('Commissioning failure: '+ message);
                         setBusy(false);
                     }
                 },
