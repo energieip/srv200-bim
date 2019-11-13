@@ -29,6 +29,7 @@ function CreateButton(name, img, elt, pos, action){
 var modal = document.getElementById('id01');
 var importDBBt = document.getElementById('importDB');
 var commissioningBt = document.getElementById('commissioning');
+var removeBt = document.getElementById('remove');
 var spinner = document.getElementById('spinner');
 
 // When the user clicks anywhere outside of the modal, close it
@@ -41,6 +42,9 @@ window.onclick = function(event) {
     }
     if (event.target == commissioningBt) {
         commissioningBt.style.display = "none";
+    }
+    if (event.target == removeBt) {
+        removeBt.style.display = "none";
     }
 }
 
@@ -231,8 +235,12 @@ function displayDashboard(priviledge) {
             importDBBt.style.display='block'
          });
 
-        CreateButton("Import Dabatase", "images/add.jpg", "dash",  "left", function () {
+        CreateButton("Commissioning", "images/add.jpg", "dash",  "left", function () {
             commissioningBt.style.display='block'
+        });
+
+        CreateButton("Remove association", "images/remove.png", "dash",  "left", function () {
+            removeBt.style.display='block'
         });
 
         $("#uploadForm").submit(function( event ) {
@@ -366,6 +374,51 @@ function displayDashboard(priviledge) {
             });
         });
 
+        $("#removeForm").submit(function( event ) {
+            removeBt.style.display = "none";
+            setBusy(true);
+            // Stop form from submitting normally
+            event.preventDefault();
+
+            var $form = $(this);
+            var label = $form.find("input[name='label']").val();
+            var type = $form.find("select[name='type']").val();
+
+            var data = {
+                "label": label,
+                "device": type,
+                "fullMac": ""
+            };
+
+            $.ajax({
+                type: "POST",
+                url: energieip.weblink + "commissioning/install",
+                cache: false,
+                credentials: 'include',
+                data: JSON.stringify(data),
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                crossDomain: true,
+                xhrFields: {
+                    withCredentials: true
+               },
+                statusCode: {
+                    200: function (response) {
+                        alert('Success');
+                        setBusy(false);
+                    },
+                    401: function (response) {
+                        window.location.href = energieip.loginPage;
+                    },
+                    500: function(response){
+                        var message = response.responseJSON.message;
+                        alert('Removal failure: '+ message);
+                        setBusy(false);
+                    }
+                },
+            });
+        });
     } else {
         CreateButton("View", "images/magnifier.png", "dash", "left", function () {
             window.location.href = 'supervision.html';
