@@ -352,7 +352,7 @@ function displayDashboard(priviledge) {
                 statusCode: {
                     200: function (response) {
                         alert('Success');
-                        setBusy(true);
+                        setBusy(false);
                     },
                     401: function (response) {
                         window.location.href = energieip.loginPage;
