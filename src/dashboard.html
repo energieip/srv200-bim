@@ -34,6 +34,7 @@
                     </div>
 
                     <div class="container">
+                        <h2>Upload IFC file</h2>
                         Select file : <input type='file' name='file' id='file' class='form-control' ><br>
                     </div>
 
@@ -52,6 +53,7 @@
                     </div>
 
                     <div class="container">
+                        <h2>Database import</h2>
                         Select file : <input type='file' name='file' id='fileDB' class='form-control' ><br>
                     </div>
 
@@ -70,21 +72,28 @@
                     </div>
 
                     <div class="container">
-                        <label for="label"><b>Label</b></label>
-                        <input type="text" placeholder="Enter cable label" name="label" required>
+                        <h2>Commissioning</h2>
+                        <div>
+                            <label for="label"><b>Label</b></label>
+                            <input type="text" placeholder="Enter cable label" name="label" required>
+                        </div>
 
-                        <label for="typeDisplay"><b>Type</b></label>
-                        <select name="type" id="type">
-                            <option value="LED">LED</option>
-                            <option value="SENSOR">SENSOR</option>
-                            <option value="BLIND">BLIND</option>
-                            <option value="HVAC">HVAC</option>
-                            <option value="SWITCH">SWITCH</option>
-                            <option value="WAGO">WAGO</option>
-                        </select>
+                        <div>
+                            <label for="typeDisplay"><b>Type</b></label>
+                            <select name="type" id="type">
+                                <option value="LED">LED</option>
+                                <option value="SENSOR">SENSOR</option>
+                                <option value="BLIND">BLIND</option>
+                                <option value="HVAC">HVAC</option>
+                                <option value="SWITCH">SWITCH</option>
+                                <option value="WAGO">WAGO</option>
+                            </select>
+                        </div>
 
-                        <label for="mac"><b>Mac address</b></label>
-                        <input type="text" placeholder="Enter Driver Mac address" name="mac" required>
+                        <div>
+                            <label for="mac"><b>Mac address</b></label>
+                            <input type="text" placeholder="Enter Driver Mac address" name="mac" required>
+                        </div>
                     </div>
 
                     <div class="container" style="background-color:#f1f1f1">
@@ -102,18 +111,70 @@
                     </div>
 
                     <div class="container">
-                        <label for="label"><b>Label</b></label>
-                        <input type="text" placeholder="Enter cable label" name="label" required>
+                        <h2>Remove driver association</h2>
+                        <div>
+                            <label for="label"><b>Label</b></label>
+                            <input type="text" placeholder="Enter cable label" name="label" required>
+                        </div>
 
-                        <label for="typeDisplay"><b>Type</b></label>
-                        <select name="type" id="type">
-                            <option value="LED">LED</option>
-                            <option value="SENSOR">SENSOR</option>
-                            <option value="BLIND">BLIND</option>
-                            <option value="HVAC">HVAC</option>
-                            <option value="SWITCH">SWITCH</option>
-                            <option value="WAGO">WAGO</option>
-                        </select>
+                        <div>
+                            <label for="typeDisplay"><b>Type</b></label>
+                            <select name="type" id="type">
+                                <option value="LED">LED</option>
+                                <option value="SENSOR">SENSOR</option>
+                                <option value="BLIND">BLIND</option>
+                                <option value="HVAC">HVAC</option>
+                                <option value="SWITCH">SWITCH</option>
+                                <option value="WAGO">WAGO</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="container" style="background-color:#f1f1f1">
+                        <button type="button" onclick="document.getElementById('remove').style.display='none'" class="cancelbtn">Cancel</button>
+                        <button type="submit">Send</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="replace" class="modal">
+                <form id="replaceForm" class="modal-content animate" method="post" enctype="multipart/form-data">
+                    <div class="imgcontainer">
+                    <span onclick="document.getElementById('replace').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    <img src="images/logo_e.png" alt="Avatar" class="avatar">
+                    </div>
+
+                    <div class="container">
+                        <h2>Replace driver</h2>
+                        <div>
+                            <label for="old"><b>Old Mac</b></label>
+                            <input type="text" placeholder="Enter the old driver Mac address" name="old" required>
+
+                            <label for="oldTypeDisplay"><b>Old driver Type</b></label>
+                            <select name="oldType" id="oldType">
+                                <option value="LED">LED</option>
+                                <option value="SENSOR">SENSOR</option>
+                                <option value="BLIND">BLIND</option>
+                                <option value="HVAC">HVAC</option>
+                                <option value="SWITCH">SWITCH</option>
+                                <option value="WAGO">WAGO</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="new"><b>New Mac</b></label>
+                            <input type="text" placeholder="Enter the new driver Mac address" name="new" required>
+
+                            <label for="oldTypeDisplay"><b>New driver Type</b></label>
+                            <select name="newType" id="newType">
+                                <option value="LED">LED</option>
+                                <option value="SENSOR">SENSOR</option>
+                                <option value="BLIND">BLIND</option>
+                                <option value="HVAC">HVAC</option>
+                                <option value="SWITCH">SWITCH</option>
+                                <option value="WAGO">WAGO</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="container" style="background-color:#f1f1f1">

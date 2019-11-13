@@ -30,6 +30,7 @@ var modal = document.getElementById('id01');
 var importDBBt = document.getElementById('importDB');
 var commissioningBt = document.getElementById('commissioning');
 var removeBt = document.getElementById('remove');
+var replaceBt = document.getElementById('replace');
 var spinner = document.getElementById('spinner');
 
 // When the user clicks anywhere outside of the modal, close it
@@ -45,6 +46,9 @@ window.onclick = function(event) {
     }
     if (event.target == removeBt) {
         removeBt.style.display = "none";
+    }
+    if (event.target == replaceBt) {
+        replaceBt.style.display = "none";
     }
 }
 
@@ -226,12 +230,12 @@ function displayDashboard(priviledge) {
             window.location.href = energieip.weblink + "install/stickers";
         });
 
-        CreateButton("Export Database", "images/export-db.jpg", "dash",  "left", function () {
+        CreateButton("Database Export", "images/export-db.jpg", "dash",  "left", function () {
             setBusy(true);
             pollExportDbDownload();
         });
 
-        CreateButton("Import Dabatase", "images/import-db.jpg", "dash",  "left", function () {
+        CreateButton("Dabatase Import", "images/import-db.jpg", "dash",  "left", function () {
             importDBBt.style.display='block'
          });
 
@@ -241,6 +245,10 @@ function displayDashboard(priviledge) {
 
         CreateButton("Remove association", "images/remove.png", "dash",  "left", function () {
             removeBt.style.display='block'
+        });
+
+        CreateButton("Replace driver", "images/replace.png", "dash",  "left", function () {
+            replaceBt.style.display='block'
         });
 
         $("#uploadForm").submit(function( event ) {
@@ -414,6 +422,74 @@ function displayDashboard(priviledge) {
                     500: function(response){
                         var message = response.responseJSON.message;
                         alert('Removal failure: '+ message);
+                        setBusy(false);
+                    }
+                },
+            });
+        });
+
+        $("#replaceForm").submit(function( event ) {
+            replaceBt.style.display = "none";
+            setBusy(true);
+            // Stop form from submitting normally
+            event.preventDefault();
+
+            var $form = $(this);
+            var oldMac = $form.find("input[name='old']").val();
+            var oldType = $form.find("select[name='oldType']").val();
+            var newMac = $form.find("input[name='new']").val();
+            var newType = $form.find("select[name='newType']").val();
+
+            var regex = /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/;
+            var valid = regex.test(oldMac);
+            if (valid != true) {
+                alert("Invalid mac address format: "+ oldMac);
+                setBusy(false);
+                return;
+            }
+
+            var valid = regex.test(newMac);
+            if (valid != true) {
+                alert("Invalid mac address format: "+ newMac);
+                setBusy(false);
+                return;
+            }
+
+            if (newType != oldType){
+                alert("Incompatible driver type");
+                setBusy(false);
+                return;
+            }
+
+            var data = {
+                "oldFullMac": oldMac,
+                "newFullMac": newMac
+            };
+
+            $.ajax({
+                type: "POST",
+                url: energieip.weblink + "maintenance/driver",
+                cache: false,
+                credentials: 'include',
+                data: JSON.stringify(data),
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                crossDomain: true,
+                xhrFields: {
+                    withCredentials: true
+               },
+                statusCode: {
+                    200: function (response) {
+                        alert('Success');
+                        setBusy(false);
+                    },
+                    401: function (response) {
+                        window.location.href = energieip.loginPage;
+                    },
+                    500: function(response){
+                        var message = response.responseJSON.message;
+                        alert('Replace failure: '+ message);
                         setBusy(false);
                     }
                 },
