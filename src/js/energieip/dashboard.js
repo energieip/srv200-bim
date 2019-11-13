@@ -31,6 +31,7 @@ var importDBBt = document.getElementById('importDB');
 var commissioningBt = document.getElementById('commissioning');
 var removeBt = document.getElementById('remove');
 var replaceBt = document.getElementById('replace');
+var qrcodeBt = document.getElementById('qrcode');
 var spinner = document.getElementById('spinner');
 
 // When the user clicks anywhere outside of the modal, close it
@@ -49,6 +50,9 @@ window.onclick = function(event) {
     }
     if (event.target == replaceBt) {
         replaceBt.style.display = "none";
+    }
+    if (event.target == qrcodeBt) {
+        qrcodeBt.style.display = "none";
     }
 }
 
@@ -249,6 +253,10 @@ function displayDashboard(priviledge) {
 
         CreateButton("Replace driver", "images/replace.png", "dash",  "left", function () {
             replaceBt.style.display='block'
+        });
+
+        CreateButton("QRCode driver", "images/qrcode.png", "dash",  "left", function () {
+            qrcodeBt.style.display='block'
         });
 
         $("#uploadForm").submit(function( event ) {
@@ -494,6 +502,28 @@ function displayDashboard(priviledge) {
                     }
                 },
             });
+        });
+
+        $("#qrcodeForm").submit(function( event ) {
+            qrcodeBt.style.display = "none";
+            setBusy(true);
+            // Stop form from submitting normally
+            event.preventDefault();
+
+            var $form = $(this);
+            var mac = $form.find("input[name='mac']").val();
+            var type = $form.find("select[name='type']").val();
+
+            var regex = /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/;
+            var valid = regex.test(mac);
+            setBusy(false);
+            if (valid != true) {
+                alert("Invalid mac address format: "+ mac);
+                return;
+            }
+
+            window.location.href = energieip.weblink + "install/qrcode?mac="+mac+"&device="+type;
+
         });
     } else {
         CreateButton("View", "images/magnifier.png", "dash", "left", function () {

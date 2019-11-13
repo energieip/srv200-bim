@@ -183,6 +183,38 @@
                     </div>
                 </form>
             </div>
+
+            <div id="qrcode" class="modal">
+                <form id="qrcodeForm" class="modal-content animate" method="post" enctype="multipart/form-data">
+                    <div class="imgcontainer">
+                    <span onclick="document.getElementById('qrcode').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    <img src="images/logo_e.png" alt="Avatar" class="avatar">
+                    </div>
+
+                    <div class="container">
+                        <h2>Drive qrcode generator</h2>
+                        <div>
+                            <label for="mac"><b>Mac</b></label>
+                            <input type="text" placeholder="Enter the driver Mac address" name="mac" required>
+
+                            <label for="type"><b>Type</b></label>
+                            <select name="type" id="type">
+                                <option value="LED">LED</option>
+                                <option value="SENSOR">SENSOR</option>
+                                <option value="BLIND">BLIND</option>
+                                <option value="HVAC">HVAC</option>
+                                <option value="SWITCH">SWITCH</option>
+                                <option value="WAGO">WAGO</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="container" style="background-color:#f1f1f1">
+                        <button type="button" onclick="document.getElementById('qrcode').style.display='none'" class="cancelbtn">Cancel</button>
+                        <button type="submit">Send</button>
+                    </div>
+                </form>
+            </div>
         </div>
         
         <footer id="footer">
