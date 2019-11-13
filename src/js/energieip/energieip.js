@@ -42,13 +42,23 @@ energieip.Notifications = function (cbkOnMessage) {
 	ws.onopen = function (event) { console.log("/!\\ Connexion serveur"+ event); }
 
 	ws.onclose = function(evt) {
-		console.log("connection close; reconnect" + evt);
-		energieip.Notifications(cbkOnMessage);
+		if ($.cookie(energieip.accessToken)) {
+			console.log("connection close; reconnect" + evt);
+			energieip.Notifications(cbkOnMessage);
+		} else {
+			console.log("session expired");
+			window.location.href = energieip.loginPage;
+		}
 	};
 
 	ws.onerror = function(event) {
-		console.log("connection on erreur; reconnect :"+ event);
-		energieip.Notifications(cbkOnMessage);
+		if ($.cookie(energieip.accessToken)) {
+			console.log("connection on erreur; reconnect :"+ event);
+			energieip.Notifications(cbkOnMessage);
+		} else {
+			console.log("session expired");
+			window.location.href = energieip.loginPage;
+		}
 	};
 
 }
