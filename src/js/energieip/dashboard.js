@@ -8,6 +8,20 @@ $(document).ready(function() {
     }
 });
 
+function CreateImage(name, img, elt, pos) {
+    logo = document.createElement("img");
+    logo.title = name;
+    logo.src = img;
+    logo.alt = name;
+    if (pos != null){
+        logo.style.float = pos;
+    }
+    if (elt != null){
+        placeHolder = document.getElementById(elt);
+    }
+    placeHolder.appendChild(logo);
+}
+
 
 function CreateButton(name, img, elt, pos, action){
     btn = document.createElement("input");
@@ -205,57 +219,61 @@ function pollExportDbDownload(){
 }
 
 function displayDashboard(priviledge) {
-    CreateButton("Logout", "images/logout.png", "top", "right", function () {
-        window.location.href = 'logout.html';
+    CreateButton("Home", "images/bouton-home.png", "top", "left", function () {
+        window.location.href = 'dashboard.html';
+    });
+    CreateImage("EnergieIP", "images/logo-energieip.png", "top", "center");
+    CreateButton("Logout", "images/bouton-logout.png", "top", "right", function () {
+        window.location.href = 'login.html';
     });
 
     if (['admin', 'maintainer'].includes(priviledge)){
-        CreateButton("Maintenance", "images/toolbox.png", "dash", "left", function () {
+        CreateButton("Maintenance", "images/bouton-maintenance.png", "row1", "left", function () {
             window.location.href = 'maintenance.html';
         });
 
-        CreateButton("Statistics", "images/graph.jpg", "dash", "left", function () {
+        CreateButton("Statistics", "images/bouton-statistics.png", "row1", "left", function () {
             window.location.href = 'statistics.html';
         });
 
-        CreateButton("Upload", "images/upload.png", "dash",  "left", function () {
+        CreateButton("Upload IFC", "images/bouton-upload-ifc.png", "row1",  "left", function () {
            modal.style.display='block'
         });
 
-        CreateButton("Installation Status", "images/download_xlsx.png", "dash",  "left", function () {
+        CreateButton("Installation Status", "images/bouton-installation-status.png", "row1",  "left", function () {
             window.location.href = energieip.weblink + "install/status";
         });
 
-        CreateButton("Modbus Table", "images/modbus.png", "dash",  "left", function () {
+        CreateButton("Modbus Table", "images/bouton-modbus-table.png", "row1",  "left", function () {
             window.location.href = energieip.weblink + "install/modbusTable";
         });
 
-        CreateButton("Cable stickers", "images/download-pdf.png", "dash",  "left", function () {
+        CreateButton("Cable stickers", "images/bouton-cable-stikers.png", "row1",  "left", function () {
             window.location.href = energieip.weblink + "install/stickers";
         });
 
-        CreateButton("Database Export", "images/export-db.jpg", "dash",  "left", function () {
+        CreateButton("Database Export", "images/bouton-export-database.png", "row2",  "left", function () {
             setBusy(true);
             pollExportDbDownload();
         });
 
-        CreateButton("Dabatase Import", "images/import-db.jpg", "dash",  "left", function () {
+        CreateButton("Dabatase Import", "images/bouton-import-database.png", "row2",  "left", function () {
             importDBBt.style.display='block'
          });
 
-        CreateButton("Commissioning", "images/add.jpg", "dash",  "left", function () {
+        CreateButton("Commissioning", "images/bouton-commissioning.png", "row2",  "left", function () {
             commissioningBt.style.display='block'
         });
 
-        CreateButton("Remove association", "images/remove.png", "dash",  "left", function () {
+        CreateButton("Remove association", "images/bouton-remove-association.png", "row2",  "left", function () {
             removeBt.style.display='block'
         });
 
-        CreateButton("Replace driver", "images/replace.png", "dash",  "left", function () {
+        CreateButton("Replace driver", "images/bouton-replace-driver.png", "row2",  "left", function () {
             replaceBt.style.display='block'
         });
 
-        CreateButton("QRCode driver", "images/qrcode.png", "dash",  "left", function () {
+        CreateButton("QRCode driver", "images/bouton-QRcode-driver.png", "row2",  "left", function () {
             qrcodeBt.style.display='block'
         });
 
@@ -526,7 +544,7 @@ function displayDashboard(priviledge) {
 
         });
     } else {
-        CreateButton("View", "images/magnifier.png", "dash", "left", function () {
+        CreateButton("View", "images/bouton-supervision.png", "row1", "left", function () {
             window.location.href = 'supervision.html';
         });
     }

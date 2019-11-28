@@ -1,0 +1,72 @@
+:root {
+    --white-energieip: #FFFFFF;
+    --black-energieip: #000000;
+    --green-energieip: #6CC24A;
+    --fond-energieip: rgba(255, 255, 255, 0.75);
+}
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background-image: url("../images/fond-page-maintenance.png");
+    background-size: cover;  
+    font-family: Tahoma, sans-serif;
+}
+#top {
+    width: 100%;
+    padding-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: var(--fond-energieip);
+}
+.title-maintenance {
+    margin: 0;
+    padding-top: 15px;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    color: var(--green-energieip);
+    background-color: var(--fond-energieip);
+}
+#title {
+    margin: 0;
+    padding-top: 15px;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    color: var(--green-energieip);
+}
+#floor{
+    display: flex;
+    align-items: center;
+    justify-content: space-around; 
+    background-color: var(--fond-energieip);
+}
+#myCanvas{
+    width: 100vw;
+    flex: 1;
+    background-color: var(--white-energieip);
+}
+#controls {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: var(--fond-energieip);
+}
+#controls input[type=image] {
+    padding: 5px;
+    background: var(--white-energieip);
+    border: 2px solid var(--green-energieip);
+    border-radius: 10px;
+}
+#controls input[type=image]:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}

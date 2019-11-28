@@ -1,50 +1,56 @@
-<!DOCTYPE HTML>
-<!--
-	EnergieIP Server SRV200 UI
-	Based on html5up.up @ajlkn Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
-	<head>
-		<title>BMS Server</title>
-		<meta charset="utf-8" />
-		<!-- responsive design -->
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<!-- main css loading -->
-		<link rel="stylesheet" href="css/login.css" />
-	</head>
-	<body  class="is-preload">
+<head>
+	<meta charset="UTF-8">
+	<!-- responsive design -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<!-- edge compatibility -->
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>EnergieIP BMS Interface</title>
+	<!-- main css loading -->
+	<link rel="stylesheet" href="css/login.css">
+	<!-- Scripts defer loading -->
+	<script src="assets/js/jquery.min.js" defer></script>
+	<script src="assets/js/jquery.cookie.js" defer></script>
+	<script src="assets/js/bootstrap.min.js" defer></script>
+	<script src="assets/js/sha256.js" defer></script>
+	<script src="js/energieip/energieip.js" defer></script>
+	<script src="js/energieip/login.js" defer></script>
+</head>
 
-	<h2 class="subtitle">SRV200 BMS server</h2>
-	<div id ="leftSide">
-		<img class="image" src="images/server_face.png" alt="server picture"/>
+<body class="is-preload">
+	
+	<div class="background-login">
+		<div class="container-login">
+			<div class="logo-energieip">
+				<img src="images/logo-energieip.png" alt="EnergieIP">
+			</div>
+			<h2 class="title-login">Login</h2>
+			<form id="loginForm" class="modal" method="POST">
+				<div class="title-username">
+					<img src="images/logo-username.png" alt="Username">
+					<label for="uname">Username</label>
+				</div>
+				<input type="text" placeholder="Enter Username" name="uname" required>
+				<div class="title-password">
+					<img src="images/logo-password.png" alt="Password">
+					<label for="pwd">Password</label>
+				</div>
+				<input type="password" placeholder="Enter your password" name="pwd" required">
+				<div class="title-checkbox">
+					<label for="remember">Remember me</label>
+				</div>
+				<div class="checkbox-login">
+					<input type="checkbox" checked="checked" name="remember">
+				</div>
+				<div class="button-login">
+					<button type="submit">Login</button>
+				</div>	
+			</form>
+		</div>
 	</div>
-	<form id="loginForm" class="modal" method="post">
-		<div class="imgcontainer">
-			<img src="images/logo_e.png" alt="Avatar" class="avatar">
-		</div>
 
-		<div class="container">
-			<label for="uname"><b>Username</b></label>
-			<input type="text" placeholder="Enter Username" name="uname" required>
+</body>
 
-			<label for="pwd"><b>Password</b></label>
-			<input type="password" placeholder="Enter Password" name="pwd" required>
-
-			<button type="submit">Login</button>
-			<label>
-				<input type="checkbox" checked="checked" name="remember"> Remember me
-			</label>
-		</div>
-
-	</form>
-
-	<!-- Scripts -->
-		<script src="assets/js/jquery.min.js"></script>
-		<script src="assets/js/jquery.cookie.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
-		<script src="assets/js/sha256.js"></script>
-		<script src="js/energieip/energieip.js"></script>
-		<script src="js/energieip/login.js"></script>
-	</body>
 </html>

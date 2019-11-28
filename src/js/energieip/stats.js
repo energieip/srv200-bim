@@ -1,19 +1,7 @@
-logout = document.createElement("input");
-logout.type = "image";
-logout.title = "Logout";
-logout.src = "images/logout.png";
-logout.alt = "Logout";
-logout.style.float = "right";
-logout.onclick = function () {
-    window.location.href = 'logout.html';
-};
-placeHolder = document.getElementById("top");
-placeHolder.appendChild(logout);
-
 dashboard = document.createElement("input");
 dashboard.type = "image";
 dashboard.title = "Dashboard";
-dashboard.src = "images/home.jpeg";
+dashboard.src = "images/bouton-home.png";
 dashboard.alt = "Dashboard";
 dashboard.style.float = "left";
 dashboard.onclick = function () {
@@ -22,10 +10,29 @@ dashboard.onclick = function () {
 placeHolder = document.getElementById("top");
 placeHolder.appendChild(dashboard);
 
+logo = document.createElement("img");
+logo.title = "EnergieIP";
+logo.src = "images/logo-energieip.png";
+logo.alt = "EnergieIP";
+placeHolder = document.getElementById("top");
+placeHolder.appendChild(logo);
+
+logout = document.createElement("input");
+logout.type = "image";
+logout.title = "Logout";
+logout.src = "images/bouton-logout.png";
+logout.alt = "Logout";
+logout.style.float = "right";
+logout.onclick = function () {
+    window.location.href = 'logout.html';
+};
+placeHolder = document.getElementById("top");
+placeHolder.appendChild(logout);
+
 lighting = document.createElement("input");
 lighting.type = "image";
 lighting.title = "Lighting";
-lighting.src = "images/lighting.png";
+lighting.src = "images/bouton-led.png";
 lighting.alt = "Lighting";
 lighting.onclick = function () {
     CreateLeds();
@@ -36,7 +43,7 @@ placeHolder.appendChild(lighting);
 hvac = document.createElement("input");
 hvac.type = "image";
 hvac.title = "Hvacs";
-hvac.src = "images/hvac.png";
+hvac.src = "images/bouton-hvac.png";
 hvac.alt = "Hvacs";
 hvac.onclick = function () {
     CreateHvacs();
@@ -47,7 +54,7 @@ placeHolder.appendChild(hvac);
 blind = document.createElement("input");
 blind.type = "image";
 blind.title = "Blinds";
-blind.src = "images/blind.png";
+blind.src = "images/bouton-store.png";
 blind.alt = "Blinds";
 blind.onclick = function () {
     CreateBlinds();

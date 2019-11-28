@@ -14,6 +14,20 @@ function CreateButton(name, img, elt, pos, action){
     placeHolder.appendChild(btn);
 }
 
+function CreateImage(name, img, elt, pos) {
+    logo = document.createElement("img");
+    logo.title = name;
+    logo.src = img;
+    logo.alt = name;
+    if (pos != null){
+        logo.style.float = pos;
+    }
+    if (elt != null){
+        placeHolder = document.getElementById(elt);
+    }
+    placeHolder.appendChild(logo);
+}
+
 function CreateText(content, elt, pos){
     lbl = document.createElement("p");
     lbl.innerHTML = content;
@@ -26,51 +40,51 @@ function CreateText(content, elt, pos){
     placeHolder.appendChild(lbl);
 }
 
-CreateButton("Logout", "images/logout.png", "top", "right", function () {
-    window.location.href = 'logout.html';
-});
-
-CreateButton("Dashboard", "images/home.jpeg", "top", "left", function () {
+CreateButton("Dashboard", "images/bouton-home.png", "top", "left", function () {
     window.location.href = 'dashboard.html';
+});
+CreateImage("EnergieIP", "images/logo-energieip.png", "top", "center");
+CreateButton("Logout", "images/bouton-logout.png", "top", "right", function () {
+    window.location.href = 'login.html';
 });
 
 if (Object.keys(window.maps).length > 1){
-    CreateButton("Previous", "images/prev.png", "top", "left", function () {
+    CreateButton("Previous", "images/previous-floor.png", "floor", "left", function () {
         SwapMap(prev=true, null);
     });
 }
-CreateText("", "top", "left");
+CreateText("", "floor", "left");
 if (Object.keys(window.maps).length > 1){
-    CreateButton("Next", "images/next.png", "top", "left", function () {
+    CreateButton("Next", "images/next-floor.png", "floor", "left", function () {
         SwapMap(null, next=true);
     });
 }
 
-CreateButton("Status", "images/magnifier-icon.png", "bottom", null, function () {
+CreateButton("Status", "images/bouton-status.png", "controls", null, function () {
     Display("status");
 });
 
-CreateButton("Group Status", "images/magnifier-group.png", "bottom", null, function () {
+CreateButton("Group Status", "images/bouton-group-status.png", "controls", null, function () {
     Display("statusGroup");
 });
 
-CreateButton("Control", "images/wrench.jpg", "bottom", null, function () {
+CreateButton("Control", "images/bouton-control.png", "controls", null, function () {
     Display("control");
 });
 
-CreateButton("Group Control", "images/wrench-group.jpg", "bottom", null, function () {
+CreateButton("Group Control", "images/bouton-group-control.png", "controls", null, function () {
     Display("controlGroup");
 });
 
-CreateButton("Configuration", "images/wheel.png", "bottom", null, function () {
+CreateButton("Configuration", "images/bouton-configuration.png", "controls", null, function () {
     Display("configuration");
 });
 
-CreateButton("Group Configuration", "images/wheel-group.png", "bottom", null, function () {
+CreateButton("Group Configuration", "images/bouton-group-configuration.png", "controls", null, function () {
     Display("configurationGroup");
 });
 
-CreateButton("Ifc", "images/info.png", "bottom", null, function () {
+CreateButton("Ifc", "images/bouton-IFC.png", "controls", null, function () {
     Display("ifcInfo");
 });
 

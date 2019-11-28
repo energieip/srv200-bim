@@ -1,68 +1,56 @@
-<!DOCTYPE HTML>
-<!--
-	EnergieIP Server SRV UI
-	Based on html5up.up @ajlkn Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
-	<head>
-		<title>BMS Server</title>
-		<meta charset="utf-8" />
-		<!-- responsive design -->
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<!-- main css loading -->
-		
-        <link href="css/styles.css" rel="stylesheet"/>  
-        <link href="css/annotation-style.css" rel="stylesheet"/>
-        <link href="css/viewer.css" rel="stylesheet"/>
-       
-       
-    </head>
-    
-	<body class="is-preload">
-        <header id="header">
-            <div id="top"></div>
-        </header>
+<head>
+    <meta charset="UTF-8">
+    <!-- responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!-- edge compatibility -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>EnergieIP BMS Interface</title>
+    <!-- main css loading -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/annotation-style.css">
+    <link rel="stylesheet" href="css/maintenance.css">
+    <!-- Scripts defer loading -->
+    <script src="assets/js/jquery.min.js" defer></script>
+    <script src="assets/js/jquery.cookie.js" defer></script>
+    <script src="assets/js/browser.min.js" defer></script>
+    <script src="assets/js/breakpoints.min.js" defer></script>
+    <script src="assets/js/util.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+    <script src="js/xeogl/xeogl.js" defer></script>
+    <script src="js/xeogl/models/glTFModel.js" defer></script>
 
-        <div id="info"></div>
-        <div id="log"></div>
-        <canvas id="myCanvas"></canvas>
-        <div id="dat-gui-container"></div>
+    <script src="js/xeogl/skyboxes/skybox.js" defer></script>
+    <script src="js/xeogl/libs/dat.gui.min.js" defer></script>
 
-         <!-- Footer -->
-        <footer id="footer">
-            <div id="bottom"></div>
-            <p class="copyright">&copy; EnergieIP. Join us on <a href="https://developer.energie-ip.com">developer.energie-ip.com</a></p>
-        </footer>
+    <script src="js/xeogl/annotations/pin.js" defer></script>
+    <script src="js/xeogl/annotations/annotation.js" defer></script>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-            <script src="assets/js/jquery.cookie.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-            <script src="assets/js/main.js"></script>
-            <script src="js/xeogl/xeogl.js"></script>
-            <script src="js/xeogl/models/glTFModel.js"></script>
+    <script src="js/energieip/energieip.js" defer></script>
+    <script src="js/energieip/drivers/driver.js" defer></script>
+    <script src="js/energieip/drivers/sensor.js" defer></script>
+    <script src="js/energieip/drivers/blind.js" defer></script>
+    <script src="js/energieip/switch.js" defer></script>
+    <script src="js/energieip/wago.js" defer></script>
+    <script src="js/energieip/drivers/led.js" defer></script>
+    <script src="js/energieip/drivers/hvac.js" defer></script>
+    <script src="js/energieip/drivers/nano.js" defer></script>
 
-            <script src="js/xeogl/skyboxes/skybox.js"></script>
-            <script src="js/xeogl/libs/dat.gui.min.js"></script>
+    <script src="js/energieip/viewer.js" defer></script>
+    <script src="js/energieip/maintenance.js" defer></script>
+</head>
 
-            <script src="js/xeogl/annotations/pin.js"></script>
-            <script src="js/xeogl/annotations/annotation.js"></script>
+<body class="is-preload">
+    <div id="top"></div>
+    <h2 class="title-maintenance">Maintenance</h2>
+    <div id="floor"></div>  
+    <canvas id="myCanvas"></canvas>
+    <div id="info"></div>
+    <div id="log"></div>
+    <div id=dat-gui-container></div>
+    <div id="controls"></div>
+</body>
 
-            <script src="js/energieip/energieip.js"></script>
-            <script src="js/energieip/drivers/driver.js"></script>
-            <script src="js/energieip/drivers/sensor.js"></script>
-            <script src="js/energieip/drivers/blind.js"></script>
-            <script src="js/energieip/switch.js"></script>
-            <script src="js/energieip/wago.js"></script>
-            <script src="js/energieip/drivers/led.js"></script>
-            <script src="js/energieip/drivers/hvac.js"></script>
-            <script src="js/energieip/drivers/nano.js"></script>
-
-            <script src="js/energieip/viewer.js"></script>
-            <script src="js/energieip/maintenance.js"></script>
-
-	</body>
 </html>

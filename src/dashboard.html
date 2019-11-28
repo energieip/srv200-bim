@@ -1,232 +1,245 @@
 <!DOCTYPE HTML>
-<!--
-	EnergieIP Server SRV200 UI
-	Based on html5up.up @ajlkn Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
+<html lang="en">
 
-	<head>
-        <title>BMS Server</title>
-		<meta charset="utf-8" />
-		<!-- responsive design -->
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<!-- main css loading -->
-		<link rel="stylesheet" href="css/dashboard.css" />
-       
-    </head>
-    
-	<body class="is-preload">
+<head>
+    <meta charset="UTF-8">
+	<!-- responsive design -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<!-- edge compatibility -->
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>EnergieIP BMS Interface</title>
+    <!-- main css loading -->
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <!-- Scripts defer loading -->
+    <script src="assets/js/jquery.min.js" defer></script>
+    <script src="assets/js/bootstrap.min.js" defer></script>
+    <script src="assets/js/jquery.cookie.js" defer></script>
+    <script src="js/energieip/energieip.js" defer></script>
+    <script src="js/energieip/dashboard.js" defer></script>
+</head>
 
-        <header id="header">
-            <div id="top">
+<body class="is-preload">
+    <div class="background-dashboard">
+        <div class="container-dashboard">
+
+
+            <div id="top"></div>
+            <h2 class="title-login">Dashboard</h2>
+
+            <div id="dash">
+
+                <div id="spinner" class="loader"></div>
+
+                <div id="id01" class="modal">
+                    <form id="uploadForm" class="modal-content animate" method="post" enctype="multipart/form-data">
+                        <div class="imgcontainer">
+                            <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                                title="Close Modal">&times;</span>
+                            <img src="images/logo_e.png" alt="Avatar" class="avatar">
+                        </div>
+
+                        <div class="container">
+                            <h2>Upload IFC file</h2>
+                            Select file : <input type='file' name='file' id='file' class='form-control'><br>
+                        </div>
+
+                        <div class="container" style="background-color:#f1f1f1">
+                            <button type="button" onclick="document.getElementById('id01').style.display='none'"
+                                class="cancelbtn">Cancel</button>
+                            <button type="submit">Upload</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="importDB" class="modal">
+                    <form id="importDBForm" class="modal-content animate" method="post" enctype="multipart/form-data">
+                        <div class="imgcontainer">
+                            <span onclick="document.getElementById('importDB').style.display='none'" class="close"
+                                title="Close Modal">&times;</span>
+                            <img src="images/logo_e.png" alt="Avatar" class="avatar">
+                        </div>
+
+                        <div class="container">
+                            <h2>Database import</h2>
+                            Select file : <input type='file' name='file' id='fileDB' class='form-control'><br>
+                        </div>
+
+                        <div class="container" style="background-color:#f1f1f1">
+                            <button type="button" onclick="document.getElementById('importDB').style.display='none'"
+                                class="cancelbtn">Cancel</button>
+                            <button type="submit">Import</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="commissioning" class="modal">
+                    <form id="commissioningForm" class="modal-content animate" method="post"
+                        enctype="multipart/form-data">
+                        <div class="imgcontainer">
+                            <span onclick="document.getElementById('commissioning').style.display='none'" class="close"
+                                title="Close Modal">&times;</span>
+                            <img src="images/logo_e.png" alt="Avatar" class="avatar">
+                        </div>
+
+                        <div class="container">
+                            <h2>Commissioning</h2>
+                            <div>
+                                <label for="label"><b>Label</b></label>
+                                <input type="text" placeholder="Enter cable label" name="label" required>
+                            </div>
+
+                            <div>
+                                <label for="typeDisplay"><b>Type</b></label>
+                                <select name="type" id="type">
+                                    <option value="LED">LED</option>
+                                    <option value="SENSOR">SENSOR</option>
+                                    <option value="BLIND">BLIND</option>
+                                    <option value="HVAC">HVAC</option>
+                                    <option value="SWITCH">SWITCH</option>
+                                    <option value="WAGO">WAGO</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="mac"><b>Mac address</b></label>
+                                <input type="text" placeholder="Enter Driver Mac address" name="mac" required>
+                            </div>
+                        </div>
+
+                        <div class="container" style="background-color:#f1f1f1">
+                            <button type="button"
+                                onclick="document.getElementById('commissioning').style.display='none'"
+                                class="cancelbtn">Cancel</button>
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="remove" class="modal">
+                    <form id="removeForm" class="modal-content animate" method="post" enctype="multipart/form-data">
+                        <div class="imgcontainer">
+                            <span onclick="document.getElementById('remove').style.display='none'" class="close"
+                                title="Close Modal">&times;</span>
+                            <img src="images/logo_e.png" alt="Avatar" class="avatar">
+                        </div>
+
+                        <div class="container">
+                            <h2>Remove driver association</h2>
+                            <div>
+                                <label for="label"><b>Label</b></label>
+                                <input type="text" placeholder="Enter cable label" name="label" required>
+                            </div>
+
+                            <div>
+                                <label for="typeDisplay"><b>Type</b></label>
+                                <select name="type" id="type">
+                                    <option value="LED">LED</option>
+                                    <option value="SENSOR">SENSOR</option>
+                                    <option value="BLIND">BLIND</option>
+                                    <option value="HVAC">HVAC</option>
+                                    <option value="SWITCH">SWITCH</option>
+                                    <option value="WAGO">WAGO</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="container" style="background-color:#f1f1f1">
+                            <button type="button" onclick="document.getElementById('remove').style.display='none'"
+                                class="cancelbtn">Cancel</button>
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="replace" class="modal">
+                    <form id="replaceForm" class="modal-content animate" method="post" enctype="multipart/form-data">
+                        <div class="imgcontainer">
+                            <span onclick="document.getElementById('replace').style.display='none'" class="close"
+                                title="Close Modal">&times;</span>
+                            <img src="images/logo_e.png" alt="Avatar" class="avatar">
+                        </div>
+
+                        <div class="container">
+                            <h2>Replace driver</h2>
+                            <div>
+                                <label for="old"><b>Old Mac</b></label>
+                                <input type="text" placeholder="Enter the old driver Mac address" name="old" required>
+
+                                <label for="oldTypeDisplay"><b>Old driver Type</b></label>
+                                <select name="oldType" id="oldType">
+                                    <option value="LED">LED</option>
+                                    <option value="SENSOR">SENSOR</option>
+                                    <option value="BLIND">BLIND</option>
+                                    <option value="HVAC">HVAC</option>
+                                    <option value="SWITCH">SWITCH</option>
+                                    <option value="WAGO">WAGO</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="new"><b>New Mac</b></label>
+                                <input type="text" placeholder="Enter the new driver Mac address" name="new" required>
+
+                                <label for="oldTypeDisplay"><b>New driver Type</b></label>
+                                <select name="newType" id="newType">
+                                    <option value="LED">LED</option>
+                                    <option value="SENSOR">SENSOR</option>
+                                    <option value="BLIND">BLIND</option>
+                                    <option value="HVAC">HVAC</option>
+                                    <option value="SWITCH">SWITCH</option>
+                                    <option value="WAGO">WAGO</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="container" style="background-color:#f1f1f1">
+                            <button type="button" onclick="document.getElementById('replace').style.display='none'"
+                                class="cancelbtn">Cancel</button>
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="qrcode" class="modal">
+                    <form id="qrcodeForm" class="modal-content animate" method="post" enctype="multipart/form-data">
+                        <div class="imgcontainer">
+                            <span onclick="document.getElementById('qrcode').style.display='none'" class="close"
+                                title="Close Modal">&times;</span>
+                            <img src="images/logo_e.png" alt="Avatar" class="avatar">
+                        </div>
+
+                        <div class="container">
+                            <h2>Drive qrcode generator</h2>
+                            <div>
+                                <label for="mac"><b>Mac</b></label>
+                                <input type="text" placeholder="Enter the driver Mac address" name="mac" required>
+
+                                <label for="type"><b>Type</b></label>
+                                <select name="type" id="type">
+                                    <option value="LED">LED</option>
+                                    <option value="SENSOR">SENSOR</option>
+                                    <option value="BLIND">BLIND</option>
+                                    <option value="HVAC">HVAC</option>
+                                    <option value="SWITCH">SWITCH</option>
+                                    <option value="WAGO">WAGO</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="container" style="background-color:#f1f1f1">
+                            <button type="button" onclick="document.getElementById('qrcode').style.display='none'"
+                                class="cancelbtn">Cancel</button>
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+                <div id=row1></div>
+                <div id=row2></div>
             </div>
-        </header>
-
-        <div id="dash">
-
-            <div id="spinner" class="loader"></div> 
-
-        	<div id="id01" class="modal">
-                <form id="uploadForm" class="modal-content animate" method="post" enctype="multipart/form-data">
-                    <div class="imgcontainer">
-                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    <img src="images/logo_e.png" alt="Avatar" class="avatar">
-                    </div>
-
-                    <div class="container">
-                        <h2>Upload IFC file</h2>
-                        Select file : <input type='file' name='file' id='file' class='form-control' ><br>
-                    </div>
-
-                    <div class="container" style="background-color:#f1f1f1">
-                        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-                        <button type="submit">Upload</button>
-                    </div>
-                </form>
-            </div>
-
-            <div id="importDB" class="modal">
-                <form id="importDBForm" class="modal-content animate" method="post" enctype="multipart/form-data">
-                    <div class="imgcontainer">
-                    <span onclick="document.getElementById('importDB').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    <img src="images/logo_e.png" alt="Avatar" class="avatar">
-                    </div>
-
-                    <div class="container">
-                        <h2>Database import</h2>
-                        Select file : <input type='file' name='file' id='fileDB' class='form-control' ><br>
-                    </div>
-
-                    <div class="container" style="background-color:#f1f1f1">
-                        <button type="button" onclick="document.getElementById('importDB').style.display='none'" class="cancelbtn">Cancel</button>
-                        <button type="submit">Import</button>
-                    </div>
-                </form>
-            </div>
-
-            <div id="commissioning" class="modal">
-                <form id="commissioningForm" class="modal-content animate" method="post" enctype="multipart/form-data">
-                    <div class="imgcontainer">
-                    <span onclick="document.getElementById('commissioning').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    <img src="images/logo_e.png" alt="Avatar" class="avatar">
-                    </div>
-
-                    <div class="container">
-                        <h2>Commissioning</h2>
-                        <div>
-                            <label for="label"><b>Label</b></label>
-                            <input type="text" placeholder="Enter cable label" name="label" required>
-                        </div>
-
-                        <div>
-                            <label for="typeDisplay"><b>Type</b></label>
-                            <select name="type" id="type">
-                                <option value="LED">LED</option>
-                                <option value="SENSOR">SENSOR</option>
-                                <option value="BLIND">BLIND</option>
-                                <option value="HVAC">HVAC</option>
-                                <option value="SWITCH">SWITCH</option>
-                                <option value="WAGO">WAGO</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label for="mac"><b>Mac address</b></label>
-                            <input type="text" placeholder="Enter Driver Mac address" name="mac" required>
-                        </div>
-                    </div>
-
-                    <div class="container" style="background-color:#f1f1f1">
-                        <button type="button" onclick="document.getElementById('commissioning').style.display='none'" class="cancelbtn">Cancel</button>
-                        <button type="submit">Send</button>
-                    </div>
-                </form>
-            </div>
-
-            <div id="remove" class="modal">
-                <form id="removeForm" class="modal-content animate" method="post" enctype="multipart/form-data">
-                    <div class="imgcontainer">
-                    <span onclick="document.getElementById('remove').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    <img src="images/logo_e.png" alt="Avatar" class="avatar">
-                    </div>
-
-                    <div class="container">
-                        <h2>Remove driver association</h2>
-                        <div>
-                            <label for="label"><b>Label</b></label>
-                            <input type="text" placeholder="Enter cable label" name="label" required>
-                        </div>
-
-                        <div>
-                            <label for="typeDisplay"><b>Type</b></label>
-                            <select name="type" id="type">
-                                <option value="LED">LED</option>
-                                <option value="SENSOR">SENSOR</option>
-                                <option value="BLIND">BLIND</option>
-                                <option value="HVAC">HVAC</option>
-                                <option value="SWITCH">SWITCH</option>
-                                <option value="WAGO">WAGO</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="container" style="background-color:#f1f1f1">
-                        <button type="button" onclick="document.getElementById('remove').style.display='none'" class="cancelbtn">Cancel</button>
-                        <button type="submit">Send</button>
-                    </div>
-                </form>
-            </div>
-
-            <div id="replace" class="modal">
-                <form id="replaceForm" class="modal-content animate" method="post" enctype="multipart/form-data">
-                    <div class="imgcontainer">
-                    <span onclick="document.getElementById('replace').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    <img src="images/logo_e.png" alt="Avatar" class="avatar">
-                    </div>
-
-                    <div class="container">
-                        <h2>Replace driver</h2>
-                        <div>
-                            <label for="old"><b>Old Mac</b></label>
-                            <input type="text" placeholder="Enter the old driver Mac address" name="old" required>
-
-                            <label for="oldTypeDisplay"><b>Old driver Type</b></label>
-                            <select name="oldType" id="oldType">
-                                <option value="LED">LED</option>
-                                <option value="SENSOR">SENSOR</option>
-                                <option value="BLIND">BLIND</option>
-                                <option value="HVAC">HVAC</option>
-                                <option value="SWITCH">SWITCH</option>
-                                <option value="WAGO">WAGO</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label for="new"><b>New Mac</b></label>
-                            <input type="text" placeholder="Enter the new driver Mac address" name="new" required>
-
-                            <label for="oldTypeDisplay"><b>New driver Type</b></label>
-                            <select name="newType" id="newType">
-                                <option value="LED">LED</option>
-                                <option value="SENSOR">SENSOR</option>
-                                <option value="BLIND">BLIND</option>
-                                <option value="HVAC">HVAC</option>
-                                <option value="SWITCH">SWITCH</option>
-                                <option value="WAGO">WAGO</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="container" style="background-color:#f1f1f1">
-                        <button type="button" onclick="document.getElementById('replace').style.display='none'" class="cancelbtn">Cancel</button>
-                        <button type="submit">Send</button>
-                    </div>
-                </form>
-            </div>
-
-            <div id="qrcode" class="modal">
-                <form id="qrcodeForm" class="modal-content animate" method="post" enctype="multipart/form-data">
-                    <div class="imgcontainer">
-                    <span onclick="document.getElementById('qrcode').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    <img src="images/logo_e.png" alt="Avatar" class="avatar">
-                    </div>
-
-                    <div class="container">
-                        <h2>Drive qrcode generator</h2>
-                        <div>
-                            <label for="mac"><b>Mac</b></label>
-                            <input type="text" placeholder="Enter the driver Mac address" name="mac" required>
-
-                            <label for="type"><b>Type</b></label>
-                            <select name="type" id="type">
-                                <option value="LED">LED</option>
-                                <option value="SENSOR">SENSOR</option>
-                                <option value="BLIND">BLIND</option>
-                                <option value="HVAC">HVAC</option>
-                                <option value="SWITCH">SWITCH</option>
-                                <option value="WAGO">WAGO</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="container" style="background-color:#f1f1f1">
-                        <button type="button" onclick="document.getElementById('qrcode').style.display='none'" class="cancelbtn">Cancel</button>
-                        <button type="submit">Send</button>
-                    </div>
-                </form>
-            </div>
+            <p class="copyright">&copy; EnergieIP. Join us on <a
+                        href="https://developer.energie-ip.com">developer.energie-ip.com</a></p>      
         </div>
-        
-        <footer id="footer">
-            <p class="copyright">&copy; EnergieIP. Join us on <a href="https://developer.energie-ip.com">developer.energie-ip.com</a></p>
-        </footer>
+    </div>
+</body>
 
-        <!-- Scripts -->
-		<script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/js/jquery.cookie.js"></script>
-        <script src="js/energieip/energieip.js"></script>
-		<script src="js/energieip/dashboard.js"></script>
-	</body>
-	</body>
 </html>

@@ -1,0 +1,66 @@
+:root {
+  --white-energieip: #FFFFFF;
+  --black-energieip: #000000;
+  --green-energieip: #6CC24A;
+  --text-energieip: #7F888F;
+  --fond-energieip: rgba(0, 0, 0, 0.5);
+  }
+body {
+  width: 100%;
+  height: 100%; 
+  margin: 0;
+  padding: 0;
+  font-family: Tahoma, sans-serif;
+  color: var(--text-energieip)
+}
+label {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--green-energieip);
+}
+a {
+  color: var(--green-energieip);
+}
+.top-legal {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px;
+}
+.button:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+.title-legal {
+  margin: 0;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  color: var(--green-energieip);
+}
+.border-top {
+  border-top: 10px solid var(--green-energieip);
+}
+.container-legal {
+  margin: 50px;
+}
+.title-part {
+  color: var(--green-energieip);
+  font-size: 20px;
+  font-weight: bold;
+}
+.copyright {
+  text-align: center;
+}
+.end {
+  text-align: center;
+  color: var(--green-energieip);
+  font-size: 20px;
+  font-weight: bold;
+}

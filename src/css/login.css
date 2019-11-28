@@ -1,88 +1,95 @@
+/*** login.css ***/
+:root {
+  --white-energieip: #FFFFFF;
+  --black-energieip: #000000;
+  --green-energieip: #6CC24A;
+  --fond-energieip: rgba(0, 0, 0, 0.5);
+}
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  text-align: center;
+  width: 100vw;
+  height: 100vh; 
+  margin: 0;
+  padding: 0;
+  font-family: Tahoma, sans-serif;
 }
-
-#leftSide {
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 30px;
-  top: 0;
-  overflow: auto; /* Enable scroll if needed */
-  padding-top: 0px;
-  background-color: #fefefe;
-  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+::placeholder {
+  color: var(--black-energieip);
+  font-weight: normal;
 }
-
-/* Full-width input fields */
-input[type=text], input[type=password] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-  }
-  
-  /* Set a style for all buttons */
-  button {
-    background-color: #6CC24A;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-  }
-  
-  button:hover {
-    opacity: 0.8;
-  }
-  
-  /* Extra styles for the cancel button */
-  .cancelbtn {
-    width: auto;
-    padding: 10px 18px;
-    background-color: #f44336;
-  }
-  
-  /* Center the image and position the close button */
-  .imgcontainer {
-    text-align: center;
-    margin: 24px 0 12px 0;
-    position: relative;
-  }
-  
-  img.avatar {
-    
-  }
-  
-  .container {
-    padding: 16px;
-  }
-  
-  span.psw {
-    float: right;
-    padding-top: 16px;
-  }
-  
-  /* The Modal (background) */
-  .modal {
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    right: 30px;
-    top: 0;
-    overflow: auto; /* Enable scroll if needed */
-    padding-top: 0px;
-    background-color: #fefefe;
-    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-    border: 1px solid #888;
-  }
-  
-  /* Change styles for span and cancel button on extra small screens */
-  @media screen and (max-width: 300px) {
-    span.psw {
-       display: block;
-       float: none;
-    }
-  }
+label {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--green-energieip);
+}
+input[type=text],
+input[type=password] {
+  width: 250px;
+  border: none;
+  outline: none;
+  background: none;
+  overflow: hidden;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 6px 0;
+  margin: 6px 0;
+  color: var(--black-energieip);
+  border-bottom: 2px solid var(--green-energieip);
+}
+button[type=submit] {
+  width: 150px;
+  height: 75px;
+  border: 2px solid var(--black-energieip);
+  border-radius: 25px;
+  color: var(--black-energieip);
+  background : var(--green-energieip);
+  font-size: 25px;
+  font-weight: bold;
+}
+button[type=submit]:hover {
+  cursor: pointer;
+  color: var(--green-energieip);
+  background: var(--black-energieip);
+  border: 2px solid var(--green-energieip);
+}
+.background-login {
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/fond-page-connexion.png");
+  background-size: cover;
+}
+.container-login {
+  width: 100%;
+  height: 100%;
+  background: var(--fond-energieip);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.logo-energieip {
+  margin-top: 50px;
+}
+.title-login {
+  font-size: 25px;
+  font-weight: bold;
+  color: var(--green-energieip);
+}
+.title-username,
+.title-password {
+  display: flex;
+  align-items: center;
+}
+.title-checkbox {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 25px;
+}
+.checkbox-login {
+  display: flex;
+  justify-content: center;
+}
+.button-login {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
