@@ -48,6 +48,7 @@ body {
 }
 #myCanvas{
     width: 100vw;
+    max-height: 679px;
     flex: 1;
     background-color: var(--white-energieip);
 }
